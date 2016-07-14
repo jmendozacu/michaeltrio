@@ -1,0 +1,21 @@
+.magnifyarea {  box-shadow: 5px 5px 7px #818181; -webkit-box-shadow: 5px 5px 7px #818181; -moz-box-shadow: 5px 5px 7px #818181; filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY=5, positive=true); background: white;}
+.targetarea { width: 440px; height: auto; margin-top:3px;}
+#two { height: 243px; /* high or higher than the tallest zoomable image */}
+.targetarea img { margin: auto; display: block; position: relative; border-width: 0; max-width:100%;}
+/*.thumbs { padding-top: 25px; width: 105px; text-align: center;}*/
+.thumbs a { text-decoration: none;}
+.thumbs img { border-width: 0; }
+#description, #description2 { position: absolute; width: 325px; text-align: center; font: bold 95% sans-serif; margin-top: 3px; color: #222;background-color: #fff;}
+
+
+
+@media screen and (max-width: 480px) {
+.wrapper {  margin: 0 auto; max-width: 310px; padding: 0;}
+.targetarea{ width:100%;}
+ @media screen and (max-width: 260px) {
+.wrapper {  margin: 0 auto; width: 219px ;  padding: 0 9px;}
+body{ width:100%;}
+}
+@media screen and (max-width: 240px) {
+.wrapper { margin: 0 auto; width: 214px ;  padding: 0;}
+}

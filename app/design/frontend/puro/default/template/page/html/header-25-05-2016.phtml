@@ -1,0 +1,868 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<?php
+$theme = $this->helper('puro');
+$compareHeader = $theme->getCfg('header/compare');
+$mobileCart = $theme->getCfg('header/hide_on_mobile');
+$toplink = $theme->getCfg('magento_blocks/top_links');
+$class = $mobileCart ? 'hidden-xs' : '';
+$logo = Mage::getStoreConfig('puro_design/header/logo_upload');
+$logoHome = Mage::getStoreConfig('puro_design/header/logo_homepage_upload');
+$sticky_logo = Mage::getStoreConfig('puro_design/header/sticky_logo_upload');
+$logo_retina = Mage::getStoreConfig('puro_design/header/logo_retina_upload');
+$mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+?>
+<?php 
+/*
+$resource = Mage::getSingleton('core/resource');
+$readConnection = $resource->getConnection('core_write');
+$skuphone = $readConnection->fetchCol('SELECT phone FROM list WHERE `list_id` =1 LIMIT 1');
+if($skuphone[0]!='')
+{
+$str =str_replace(" ", "", str_replace("+", "", $skuphone[0]));
+?>
+<span class="AVANSERnumber"><?php echo substr($str, 0, 4) . ' ' . substr($str, 4, 3) . ' ' . substr($str, 7, 3);  ?></span>
+<?php
+}*/
+$contactModel = Mage::getModel('trd_contacts/contacts')->load(1);
+ ?>
+
+<!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
+<script src='<?php echo Mage::getBaseUrl(); ?>js/timepicker/jquery.timepicker.js'></script>
+<link rel="stylesheet" href='<?php echo Mage::getBaseUrl(); ?>js/timepicker/jquery.timepicker.css'></script>
+<link rel="stylesheet" href='<?php echo Mage::getBaseUrl(); ?>js/bootstrap-select/bootstrap-select.css'></script>
+
+<link href="<?php echo Mage::getBaseUrl(); ?>js/icheck/skins/square/aero.css" rel="stylesheet">
+<script src="<?php echo Mage::getBaseUrl(); ?>js/icheck/icheck.js"></script>
+<script src="<?php echo Mage::getBaseUrl(); ?>js/bootstrap-select/bootstrap-select.js"></script>
+<?php
+ if (Mage::getSingleton('cms/page')->getIdentifier() == 'free-ring-sizing' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') { ?>
+
+<?php } ?>
+<div class="form-overlay">
+    <div class="contact-form">
+        <header>
+            <h4><img style="width: 26px; margin-right: 4px; margin-top: -3px;" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/complete shopping cart.png" /> Make an appointment</h4>
+
+            <a class="close-popup" data-target="form-overlay" href="javascript:;">×</a>
+        </header>
+
+        <br>
+
+        <form action="" method="POST" onsubmit="return false;" class="appointment-form">
+            <section>
+                <label for="name">Name: <span class="c-red">*</span></label>
+                <input required type="text" name="name" class="name form-control">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="email">Email: <span class="c-red">*</span></label>
+                        <input required type="email" name="email" class="email form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contact">Contact: <span class="c-red">*</span></label>
+                        <input required type="text" name="contact" class="contact form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 newsletter-signup">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                                <td><label style="font-weight:normal;"><input class="c-newsletter-signup" type="checkbox" name="newsletter-signup" value="newsletter-signup" checked="checked"/> Subscribed to Newsletter</label></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 interested-in">
+                        <label for="intersted-in">Interested in:</label>
+                        <br>
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                                <td>
+                                    <label class="interest_cls">
+                                        <input class="c-proposal-ring" type="checkbox" name="proposal_ring" value="proposal-ring"> Engagement Ring</label>
+                                </td>
+                                <td>
+                                    <label class="interest_cls">
+                                        <input class="c-wedding-ring" type="checkbox" name="wedding_ring" value="wedding-ring"> Wedding Bands</label>
+                                </td>
+                                <td>
+                                    <label class="interest_cls">
+                                        <input class="c-other" type="checkbox" name="other" value="other"> Other</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>Appointment Date</label>
+                        <input required type='text' name="date" class="date-picker form-control" placeholder="<?php echo date("m/d/Y"); ?>" />   
+
+                        <label>Appointment Time</label>
+                        <!-- <input required type='text' name="time" class="time-picker form-control" placeholder="01:00 PM" /> -->
+
+                        <select required  name="time" class="time-picker form-control selectpicker">
+                            <option>12:00pm</option>
+                            <option>12:30pm</option>
+                            <option>1:00pm</option>
+                            <option>1:30pm</option>
+                            <option>2:00pm</option>
+                            <option>2:30pm</option>
+                            <option>3:00pm</option>
+                            <option>3:30pm</option>
+                            <option>4:00pm</option>
+                            <option>4:30pm</option>
+                            <option>5:00pm</option>
+                            <option>5:30pm</option>
+                            <option>6:00pm</option>
+                            <option>6:30pm</option>
+                            <option>7:00pm</option>
+                            <option>7:30pm</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6">
+                        <h5>&nbsp;</h5>
+                        <p style="margin-top: -7px;">Michael Trio opens everyday (except public holidays) from 12pm to 8:30pm</p>
+                    </div>
+                </div>
+
+                <div class="row">	
+                    <div class="col-md-12">			
+                        <label for="comments">Remarks: </label>
+                        <textarea class="form-control comments" name="comments" id="" cols="30" rows="6"></textarea>
+                    </div>
+                </div>
+                <br>
+
+                <!--<div class="g-recaptcha" data-sitekey="6LcQehATAAAAAMQNeaKGC66z-49zkez_MV1RoNeQ"></div>-->
+
+                <br>
+
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+
+                            <div class="alert alert-danger captcha-message">
+                                <strong>Error:</strong> Please complete the captcha.
+                            </div>
+
+                            <button type="submit" title="Submit" class="button btn-proceed-checkout btn-checkout btn-form-submit" onclick=""><span><span>Submit</span></span></button>
+
+                            <span class="spinner-container">
+                                <div class="spinner">
+                                    <div class="rect1"></div>
+                                    <div class="rect2"></div>
+                                    <div class="rect3"></div>
+                                    <div class="rect4"></div>
+                                    <div class="rect5"></div>
+                                </div>
+
+                                <div class="alert alert-success success">
+                                    The form has been submitted successfully. Closing in: <span class="closing-in">5 </span>
+                                </div>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+            </section>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    //contactSaveURL = '<?php echo Mage::getBaseUrl() . "trdforms/ajax/savecontactsform/"; ?>';
+    BASE_URL = '<?php echo Mage::getBaseUrl(); ?>';
+</script>
+
+<style>
+.loader-opacity-div-1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+    transition: display 0s ease 0.5s, opacity 0.5s linear 0s;
+/*    visibility: hidden;*/
+    width: 100%;
+    z-index: 999;
+}
+
+.loader-opacity-div-1 > img {
+    float: left;
+    left: 40%;
+    position: absolute;
+    top: 20%;
+    /*width: 15%;*/
+}
+.loader-opacity-div-1.loader-show {
+    opacity: 1;
+    transition: opacity 0.5s linear 0s;
+ /*   visibility: visible;*/
+    display: block;
+    z-index: 99999;
+}
+</style>
+
+<!-- Diamond / Ring select -->
+<div class="sidebar-container closed">
+
+    <a class="sidebar-toggle" href="javascript:;"></a>
+
+    <div class="sidebar-r">    
+        <div class="loader-opacity-div loader-sidebar"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/michael.gif" /></div>
+        <div class="loader-opacity-div loader-sidebar-addcustomcart"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/mtaddingtocart.gif" /></div>
+
+        <h4>Summary</h4>
+        <h5><img style="width:20px;" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/choose a diamond.png">  Diamond</h5>
+        <div class="setup-diamonds">
+
+            <div class="diamond-selected hidden">
+                <img class="sidebar-diamond" src="">
+                <span class="item-price1"></span>
+                <br>
+                <span class="item-description"></span>
+                <br>
+                <br>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td>
+                            <a href="" title="view item" class="viewdiamond" >
+                                <button name="" class="button btn-update sidebar-button btn-view-diamond">
+                                    <span>
+                                        View
+                                    </span>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button name="" class="button btn-update sidebar-button" onclick="removediamond();">
+                                <span>
+                                    Remove
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="none-selected">
+                <span class="">None selected</span>
+
+                <br>
+                <br> 
+                <a href="<?php echo Mage::getBaseUrl(); ?>diamonds-1.html?shape=RD" title="Select diamond" class="select-diamond-step go-to-step-one" diamond="RD" step="1">
+                    <button name="" class="button btn-update sidebar-button">
+                        <span>Select</span>
+                    </button>
+                </a>
+            </div>
+
+        </div>
+        <h5><img style="width:20px; margin-top: -3px;" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/choose a setting.png">  Setting</h5>
+        <div class="setup-settings">
+
+            <div class="ring-selected hidden">
+                <img class="sidebar-ring" src="">
+                <span class="item-price1"></span>
+                <br>
+                <span class="item-description"></span>
+                <br>
+                <br>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td>
+                            <a href="" title="view item" class="viewring">
+                                <button name="" class="button btn-update sidebar-button btn-view-ring">
+                                    <span>
+                                        View
+                                    </span>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <button name="" class="button btn-update sidebar-button"  onclick="removesetting();">
+                                <span>
+                                    Remove
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="none-selected">
+                <span class="">None selected</span>
+
+                <br>
+                <br> <a href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.html?step=2" title="Select Setting" class="select-diamond-step" step="2">
+                    <button name="" class="button btn-update sidebar-button">
+                        <span>Select</span>
+                    </button></a>
+            </div>
+
+        </div>
+
+
+        <h5 class="total">Total:</h5>
+        <div class="total-content">
+            <span class="total-price">SGD $1 073,38 </span>
+
+            <br>
+            <br>
+
+            <button name="" class="button btn-update sidebar-button sidebar-checkout hidden" onclick="addcustomproducts();">
+                <span>
+                    <a href="javascript:;">Add to Cart</a>
+                </span>
+            </button>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript" language="javascript">
+
+jQuery(document).ready(function ($) {
+jQuery("#mobile-sticky-sticky-wrapper .overwrite-setting").click(function() {
+  jQuery("#mobile-sticky-sticky-wrapper .switcher-content").toggle();
+  //jQuery("#mobile-sticky-sticky-wrapper .switcher-content").toggleClass( "highlight" );
+});
+jQuery("#mobile-sticky-sticky-wrapper .all-setting .location").click(function() {
+  jQuery("#mobile-sticky-sticky-wrapper .main-pop-1").toggle();  
+});
+
+jQuery("#mobile-sticky-sticky-wrapper .all-setting .mail_sec").click(function() {
+  jQuery("#mobile-sticky-sticky-wrapper .main-pop-2").toggle();  
+});
+
+});
+
+    function removesetting() {
+
+        jQuery.post('<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/removesetting/', {time: <?php echo time(); ?>}, function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            if (response.status) {
+
+                renderSidebarContent();
+                jQuery('.total-content').find('button').hide();
+                return false;
+            } else {
+                alert('Error! Please try later');
+            }
+        });
+
+    }
+    function removediamond() {
+
+        jQuery.post('<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/removediamond/', {time: <?php echo time(); ?>}, function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            if (response.status) {
+                leftfilterbarchk();
+                renderSidebarContent();
+                jQuery('.total-content').find('button').hide();
+                return false;
+            } else {
+                alert('Error! Please try later');
+            }
+        });
+
+    }
+
+
+    function addcustomproducts() {
+        jQuery('.loader-sidebar-addcustomcart').addClass('loader-show');
+        jQuery.post('<?php echo Mage::getBaseUrl(); ?>diamonds/diamond/addcustomproduct/', {time: <?php echo time(); ?>}, function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            if (response.status) {
+                jQuery('.loader-sidebar-addcustomcart').removeClass('loader-show');
+                window.location.href = '<?php echo Mage::getBaseUrl(); ?>checkout/cart/';
+                //1renderSidebarContent();
+                //jQuery('.total-content').find('button').hide();
+            } else {
+                alert('Error! Please try later');
+				jQuery('.loader-sidebar-addcustomcart').removeClass('loader-show');
+            }
+        });
+
+    }
+
+
+    function addOrRemovenew(array, value) {
+        var index = array.indexOf(value);
+
+        if (index === -1) {
+            array.push(value);
+        } else {
+            array.splice(index, 1);
+        }
+    }
+
+
+    function leftfilterbarchk() {
+
+        jQuery.post(BASE_URL + '/diamonds/ajax/leftfilterbarchk/', {}, function (response) {
+            var response = JSON.parse(response);
+            console.log(response);
+
+            if (response.diamond == true) {
+
+                if (jQuery('#shape_list_0').length) {
+                    jQuery('#shape_list_0').data('value', response.shape_list_0);
+                    //if (!jQuery('#shape_list_0').hasClass('unchecked')) {
+                    jQuery('#shape_list_0').attr('data-value', 'round');
+                    jQuery('#shape_list_0').removeClass('unchecked');
+                    jQuery('#shape_list_0').addClass('checked');
+
+                    addOrRemovenew(sourceArray.shape, 'round');
+                    addOrRemovenew(sourceArray.shape, 'round');
+                    //}
+                    jQuery('#shape_list_0').removeAttr("style");
+                }
+                if (jQuery('#shape_list_1').length) {
+                    jQuery('#shape_list_1').data('value', response.shape_list_1);
+                    //if (!jQuery('#shape_list_1').hasClass('unchecked')) {
+                    jQuery('#shape_list_1').attr('data-value', 'princess');
+                    jQuery('#shape_list_1').removeClass('unchecked');
+                    jQuery('#shape_list_1').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'princess');
+                    //}
+                    jQuery('#shape_list_1').removeAttr("style");
+                }
+                if (jQuery('#shape_list_2').length) {
+                    jQuery('#shape_list_2').data('value', response.shape_list_2);
+                    //if (!jQuery('#shape_list_2').hasClass('unchecked')) {
+                    jQuery('#shape_list_2').attr('data-value', 'emerald');
+                    jQuery('#shape_list_2').removeClass('unchecked');
+                    jQuery('#shape_list_2').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'emerald');
+                    //}
+                    jQuery('#shape_list_2').removeAttr("style");
+                }
+                if (jQuery('#shape_list_3').length) {
+                    jQuery('#shape_list_3').data('value', response.shape_list_3);
+                    //if (!jQuery('#shape_list_3').hasClass('unchecked')) {
+                    jQuery('#shape_list_3').attr('data-value', 'heart');
+                    jQuery('#shape_list_3').removeClass('unchecked');
+                    jQuery('#shape_list_3').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'heart');
+                    //}
+                    jQuery('#shape_list_3').removeAttr("style");
+                }
+                if (jQuery('#shape_list_4').length) {
+                    jQuery('#shape_list_4').data('value', response.shape_list_4);
+                    //if (!jQuery('#shape_list_4').hasClass('unchecked')) {
+                    jQuery('#shape_list_4').attr('data-value', 'pear');
+                    jQuery('#shape_list_4').removeClass('unchecked');
+                    jQuery('#shape_list_4').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'pear');
+                    //}
+                    jQuery('#shape_list_4').removeAttr("style");
+                }
+                if (jQuery('#shape_list_5').length) {
+                    jQuery('#shape_list_5').data('value', response.shape_list_5);
+                    //if (!jQuery('#shape_list_5').hasClass('unchecked')) {
+                    jQuery('#shape_list_5').attr('data-value', 'cushion');
+                    jQuery('#shape_list_5').removeClass('unchecked');
+                    jQuery('#shape_list_5').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'cushion');
+                    //}
+                    jQuery('#shape_list_5').removeAttr("style");
+                }
+                if (jQuery('#shape_list_6').length) {
+                    jQuery('#shape_list_6').data('value', response.shape_list_6);
+                    //if (!jQuery('#shape_list_6').hasClass('unchecked')) {
+                    jQuery('#shape_list_6').attr('data-value', 'radiant');
+                    jQuery('#shape_list_6').removeClass('unchecked');
+                    jQuery('#shape_list_6').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'radiant');
+                    //}
+                    jQuery('#shape_list_6').removeAttr("style");
+                }
+                if (jQuery('#shape_list_7').length) {
+                    jQuery('#shape_list_7').data('value', response.shape_list_7);
+                    //if (!jQuery('#shape_list_7').hasClass('unchecked')) {
+                    jQuery('#shape_list_7').attr('data-value', 'oval');
+                    jQuery('#shape_list_7').removeClass('unchecked');
+                    jQuery('#shape_list_7').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'oval');
+                    //}
+                    jQuery('#shape_list_7').removeAttr("style");
+                }
+                if (jQuery('#shape_list_8').length) {
+                    jQuery('#shape_list_8').data('value', response.shape_list_8);
+                    //if (!jQuery('#shape_list_8').hasClass('unchecked')) {
+                    jQuery('#shape_list_8').attr('data-value', 'asscher');
+                    jQuery('#shape_list_8').removeClass('unchecked');
+                    jQuery('#shape_list_8').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'asscher');
+                    //}
+                    jQuery('#shape_list_8').removeAttr("style");
+                }
+                if (jQuery('#shape_list_9').length) {
+                    jQuery('#shape_list_9').data('value', response.shape_list_9);
+                    //if (!jQuery('#shape_list_9').hasClass('unchecked')) {
+                    jQuery('#shape_list_9').attr('data-value', 'marquise');
+                    jQuery('#shape_list_9').removeClass('unchecked');
+                    jQuery('#shape_list_9').addClass('checked');
+                    addOrRemovenew(sourceArray.shape, 'marquise');
+                    //}
+                    jQuery('#shape_list_9').removeAttr("style");
+                }
+                // Loop through Object and create peopleHTML
+                var JSONObject = response.style_list;
+                for (var key in JSONObject) {
+                    if (JSONObject.hasOwnProperty(key)) {
+                        if (jQuery('#' + key).length) {
+                            if (!jQuery('#' + key).hasClass('checked')) {
+                                jQuery('#' + key).data('value', JSONObject[key]);
+                                jQuery('#' + key).attr('data-value', JSONObject[key]);
+                                jQuery('#' + key).removeClass('unchecked');
+                                jQuery('#' + key).addClass('checked');
+                                addOrRemovenew(sourceArray.style, JSONObject[key]);
+                                jQuery('#' + key).removeAttr("style");
+                            }
+                        }
+                        //alert(key);
+                        //alert(JSONObject.hasOwnProperty(key));
+                        //alert(JSONObject[key]);
+                    }
+                }
+
+                jQuery("#shape_list").removeAttr("style");
+                jQuery("#styles_up").removeAttr("style");
+                jQuery("#shape_list").css("display", "block");
+                jQuery("#styles_up").css("display", "block");
+                if (jQuery("#desc_by_dir").css('display') == 'block') {
+                    jQuery("#asc_by_dir").trigger("click");
+                }
+                else if (jQuery("#asc_by_dir").css('display') == 'block') {
+                    jQuery("#desc_by_dir").trigger("click");
+                }
+            }
+            else
+            {
+
+            }
+            jQuery('.loader-sidebar').removeClass('loader-show');
+        });
+    }
+//removediamond
+
+
+</script>
+
+<!-- // HEADER // -->
+<header class="header-wrapper">
+    <div class="header-container">
+        <div id="mobile-sticky" class="main-header visible-tablet">
+            <div class="header-content">
+<?php echo $this->getChildHtml('topMenu') ?>
+                <div class="header-logo pull-left">
+<?php
+ if (Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') : ?>
+                        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+                            <img class="x1" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/homepage/' . $logoHome; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                            <img class="logo-sticky" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $sticky_logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                        </a>
+<?php else: ?>
+                        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+                            <img class="x1" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                            <img class="logo-sticky" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $sticky_logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                        </a>
+<?php endif ?>
+                </div>
+
+                <div class="right-header-menu">
+					
+
+<?php 
+
+if (Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') 
+{ 
+?>
+                        
+<?php } else{ ?>
+<div class="header-search searchform">
+                            <div class="search-container">
+                                <div class="overwrite-setting">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <div class="switcher-content">
+    <?php echo $this->getChildHtml('topSearchMobile') ?>
+                                </div>
+                            </div>
+                        </div>
+<?php } ?>
+                    <div class="header-maincart">
+                                <?php echo $this->getChildHtml('cart_header'); ?>
+                    </div>
+                    <div class="header-setting">
+                        <div class="setting-switcher switcher-wrap">
+                            <div class="overwrite-setting">
+                                <span class="fa fa-bars"></span>
+                            </div>
+                            <div class="switcher-content">
+							
+							
+						<div class="all-setting">
+						                <div class="header-search phone-box">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+                        <tr align="center">
+                            <td class="pos-r" style="font-size: 14px;font-weight: normal; ">
+                                <i class="fa fa-phone"></i>
+<span class="AVANSERnumber"><?php echo $contactModel->getPhone(); ?></span>
+                                <small class="open-popup make-appointment" data-target="form-overlay"  style="float: left; margin-top: 4px;">Make an Appointment</small>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="header-search contact-info" style="">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+
+                        <tr>
+                            <td class="location">
+                                <i class="fa fa-map-marker"></i>
+                                <div class="contact-dropdown main-pop-1">
+<?php $long = $contactModel->getLong(); ?>
+
+                                    <p><a target="_blank" href="<?php echo $long; ?>"><?php echo $contactModel->getMap(); ?></a></p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="mail_sec">
+                                <i class="fa fa-envelope"></i>
+                                <div class="contact-dropdown main-pop-2">
+<?php $e_mail = $contactModel->getEmail(); ?>
+<?php echo '<p><a href="mailto:' . $e_mail . '">' . $e_mail . '</a></p>'; ?>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+						</div>
+						
+							
+<?php if ($toplink): ?>
+    <?php echo $this->getChildHtml('topLinks') ?>
+<?php endif; ?>
+            <?php echo $this->getChildHtml('store_language') ?>
+            <?php echo $this->getChildHtml('currency'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<?php 			
+			if (Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') { ?>
+			
+			<?php } 
+			else
+			{
+			?>
+			<div class="header-search searchform mobilesrh">
+                            <div class="search-container">
+                                <div class="switcher-contentmobilesrh">
+    <?php echo $this->getChildHtml('topSearchMobile') ?>
+                                </div>
+                            </div>
+            </div>
+			<?php
+			}
+			?>
+        </div>
+        <div id="main-header" class="main-header hidden-tablet">
+<?php if (Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') : ?>
+                <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+                    <img class="x1" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/homepage/' . $logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                    <img class="logo-sticky" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $sticky_logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                </a>
+<?php else: ?>
+                <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+                    <img class="x1" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                    <img class="logo-sticky" src="<?php echo $mediaUrl . 'wysiwyg/icotheme/puro/logo/' . $sticky_logo; ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                </a>
+<?php endif ?>
+
+            <div class="wrapper-top-menu container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <?php echo $this->getChildHtml('topMenu') ?>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="right-header-menu">
+
+                <div class="header-search phone-box">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+                        <tr align="center">
+                            <td class="pos-r" style="font-size: 14px;font-weight: normal; ">
+                                <i class="fa fa-phone"></i>
+<span class="AVANSERnumber"><?php echo $contactModel->getPhone(); ?></span>
+                                <!--<small class="open-popup make-appointment" data-target="form-overlay" onclick="grecaptcha.reset();"  style="font-size: 90%; float: left; margin-top: 4px;">Make an Appointment</small>-->
+                                <small class="open-popup make-appointment" data-target="form-overlay"  style="float: left; margin-top: 4px;">Make an Appointment</small>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="header-search contact-info" style="">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+
+                        <tr>
+                            <td>
+                                <i class="fa fa-map-marker"></i>
+                                <div class="contact-dropdown">
+<?php $long = $contactModel->getLong(); ?>
+
+                                    <p><a target="_blank" href="<?php echo $long; ?>"><?php echo $contactModel->getMap(); ?></a></p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <i class="fa fa-envelope"></i>
+                                <div class="contact-dropdown">
+<?php $e_mail = $contactModel->getEmail(); ?>
+<?php echo '<p><a href="mailto:' . $e_mail . '">' . $e_mail . '</a></p>'; ?>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+
+
+<?php 
+if (Mage::getSingleton('cms/page')->getIdentifier() != 'home')
+{
+    $homecss='homecsscls';
+}
+else
+{
+    $homecss='';
+}
+//if (Mage::getSingleton('cms/page')->getIdentifier() != 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() != 'cms') :  ?>
+                <div class="header-search searchform <?php echo $homecss; ?>">
+                    <div class="search-container">
+                        <div class="overwrite-setting">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <div class="switcher-content">
+<?php echo $this->getChildHtml('topSearch') ?>
+                        </div>
+                    </div>
+                </div>
+<?php //endif;  ?>
+                <div class="header-maincart">
+                            <?php echo $this->getChildHtml('cart_header'); ?>
+                </div>
+                <div class="header-setting">
+                    <div class="setting-switcher switcher-wrap">
+                        <div class="overwrite-setting">
+                            <span class="fa fa-bars"></span>
+                        </div>
+
+                        <div class="switcher-content">
+<?php if ($toplink): ?>
+    <?php echo $this->getChildHtml('topLinks') ?>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('store_language') ?>
+        <?php //echo $this->getChildHtml('currency');  ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=""></div>
+<?php echo $this->getChildHtml('topContainer'); ?>
+<?php
+// IF WE ARE ON HOMEPAGE
+if (
+        Mage::getSingleton('cms/page')->getIdentifier() == 'home' &&
+        Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+) :
+    ?>
+            <div class="header-search">
+                <div class="container">
+                    <div class="row">
+    <?php echo $this->getChildHtml('topSearch') ?>
+                    </div>
+                </div>
+            </div>
+<?php endif; ?>
+
+    </div>
+	
+</header>
+<style>
+    .icheckbox_square-aero, .iradio_square-aero
+    {
+        height: 24px;
+    }
+    .col-xs-6 .bootstrap-select.form-control {
+        border: medium none;
+        margin-bottom: 8px;
+        padding: 0;
+    }
+</style>
+<script language="JavaScript">
+
+    //Disable right click script 
+document.oncontextmenu = function(e){
+	var target = (typeof e !="undefined")? e.target: event.srcElement
+	if (target.tagName == "IMG" || (target.tagName == 'A' && target.firstChild.tagName == 'IMG'))
+		return false
+
+}
+</script>
+

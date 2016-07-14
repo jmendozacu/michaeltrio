@@ -1,0 +1,98 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_resource_View_Description
+ */
+?>
+<?php /*$_description = $this->getProduct()->getDescription(); ?>
+<?php if ($_description): ?>
+    <h2><?php echo $this->__('Details') ?></h2>
+    <div class="std">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
+        <h6>Model no:</h6>
+        <h6>Product name:</h6>
+        <h6>Width:</h6>
+    </div>
+<?php endif;*/ ?>
+<?php
+$_resource = Mage::getResourceSingleton('catalog/product');
+$pid = $this->getProduct()->getId();
+$ringproduct = Mage::getModel('catalog/product')->load($pid);
+$ids = $ringproduct->getCategoryIds();
+?>
+<table class="table-shipping" style="width:80%;">
+  <tr>
+    <td style="width: 20%;"><h6><strong>Ship within:</strong></h6></td>
+    <td>
+	<?php
+	$inStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($ringproduct)->getIsInStock();
+	
+	$date = date("Y-m-d");// current date
+
+	if(in_array('3', $ids) || in_array('4', $ids) || in_array('5', $ids))
+	{
+	   echo "<div class='col-md-6'><span>4 Weeks [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +4 week"))."]</span></div>";
+	}
+	else if (in_array('6', $ids) && $ringproduct->isAvailable()) {
+		
+		if(in_array('111', $ids) || in_array('112', $ids) || in_array('113', $ids)) {
+		echo "<div class='col-md-6'><span>4 Weeks [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +4 week"))."]</span></div>";
+		} 
+		else
+		{
+		echo "<div class='col-md-6'><span>3 Days [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +3 day"))."]</span></div>";
+		}
+	
+	} 
+	else if (in_array('6', $ids) && !$ringproduct->isAvailable()) {
+		echo "<div class='col-md-6'><span>4 Weeks [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +4 week"))."]</span></div>";
+	} 
+	else if ($ringproduct->isAvailable()) {
+		echo "<div class='col-md-6'><span>2 Days [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +2 day"))."]</span></div>";
+	} 
+	else {
+		echo "<div class='col-md-6'><span>4 Days [".date("d-m-Y",strtotime(date("Y-m-d", strtotime($date)) . " +4 day"))."]</span></div>";
+	}
+	?> 
+    </td>
+  </tr>
+  
+  <tr>
+    <td><h6><strong>Free shipping via:</strong></h6></td>
+    <td>
+	<?php //echo $_resource->getAttributeRawValue($pid, 'diamond_set_free_shipping', Mage::app()->getStore()); ?>
+        <div class="col-md-6">
+	 <div style="font-size:13px;padding:25px 0!important;" class="free_ship">
+		<div>Free local Shipping</div>
+		<div>International Shipping, <small style="border:none; font-size: 14px;" data-target="page-form-overlay-chart" class="open-popup make-appointment"><a href="javascript:void(0)">Click here</a>.</small></div> 
+	</div>
+	</div>
+	</td>
+  </tr>
+</table>

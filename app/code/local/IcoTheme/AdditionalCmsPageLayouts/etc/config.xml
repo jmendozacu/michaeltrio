@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+ <global>
+  <page>
+   <layouts>
+    <custom_static_page_one>
+     <label>Custom static page Events</label>
+     <template>page/custom-static-page-1.phtml</template>
+    </custom_static_page_one>
+
+    <!-- <custom_static_page_two>
+     <label>Custom static page Awards</label>
+     <template>page/custom-static-page-1.phtml</template>
+    </custom_static_page_two> -->
+   </layouts>
+  </page>
+ </global>
+</config>

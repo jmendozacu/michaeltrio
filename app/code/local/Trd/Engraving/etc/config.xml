@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trd_Engraving>
+            <version>0.1.2</version>
+        </Trd_Engraving>
+    </modules>
+    <global>
+        <models>
+            <trd_engraving>
+                <class>Trd_Engraving_Model</class>
+                <resourceModel>trd_engraving_resource</resourceModel>
+            </trd_engraving>
+            <trd_engraving_resource>
+                <class>Trd_Engraving_Model_Resource</class>
+                <entities>
+                    <engraving>
+                        <table>engraving</table>
+                    </engraving>
+                </entities>
+            </trd_engraving_resource>
+        </models>
+        <blocks>
+            <trd_engraving>
+                <class>Trd_Engraving_Block</class>
+            </trd_engraving>
+        </blocks>
+        <helpers>
+            <trd_engraving>
+                <class>Trd_Engraving_Helper</class>
+            </trd_engraving>
+        </helpers>
+        <resources>
+            <trd_engraving_setup>
+                <setup>
+                    <module>Trd_Engraving</module>
+                </setup>
+            </trd_engraving_setup>
+        </resources>
+
+        <page>
+           <layouts>
+            <custom_static_page_one>
+             <label>Custom Static Page Events</label>
+             <template>page/custom-static-page-events.phtml</template>
+            </custom_static_page_one>
+           </layouts>
+        </page>
+
+        <page>
+           <layouts>
+            <custom_static_page_two>
+             <label>Custom Static Page Awards</label>
+             <template>page/custom-static-page-awards.phtml</template>
+            </custom_static_page_two>
+           </layouts>
+        </page>
+
+        <page>
+           <layouts>
+            <custom_static_page_media>
+             <label>Custom Static Page Media</label>
+             <template>page/custom-static-page-media.phtml</template>
+            </custom_static_page_media>
+           </layouts>
+        </page>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <engraving>
+                <use>standard</use>
+                <args>
+                    <module>Trd_Engraving</module>
+                    <frontName>engraving</frontName>
+                </args>
+            </engraving>
+        </routers>
+    </frontend>
+</config>

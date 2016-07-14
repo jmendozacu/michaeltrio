@@ -1,0 +1,565 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $theme = $this->helper('puro'); ?>
+<?php $tempProdId = Mage::getModel('trd_diamond/diamondprod')->load(1); ?>
+<?php $params = Mage::app()->getRequest()->getParams(); ?>
+
+<?php if ($tempProdId->getProductId() !== $_product->getId()): ?>
+
+<?php
+$section = array();
+$layout = $theme->getCfg('product_page/layout');
+$replaceRelated = $theme->getCfg('product_page/replace_related');
+if ($replaceRelated == 1) //don't replace with static block
+{
+    if ($tmpHtml = trim($this->getChildHtml('related_products')))
+        $section['related'] = $tmpHtml;
+} elseif ($replaceRelated == 2) //if related is empty, replace with static block
+{
+    if ($tmpHtml = trim($this->getChildHtml('related_products')))
+        $section['related'] = $tmpHtml;
+    else //related empty
+        if ($tmpHtml = $this->getChildHtml('block_replace_related'))
+            $section['related'] = '<div class="block_replace_related">' . $tmpHtml . '</div>';
+} elseif ($replaceRelated == 3) //replace with static block
+{
+    if ($tmpHtml = $this->getChildHtml('block_replace_related'))
+        $section['related'] = '<div class="block_replace_related">' . $tmpHtml . '</div>';
+}
+$_prevnext = Mage::helper('puro')->prevnext($_product);
+?>
+
+    <?php if ($params['sidebar']): ?>
+        <h2>Welcome from Sidebar</h2>
+    <?php endif; ?>
+
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+
+<!-- Engraving popup -->
+<div class="engraving-popup">
+    <div class="popup-content">
+        <header>
+            <h5>Add A Free Engraving <a class="close-popup" data-target="engraving-popup" href="javascript:;">&times;</a> </h5>    
+        </header>
+
+        <section>
+            <h6 class='inner'>Inner Engraving</h6>
+            <p>Women's Ring Engraving</p>
+            <input class="ring-engraving" type="text" name="ring_engraving">
+            <span>max. 25 characters*</span>
+            <input disabled="" type="text" class="preview">
+
+            <img src="https://trello-attachments.s3.amazonaws.com/5636491953d0b5774706f615/160x78/2b5dfdd99f3b6bc45c609038af812d98/Screenshot_2015-11-01_20.16.54.png" alt="">
+
+            <small class="disclaimer">The text can only contain alphanumeric (A-Z, a-z, and/or 0-9) and special characters (heart and the infinity) </small>
+
+            <a class="save save-engraving-btn" href="javascript:;">SAVE</a>
+        </section>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        var productId = '<?php echo $_product->getId(); ?>',
+            engravingSaveUrl = '<?php echo Mage::getBaseUrl() . "engraving/index/save"; ?>';
+
+        jQuery('.save-engraving-btn').click(function (e) {
+            var text = jQuery('.ring-engraving').val();
+            if (text != '') {
+                var data = {
+                    'product_id': productId,
+                    'text': text
+                };
+                jQuery.post(engravingSaveUrl, data, function (response) {
+                    response = JSON.parse(response);
+                    if (response.status) {
+                        jQuery('.ring-engraving').val('');
+                        alert('Success saved');
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }  else {
+                alert('Please fill the field');
+            }
+        });
+    });
+</script>
+
+<!-- End Engraving Popup -->
+
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential show-grid">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+              id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <div class="no-display col-lg-12">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
+                <input type="hidden" name="product-price" value="<?php echo Mage::helper('directory')->currencyConvert($_product->getFinalPrice(), 'SGD', Mage::app()->getStore()->getCurrentCurrencyCode()) ?>"/>
+                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+            </div>
+            <?php
+            if ($layout == 'default') {
+                $mediaCol = 'col-md-4 col-sm-4 col-xs-12';
+                $producInfoCol = 'col-md-5 col-sm-5 col-xs-12';
+                $slideBarCol = 'col-md-3 col-sm-3 col-xs-12 hidden-xs';
+            } elseif ($layout == 'horizontal') {
+                $mediaCol = 'col-md-6';
+                $producInfoCol = 'col-md-6';
+            } elseif ($layout == 'vertical') {
+                $mediaCol = 'col-md-4 col-sm-4 col-xs-12';
+                $producInfoCol = 'col-md-5 col-sm-5 col-xs-12';
+                $slideBarCol = 'col-md-3 col-sm-3 col-xs-12 hidden-xs';
+            } elseif ($layout == 'custom1') {
+                $mediaCol = 'col-md-12';
+                $producInfoCol = 'col-md-12';
+            } elseif ($layout == 'custom2') {
+                $mediaCol = 'col-md-6 col-sm-6';
+                $producInfoCol = 'col-md-6 col-sm-6';
+            }
+            ?>
+            <div class="product-img-box <?php echo $mediaCol; ?>">
+                <div class="product-img-list">
+                    <?php echo $this->getChildHtml('media') ?>
+                </div>
+                <div class="product-img-list">
+                	<?php echo $this->getChildHtml('recentlysold') ?>
+                </div>
+            </div>
+            <div class="product-shop <?php echo $producInfoCol ?>">
+                <div class="product-shop-wrapper">
+                    <div class="product-prev-next nav-wrapper pull-right">
+                        <?php echo $_prevnext; ?>
+                    </div>
+                    <div class="product-name top-product-detail">
+                        <h2><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
+                    </div>
+                    <div class="middle-product-detail">
+                        <div class="review-product-details">
+                            <?php echo $this->getReviewsSummaryHtml($_product, false, true) ?>
+                        </div>
+                        
+                        <div class="product-type-data">
+                            <?php echo $this->getChildHtml('alert_urls') ?>
+                            <?php echo $this->getChildHtml('product_type_data') ?>
+                            <?php echo $this->getTierPriceHtml() ?>
+                            <?php echo $this->getChildHtml('extrahint') ?>
+                        </div>
+
+                        <div class="short-description-detail">
+                            <?php if ($_product->getShortDescription()): ?>
+                                <div class="short-description">
+                                    <h2><?php echo $this->__('Quick Overview') ?></h2>
+                                    <div
+                                        class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+					 <?php $ids = $_product->getCategoryIds(); if(!in_array('3',$ids)){ ?>
+                    <div class="section section-color col-md-6" style="border-bottom:none;">
+                        <div class="color-select"> 
+                            <table>
+                            	<tr>
+                                    <td colspan="3"><p style="margin:0;">Color:</p></td>
+                                <tr>
+                                <tr>
+                                    <td><a href="javascript:;"> <span class="active">  <img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/MT_Bronze.png"></span> </a> </td>
+                                    <td> <a href="javascript:;">  <span> <img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/MT_Gold.png"> </span> </a>  </td>
+                                    <td> <span> <a href="javascript:;"> <img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/MT_Silver.png"> </a> </span> </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="section section-metals col-md-6" style="border-bottom:none;">
+                        <div class="metals-select"> 
+                            <table>
+                                  <tr>
+                                    <td colspan="2"><p style="text-align:left;">Metals:</p></td>
+                                  </tr>
+                                  <tr>
+                                    <td><span class="s1 select-metal active" val="18k" data-price="0">18k</span> </td>
+                                    <?php 
+									$priceOptTxt =  Mage::helper('directory')->currencyConvert(300, 'SGD', Mage::app()->getStore()->getCurrentCurrencyCode()); ?>
+                                    <td><span class="s2 select-metal" val="platinum" data-price="<?php echo $priceOptTxt; ?>">Platinum</span> </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+					<hr style="width:100%; float:left;" />
+                    <div class="section section-ring-size">
+                        <table width="100%">
+                            <tr>
+
+                                <td>
+                                    <div class="ring-size-select"> 
+                                        <p>Ring size:</p>
+                                        <br>
+                                        <div class="offset" style="margin-top: -27px;">
+                                            <select class="selectpicker" name="ringsize" id="ringsize">
+                                                <?php for($i=3; $i<=13; $i++){ ?>
+			<option value="<?php echo $i; ?>" data-price="0"><?php echo $i; ?></option>
+												<?php } 
+												$csymb = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+												$cont = 0;
+												$mult = 1;
+												for($i; $i<=18; $i++){ 
+												if($cont%2 == 0 && $cont != 0){
+													$mult = $mult+1;
+												}
+												$cont++;
+								$addPr = 100*$mult;
+								$priceOptTxt =  Mage::helper('directory')->currencyConvert($addPr, 'SGD', Mage::app()->getStore()->getCurrentCurrencyCode());
+												?>
+		<option value="<?php echo $i; ?>" data-price="<?php echo $priceOptTxt; ?>"><?php echo $i; ?> (+ <?php echo $csymb.$priceOptTxt; ?>)</option>
+												<?php }  ?>
+                                            </select>    
+                                        </div>
+                                                    
+                                    </div>            
+                                </td>
+
+                                <td class="engraving col-md-6">
+                                    <h6>Engraving:</h6>
+                                    <span class="open-engraving-popup open-popup" data-target="engraving-popup">Yes</span>
+                                    <span class="active">No</span>
+                                </td>
+
+                            </tr>
+                        </table>
+                        
+                    </div>
+			
+                    <?php } if (!$this->hasOptions()): ?>
+                        <div class="actions-wrapper">
+                            <?php if ($_product->isSaleable()): ?>
+                                <?php echo $this->getChildHtml('addtocart') ?>
+                            <?php endif; ?>
+                        </div>
+                        <?php echo $this->getChildHtml('extra_buttons') ?>
+                    <?php elseif (!$_product->isSaleable()): ?>
+                        <div class="actions-wrapper">
+                            <?php echo $this->getChildHtml('addto') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php echo $this->getChildHtml('other'); ?>
+
+                    <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if ($layout == 'default' || $layout == 'vertical'): ?>
+                <div class="<?php echo $slideBarCol; ?>">
+                    <?php if ($tmpHtml = $this->getChildHtml('block_product_slidebar_right')): ?>
+                        <div class="feature-wrapper top-border block_product_slidebar_right"><?php echo $tmpHtml; ?></div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php endif; ?>
+        </form>
+        <script type="text/javascript">
+            //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function (button, url) {
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                        form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function (button, url) {
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+            //]]>
+        </script>
+    </div>
+    <div class="product-collateral">
+        <?php echo $this->getChildHtml('info_tabs') ?>
+
+        <?php /*?><div class="product-collateral">
+            <ul id="product-tab" class="nav nav-tabs" role="tablist">
+                <li class=" active first">
+                    <a href="#product_tabs_description" role="tab" data-toggle="tab">Setting Information</a>
+                </li>
+                <li class="">
+                    <a href="#product_tabs_tabreviews" role="tab" data-toggle="tab">Side Stone Information</a>
+                </li>
+                <li class="">
+                    <a href="#product_tabs_tags" role="tab" data-toggle="tab">Can Be Set With</a>
+                </li>
+                <li class="">
+                    <a href="#product_tabs_review" role="tab" data-toggle="tab">Reviews</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">                
+                <div class="tab-pane in active first" id="product_tabs_description">
+                    <div class="product-tabs-content-inner clearfix">
+                        <div class="_std">
+
+                            <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+
+                            <table class="table-clean" style="width:250px;">
+                                <tr>
+                                    <td><h6>Stock Number:</h6></td>
+                                    <td><span>432</span> </td>
+                                </tr>
+
+                                <tr>
+                                    <td><h6>Metal:</h6></td>
+                                    <td><span>18k White Gold</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td><h6>Ring style:</h6></td>
+                                    <td><span>Pave</span></td>
+                                </tr>
+                                
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane " id="product_tabs_tabreviews">
+                    
+                    <div class="product-tabs-content-inner clearfix">
+                        
+                        <table class="table-clean" style="width:350px;">
+                            <tr>
+                                <td><h6>Gemstones:</h6></td>
+                                <td><span>Diamond/Ruby/Sapphire</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Shape:</h6></td>
+                                <td><span>Round</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Number of diamonds:</h6></td>
+                                <td><span>20</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Total carat weight:</h6></td>
+                                <td><span>0.08cts</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Average color:</h6></td>
+                                <td><span>G</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Average clarity:</h6></td>
+                                <td><span>VS1</span> </td>
+                            </tr>
+
+                            <tr>
+                                <td><h6>Average Cut:</h6></td>
+                                <td><span>Very Good</span> </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+                <div class="tab-pane " id="product_tabs_tags">
+
+                    <table class="table-clean" style="width:120px;">
+                        
+                        <tr>
+                            <td><h6>Asscher:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><h6>Cushion:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Emerald:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Heart:</h6></td>
+                            <td> <i class="fa fa-times"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Marquise:</h6></td>
+                            <td> <i class="fa fa-times"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Oval:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Pear:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Princess:</h6></td>
+                            <td> <i class="fa fa-times"></i> </td>
+                        </tr>
+
+                        <tr>
+                            <td><h6>Radiant:</h6></td>
+                            <td> <i class="fa fa-check"></i> </td>
+                        </tr>
+
+                        <tr>
+                            <td><h6>Round:</h6></td>
+                            <td> <i class="fa fa-times"></i> </td>
+                        </tr>
+                        
+                    </table>
+
+                </div>
+                <div class="tab-pane " id="product_tabs_review">
+					
+                </div>                
+            </div>
+        </div><?php */?>
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            // Hide product custom options
+            jQuery('#product-options-wrapper').hide();
+
+            jQuery('.select-metal').click(function (e) {
+                var type = jQuery(this).attr('val');
+                jQuery('#product-options-wrapper').find('span.label label').each(function (index, item) {
+                    var attrText = jQuery(item).text();
+                    var attrArr = attrText.split(' ');
+                    if (attrArr[0].toLowerCase() == type.toLowerCase()) {
+                        var inputId = jQuery(item).attr('for');
+						alert(inputId);
+                        jQuery('#' + inputId).click();
+                        jQuery('#' + inputId).click();
+                    }
+                });
+				if(type == 'platinum'){
+					jQuery('div.section.section-color').find('tr').find('td:last-child').find('span').click();
+					jQuery('div.section.section-color').find('tr').find('td:nth-child(2),td:nth-child(3)').css('display','none');
+				} else {
+					jQuery('div.section.section-color').find('tr').find('td:nth-child(2),td:nth-child(3)').removeAttr('style');
+				}
+				//changePricesCartMetal(type);
+            });
+			jQuery('#ringsize').on('change', function(){
+				var seltdVal = jQuery(this).val();
+				var seltdPrice = jQuery(this).find('option[value="'+seltdVal+'"]').attr('data-price');
+				changePricesCart();
+			});
+        });
+		/*function changePricesCartMetal(mtype){
+			var seltringsize = jQuery('#ringsize').val();
+			var seltdSizePrice = jQuery('#ringsize').find('option[value="'+seltringsize+'"]').attr('data-price');
+			var seltdMetalPrice = jQuery('.select-metal[val="'+mtype+'"]').attr('data-price');	
+			var initialPrice = jQuery('input[name="product-price"]').val();
+			var totalPrice = parseFloat(seltdSizePrice) + parseFloat(seltdMetalPrice) + parseFloat(initialPrice);
+			totalPrice = '<?php echo $csymb; ?>'+totalPrice.toFixed(2);
+			jQuery('.product-type-data').find('.price').text(totalPrice);
+		}*/
+		function changePricesCart(){
+			var seltringsize = jQuery('#ringsize').val();
+			var seltdSizePrice = jQuery('#ringsize').find('option[value="'+seltringsize+'"]').attr('data-price');
+			var seltdMetalPrice = jQuery('.select-metal.active').attr('data-price');	
+			var initialPrice = jQuery('input[name="product-price"]').val();
+			var totalPrice = parseFloat(seltdSizePrice) + parseFloat(seltdMetalPrice) + parseFloat(initialPrice);
+			totalPrice = '<?php echo $csymb; ?>'+totalPrice.toFixed(2);
+			jQuery('.product-type-data').find('.price').text(totalPrice);
+		}
+    </script>
+
+
+        <?php echo $this->getChildHtml('product_additional_data') ?>
+    </div>
+    <?php
+    if (isset($section['related'])) {
+        echo $section['related'];
+    }
+    ?>
+</div>
+<?php else: ?>
+    <?php echo $this->getChildHtml('diamond_product'); ?>
+<?php endif; ?>

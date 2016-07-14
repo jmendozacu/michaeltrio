@@ -1,0 +1,139 @@
+<?php
+    if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+?>
+<div class="container">
+    <?php if ($this->displayNoscriptNotice()): ?>
+        <noscript>
+        <div class="global-site-notice noscript">
+            <div class="notice-inner">
+                <p>
+                    <strong><?php echo $this->__('JavaScript seems to be disabled in your browser.'); ?></strong><br />
+                    <?php echo $this->__('You must have JavaScript enabled in your browser to utilize the functionality of this website.'); ?>
+                </p>
+            </div>
+        </div>
+        </noscript>
+    <?php endif; ?>
+    <?php
+    $stnpromotioncollection = Mage::getModel('stnpromotion/stnpromotion')->getCollection()
+                    ->addFieldToFilter('status', '1')->setOrder('short_order', 'ASC');
+    if ($stnpromotioncollection) {
+        ?>
+        <script>
+            jQuery(document).ready(function () {
+<?php
+	   if(count($stnpromotioncollection)=='1')
+	   {
+	   ?>
+                    jQuery("#owl-stnpromotion").owlCarousel({
+                        items: 1,
+                        loop: true,
+                        margin: 10,
+                        autoPlay: true,
+                        autoPlayTimeout: 1000,
+                        autoplayHoverPause: true,
+                        navContainer: false,
+                        dots: false,
+						onInitialize: function (event) {
+        if (jQuery('#owl-stnpromotion .owl-carousel .item').length <= 1) {
+           this.settings.loop = false;
+        }
+    }
+                    });
+					<?php 
+		}
+		else
+		{
+		?>
+		        jQuery("#owl-stnpromotion").owlCarousel({
+                items: 1,
+                center: true,
+                loop: true,
+                autoPlay: true,
+                autoPlayTimeout: 1000,
+                autoplayHoverPause: true,
+                navContainer: false,
+                dots: false
+        });
+		<?php
+		}
+		?>
+
+                    var owlControls = jQuery('div.owl-controls');
+                    owlControls.hide();
+
+            });
+
+
+        </script>
+        <style>
+
+            #owl-stnpromotion .owl-wrapper-outer {
+                margin-top: 50px !important;
+                max-height: 30px !important;
+            }
+            #owl-stnpromotion .owl-wrapper {
+                margin:0px!important;
+            }
+            .main-container .main-wrapper{margin-top:10px;}
+            #owl-stnpromotion .owl-controls.clickable{display:none!important;}
+            #owl-stnpromotion .item {
+                background:none;
+                border-radius:0;
+                color:#ff0000;
+                margin:0;
+                font-size:17px;
+                padding:0;
+                text-align:center;
+            }
+			#owl-stnpromotion .item a {
+                    color:#ff0000;
+                    text-decoration: underline;
+                }
+            #owl-stnpromotion .customNavigation{
+                text-align: center;
+            }
+            //use styles below to disable ugly selection
+            #owl-stnpromotion .customNavigation a{
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+
+            @media(max-width:360px){
+                #owl-stnpromotion .owl-wrapper {
+                    margin:0px!important;
+                }
+                #owl-stnpromotion .owl-wrapper .item > p {
+                    font-size: 13px;
+                }
+                #owl-stnpromotion{margin:85px 0 0 !important;}
+            }
+            @media(max-width:768px){
+                #owl-stnpromotion .owl-wrapper {
+                    margin:0px!important;
+                }
+                #owl-stnpromotion .owl-wrapper .item > p {
+                    font-size: 13px;
+                }
+                #owl-stnpromotion{margin:85px 0 0 !important;}
+            }
+
+        </style>
+        <div id="owl-stnpromotion" class="" style="display: block; opacity: 1;">
+            <?php
+            foreach ($stnpromotioncollection as $products) {
+                ?>
+                <div class="item"><?php echo $products->getPromotionText(); ?></div>
+                <?php
+            }
+            ?>            
+        </div>
+        <?php
+    }
+    ?>
+</div>
+    <?php } ?>

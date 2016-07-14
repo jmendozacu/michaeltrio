@@ -1,0 +1,336 @@
+<?php
+/**
+ * @copyright    Copyright (C) 2015 IcoTheme.com. All Rights Reserved.
+ */
+?>
+<?php
+$_cartQty = $this->getSummaryCount();
+$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+?>
+
+<div class="cart-container">
+    <a href="<?php echo $this->getUrl('checkout/cart') ?>" title="Cart header" class="icon-cart-header">
+	    <?php
+		if($_cartQty>0)
+		{
+		?>
+		<span class="counting1" id="counting1"><?php echo $_cartQty; ?></span>
+		<?php
+		}
+		?>
+        <span class="icon_bag_alt">
+		<img class="white" src="<?php echo Mage::getBaseUrl(); ?>/media/wysiwyg/icotheme/icon-cart.png" alt="">
+		<img class="black" src="<?php echo Mage::getBaseUrl(); ?>/media/wysiwyg/icotheme/icon-cart-b.png" alt="">
+		</span>
+    </a>
+<form action="" method="post" id="form-update-post-pop">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+    <div class="cart-wrapper">
+        <div class="cart-content">
+            <?php
+            $_items = $this->getRecentItems($_cartQty);
+            $_diamondItems = array();
+            $_ringItems = array();
+            $_otherProducts = array();
+
+            foreach ($_items as $_item) {
+
+                $attributeSetName = Mage::getModel('eav/entity_attribute_set')->load($_item->getProduct()->getAttributeSetId())->getAttributeSetName();
+
+                if ($_item->getCustomProductName() && $_item->getCustomProductImage()) {
+                    array_push($_diamondItems, $_item);
+                } else if ($attributeSetName == 'ring') {
+                    array_push($_ringItems, $_item);
+                } else {
+                    array_push($_otherProducts, $_item);
+                }
+            }
+
+            if (count($_items)):
+                ?>
+
+                <?php if (count($_diamondItems)): ?>
+                    <span class="mini-cart-product-type">Diamond</span>
+                    <ul class="clearfix">
+                        <?php foreach ($_diamondItems as $_item): ?>
+                            <?php echo $this->getItemHtml($_item) ?>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <?php if (count($_ringItems)): ?>
+                    <span class="mini-cart-product-type">Settings</span>
+                    <ul class="clearfix">
+                        <?php foreach ($_ringItems as $_item): ?>
+                            <?php echo $this->getItemHtml($_item) ?>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <?php if (count($_otherProducts)): ?>
+		        <div id="minicart-error-message" ></div>
+                        <div id="minicart-success-message"></div>
+                    <span class="mini-cart-product-type">Other Product</span>
+                    <ul class="clearfix">
+					
+                        <?php 
+						$_otherProducts=array_reverse($_otherProducts);
+						foreach ($_otherProducts as $_item): ?>
+                            <?php echo $this->getItemHtml($_item) ?>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <p class="subtotal">
+                    <?php if ($this->canApplyMsrp()): ?>
+                        <span class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                    <?php else: ?>
+                        <span class="label"><?php echo $this->__('Total:') ?></span> <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?>
+                        <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                            <br/>(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </p>
+            <?php else: ?>
+                <p class="no-items-in-cart"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+            <?php endif ?>
+        </div>
+        <?php if (count($_items)):?>
+            <div class="cart-checkout">
+                <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="btn-button view-cart">
+                    <span><?php echo $this->__('View cart') ?></span>
+                </a>
+                <?php if (Mage::getStoreConfig('opc/global/status')) { ?>
+                    <a href="<?php echo $this->getUrl('onepage') ?>" class="btn-button "><span><?php echo $this->__('Checkout') ?></span></a>
+                <?php } else { ?>
+                    <a href="<?php echo $this->getCheckoutUrl() ?>" class="btn-button "><span><?php echo $this->__('Checkout') ?></span></a>
+                <?php } ?>
+            </div>
+        <?php endif;?>
+	</form>
+    </div>
+        <script type="text/javascript" language="javascript">
+
+        function updateincreaseQty(ProId, UpdateUrl) {
+
+            //jQuery('.loader-opacity-div').addClass('loader-show');
+            UpdateUrl = UpdateUrl.replace("checkout/cart/ajaxUpdate", "checkout/cart/stnajaxUpdate");
+            var form_key_val = jQuery('#main-header-sticky-wrapper #form-update-post-pop input:hidden[name=form_key]').val();
+            var qinput = parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) + 1;
+            jQuery('#main-header-sticky-wrapper #qinput-' + ProId).val(qinput);
+            jQuery('#mobile-sticky-sticky-wrapper #qinput-' + ProId).val(qinput);
+
+            jQuery.post(UpdateUrl, {
+                form_key: form_key_val,
+                qty: qinput
+            }, function (response) {
+                //jQuery('.loader-opacity-div').removeClass('loader-show');
+                if (response.success) {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+		    
+		    jQuery('#main-header-sticky-wrapper .subtotal .price').html(response.subtotal);
+                    jQuery('#mobile-sticky-sticky-wrapper .subtotal .price').html(response.subtotal);
+		    
+                    if (response.notice) {
+                        //alert(response.notice);
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').html(response.notice);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').html(response.notice);
+						window.location.reload();
+
+                    }
+                    else if (response.message) {
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').html(response.message);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').html(response.message);
+						window.location.reload();
+                    }
+                    return false;
+                } else {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+                    alert(response.notice);
+                }
+            });
+
+        }
+
+        function updatedecreaseQty(ProId, UpdateUrl) {
+
+            //jQuery('.loader-opacity-div').addClass('loader-show');
+            UpdateUrl = UpdateUrl.replace("checkout/cart/ajaxUpdate", "checkout/cart/stnajaxUpdate");
+            var form_key_val = jQuery('#main-header-sticky-wrapper #form-update-post-pop input:hidden[name=form_key]').val();
+            if (parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) == 1)
+            {
+                alert('The minimum quantity allowed for purchase is 1.');
+				jQuery('.loader-opacity-div').removeClass('loader-show');
+                return false;
+            }
+            var qinput = parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) - 1;
+            jQuery('#main-header-sticky-wrapper #qinput-' + ProId).val(qinput);
+            jQuery('#mobile-sticky-sticky-wrapper #qinput-' + ProId).val(qinput);
+            
+            jQuery.post(UpdateUrl, {
+                form_key: form_key_val,
+                qty: qinput
+            }, function (response) {
+                //jQuery('.loader-opacity-div').removeClass('loader-show');
+                if (response.success) {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+		    
+		    jQuery('#main-header-sticky-wrapper .subtotal .price').html(response.subtotal);
+                    jQuery('#mobile-sticky-sticky-wrapper .subtotal .price').html(response.subtotal);
+		    
+                    //jQuery('#counting1').html('<h1>Hello</h1>');
+                    if (response.notice) {
+                        //alert(response.notice);
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').html(response.notice);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').html(response.notice);
+						window.location.reload();
+
+                    }
+                    else if (response.message) {
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').html(response.message);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').html(response.message);
+						window.location.reload();
+
+                    }
+                    return false;
+                } else {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+                    alert(response.notice);
+                }
+            });
+
+        }
+		
+		function updatediamondincreaseQty(ProId, UpdateUrl) {
+
+            //jQuery('.loader-opacity-div').addClass('loader-show');
+            UpdateUrl = UpdateUrl.replace("checkout/cart/ajaxUpdate", "checkout/cart/stnajaxUpdate");
+            var form_key_val = jQuery('#main-header-sticky-wrapper #form-update-post-pop input:hidden[name=form_key]').val();
+            var qinput = parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) + 1;
+            jQuery('#main-header-sticky-wrapper #qinput-' + ProId).val(qinput);
+            jQuery('#mobile-sticky-sticky-wrapper #qinput-' + ProId).val(qinput);
+
+            jQuery.post(UpdateUrl, {
+                form_key: form_key_val,
+                qty: qinput
+            }, function (response) {
+                //jQuery('.loader-opacity-div').removeClass('loader-show');
+                if (response.success) {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+		    
+		    jQuery('#main-header-sticky-wrapper .subtotal .price').html(response.subtotal);
+                    jQuery('#mobile-sticky-sticky-wrapper .subtotal .price').html(response.subtotal);
+		    
+                    if (response.notice) {
+                        //alert(response.notice);
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').html(response.notice);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').html(response.notice);
+
+                    }
+                    else if (response.message) {
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').html(response.message);
+
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').html(response.message);
+                    }
+                    return false;
+                } else {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+                    alert(response.notice);
+                }
+            });
+
+        }
+
+        function updatediamonddecreaseQty(ProId, UpdateUrl) {
+
+            //jQuery('.loader-opacity-div').addClass('loader-show');
+            UpdateUrl = UpdateUrl.replace("checkout/cart/ajaxUpdate", "checkout/cart/stnajaxUpdate");
+            var form_key_val = jQuery('#main-header-sticky-wrapper #form-update-post-pop input:hidden[name=form_key]').val();
+            if (parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) == 1)
+            {
+                alert('The minimum quantity allowed for purchase is 1.');
+				jQuery('.loader-opacity-div').removeClass('loader-show');
+                return false;
+            }
+            var qinput = parseInt(jQuery('#main-header-sticky-wrapper #form-update-post-pop #qinput-' + ProId).val()) - 1;
+            jQuery('#main-header-sticky-wrapper #qinput-' + ProId).val(qinput);
+            jQuery('#mobile-sticky-sticky-wrapper #qinput-' + ProId).val(qinput);
+            
+            jQuery.post(UpdateUrl, {
+                form_key: form_key_val,
+                qty: qinput
+            }, function (response) {
+                //jQuery('.loader-opacity-div').removeClass('loader-show');
+                if (response.success) {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+		    
+		    jQuery('#main-header-sticky-wrapper .subtotal .price').html(response.subtotal);
+                    jQuery('#mobile-sticky-sticky-wrapper .subtotal .price').html(response.subtotal);
+		    
+                    //jQuery('#counting1').html('<h1>Hello</h1>');
+                    if (response.notice) {
+                        //alert(response.notice);
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').html(response.notice);
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').html(response.notice);
+						
+                    }
+                    else if (response.message) {
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#main-header-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#main-header-sticky-wrapper #minicart-success-message').html(response.message);
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').show();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-error-message').hide();
+                        jQuery('#mobile-sticky-sticky-wrapper #minicart-success-message').html(response.message);
+
+                    }
+                    return false;
+                } else {
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+                    alert(response.notice);
+                }
+            });
+
+        }
+    </script>
+</div>

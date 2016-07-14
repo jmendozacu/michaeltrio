@@ -1,0 +1,170 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <th> <h3> <?php echo $this->__("Add Product Custom Options") ?> </h3>
+        </th>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <?php $formurl = Mage::getUrl('adminhtml/productimport_customring/addcustom'); ?>
+    <form enctype="multipart/form-data" method="post" action="<?php echo $formurl; ?>" id="import_product_form">
+        <?php echo $this->getBlockHtml('formkey') ?>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Add Product Custom Option information") ?></h4>
+            <div class="form-buttons"></div>
+        </div>
+        <div id="base_fieldset" class="fieldset ">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list" style="width:99%;">
+                    <tbody>
+                        <tr>
+                            <td class="label">
+                                <label for="import_file">
+                                    <?php echo $this->__('Select Category') ?> <span class="required">*</span>
+                                </label>
+                            </td>
+                            <td class="value">
+                                <select class="required-entry select" name="category" id="category">
+                                    <option value="4">Engagement Rings</option>
+                                    <optgroup label="Wedding Rings">
+                                        <option value="88">Women</option>
+                                        <option value="94">Men</option>
+                                    </optgroup> 
+									<optgroup label="Jewelery & Gifts">
+                                        <option value="34">Diamond -> Stud</option>
+                                    </optgroup>                                   
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="value"></td>
+                        </tr>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="value">                                
+                                <button style="" class="scalable save" type="submit" title="<?php echo $this->__('Submit') ?>" onClick="showpop();" id="upload_button">
+                                    <span>
+                                        <span>
+                                            <span>
+                                                <?php echo $this->__('Submit') ?>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<div style="display: none;" id="light" class="white_content">
+    <div class="white_content2">
+        <div class="white_notifications">
+            <div class="consider" id="phonenumb">
+                <span class="spinner-container" style="font-size: 12px; position: relative; vertical-align: top; z-index: 1; padding: 0px 5px; letter-spacing: 0.05em; color: rgb(255, 255, 255); display: block; line-height: 40px; height: 50px; width: 150px; left: 19%;">
+                    <div style="display: inline-block ! important; height: 25px ! important; margin: 0px; padding: 0px; text-align: center; left: 50%; position: absolute; top: 4px ! important;" class="spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
+                </span>
+            </div>               
+        </div>
+    </div>
+</div>
+<style>
+
+    /*pop up inquiry form*/
+    .white_content {
+        /*background: #e4e4e4;*/
+        position: fixed; left: 0; top: 0;
+        z-index: 10;
+        width: 100%; height: 100%;
+        opacity: .95;
+        z-index: 9999;
+
+    }
+    .white_content .white_content2 {
+        text-align: center;
+        position: absolute;
+        top: 37%;
+        left: 35%;
+        right:0%;
+        width: 28%;
+        height: auto;
+        font:normal 15px Arial, Helvetica, sans-serif;
+        color:#333333;
+        padding: 16px;
+        z-index: 99999;
+        background: #fff;
+        border: 5px solid #2f2f2f;
+        -webkit-box-shadow: 0px 0px 5px #2f2f2f;
+        -moz-box-shadow: 0px 0px 5px #2f2f2f;
+        box-shadow: 0px 0px 5px #2f2f2f;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        z-index:1002;
+        overflow: auto;
+    }
+    img.btn_close {
+        border: medium none;
+        float: right;
+        margin: 0 -8px 0 0;
+    }
+    .white_notifications a {
+        margin-top: 22px;
+        text-align: center;
+    }
+    .spinner > div {
+        background-color: #B3B3B3;
+        height: 100%;
+        width: 10px;
+        display: inline-block;
+        -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+        animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    }
+    .spinner .rect2 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+    }
+    .spinner .rect3 {
+        -webkit-animation-delay: -1s;
+        animation-delay: -1s;
+    }
+    .spinner .rect4 {
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+    }
+    .spinner .rect5 {
+        -webkit-animation-delay: -0.8s;
+        animation-delay: -0.8s;
+    }
+
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+        .white_content .white_content2{ width:59%; left:20%}
+    }
+
+    @media screen and (max-width: 480px) {
+        .white_content .white_content2{ width:35%;}
+    }
+
+    @media all and (min-width:240px) and (max-width:320px) {
+        .white_content .white_content2{ width:35%;}
+    }
+
+</style>
+<script type="text/javascript">
+    function showpop()
+    {
+        document.getElementById('light').style.display = 'block';
+    }    
+</script>

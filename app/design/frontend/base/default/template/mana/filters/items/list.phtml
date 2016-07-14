@@ -1,0 +1,410 @@
+<?php 
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/** 
+ * Template for showing options for filter as a HTML list 
+ * @author Mana Team
+ * Injected instead of standard catalog/layer/filter.phtml in Mana_Filters_Block_Filter_Attribute constructor.
+ * This template is overridden by copying (template body was pasted from catalog/layer/filter.phtml 
+ * and modified as needed). All changes are marked with comments.
+ */
+/* @var $this Mana_Filters_Block_Filter_Attribute */
+?>
+<?php 
+$active_filters = array();
+$appliedFilters = Mage::getSingleton('catalog/layer')->getState()->getFilters();
+
+foreach ($appliedFilters as $_filter){
+	$active_filters[$_filter->getName()][$_filter->getLabel()] = $_filter->getRemoveUrl();
+}
+
+$prods = Mage::getSingleton('catalog/layer')->setCurrentCategory(Mage::registry('current_category'))
+			->getProductCollection();
+
+$_prodscarats = $_prodscut = array();
+foreach ($prods as $_prods){
+	if($_prods->getResource()->getAttribute('d_carat')->getFrontend()->getValue($_prods) != ''){
+		$_prodscarats[] = $_prods->getResource()->getAttribute('d_carat')->getFrontend()->getValue($_prods);
+	}
+	if($_prods->getResource()->getAttribute('d_cut')->getFrontend()->getValue($_prods) != ''){
+		$_prodscut[] = $_prods->getResource()->getAttribute('d_cut')->getFrontend()->getValue($_prods);
+	}
+	if($_prods->getResource()->getAttribute('d_depth')->getFrontend()->getValue($_prods) != ''){
+		$_prodsdepth[] = $_prods->getResource()->getAttribute('d_depth')->getFrontend()->getValue($_prods);
+	}
+	if($_prods->getResource()->getAttribute('d_table')->getFrontend()->getValue($_prods) != ''){
+		$_prodstable[] = $_prods->getResource()->getAttribute('d_table')->getFrontend()->getValue($_prods);
+	}
+}
+
+$options = Mage::getResourceModel('eav/entity_attribute_option_collection');
+$values  = $options->setAttributeFilter('d_cut')->setStoreFilter($storeId)->toOptionArray();
+$config    = Mage::getModel('eav/config');
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_cut');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dcutarr = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dcutarr[$val['label']] = $val['value'];
+	}
+}
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_clarity');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dclarr = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dclarr[$val['label']] = $val['value'];
+	}
+}
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_polish');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dpolish = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dpolish[$val['label']] = $val['value'];
+	}
+}
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_fluorescence');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dflu = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dflu[$val['label']] = $val['value'];
+	}
+}
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_symmetry');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dsym = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dsym[$val['label']] = $val['value'];
+	}
+}
+
+
+
+
+
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_color');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dclrarr = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dclrarr[$val['label']] = $val['value'];
+	}
+}
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_depth');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_ddepth = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_ddepth[$val['label']] = $val['value'];
+	}
+}
+
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_table');
+$values    = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+$_dtbl = [];
+foreach($values as $key=>$val){
+	if($val['label'] != ''){
+		$_dtbl[$val['label']] = $val['value'];
+	}
+}
+
+
+
+sort($_prodscarats);
+$_prodscut = array_unique($_prodscut);
+sort($_prodscut);
+sort($_prodsdepth);
+sort($_prodstable);
+
+
+
+
+//echo '<pre>';
+//print_r($_prodscut); exit;
+echo Mage::helper('mana_core')->getNamedHtml('mana_filters/markup', 'before_items', array('block' => $this)) ?>
+<ol class="m-filter-item-list <?php echo $this->getFilterOptions()->getIsReverse() ? 'm-reverse' : '' ?>">
+<?php $price_added = false; foreach ($this->getItems() as $_item): ?>
+   
+        <?php // MANA BEGIN ?>
+        
+    <?PHP 
+	$attrCode = $_item->getFilter()->getAttributeModel()->getAttributeCode();
+	if($attrCode == 'shape'){ 
+	
+	$clr = array();
+	$clr['AS'] = 'asscher';
+	$clr['CU'] = 'cushion';
+	$clr['EC'] = 'emerald';
+	$clr['HS'] = 'heart';
+	$clr['MQ'] = 'marquise';
+	$clr['OV'] = 'oval';
+	$clr['PR'] = 'pear';
+	$clr['PS'] = 'princess';
+	$clr['RA'] = 'radiant';
+	$clr['RD'] = 'round';
+	
+	 ?>
+    <li class="shape_li_pull ">
+    <?php if ($_item->getCount() > 0): ?>
+            <a data-toggle="tooltip" data-placement="bottom" title="<?php echo ucfirst($clr[($_item->getLabel())]); ?>" class="btn-clr  <?php if ($_item->getMSelected()){ echo 'active';}else{ echo '';} ?>" href="<?php if($_item->getMSelected()){ echo $active_filters[$attrCode][$_filter->getLabel()]; }else{echo $this->urlEscape($_item->getUrl());} ?>">
+                
+                <img class="unchecked_img" src="<?PHP echo $this->getSkinUrl('packer/images/diamonds/'.$clr[($_item->getLabel())].'.png'); ?>" height="50" width="auto" />
+                <?php /*?><img class="checked_img" src="<?PHP echo $this->getSkinUrl('packer/images/diamonds/'.$clr[($_item->getLabel())].'_chk.png'); ?>" height="50" width="auto" /><?php */?>
+				<?php //echo $_item->getLabel() ?>
+            </a>
+        <?php else: ?>
+            <span>
+                <?php echo $_item->getLabel(); ?>
+                <?php if ($this->shouldDisplayProductCount()): ?>
+                    <span class="count"><?php echo $_item->getCount() ?></span>
+                <?php endif; ?>
+            </span>
+        <?php endif;  ?>
+    </li>
+    <?PHP }/*elseif($attrCode == 'd_color'){  ?>
+    <li class="shape_li_pull ">
+    <?php if ($_item->getCount() > 0): ?>
+            <a class="btn btn-small  <?php if ($_item->getMSelected()){ echo 'btn-primary';}else{ echo 'btn-default';} ?>" href="<?php if($_item->getMSelected()){ echo $active_filters[$attrCode][$_filter->getLabel()]; }else{echo $this->urlEscape($_item->getUrl());} ?>">
+				<?php echo $_item->getLabel() ?>
+            </a>
+        <?php else: ?>
+            <span>
+                <?php echo $_item->getLabel(); ?>
+                <?php if ($this->shouldDisplayProductCount()): ?>
+                    <span class="count"><?php echo $_item->getCount() ?></span>
+                <?php endif; ?>
+            </span>
+        <?php endif;  ?>
+    </li>
+    <?PHP }*/elseif($attrCode == 'price'){
+	if($price_added == false){
+	$minPrice=Mage::getSingleton('catalog/layer')->setCurrentCategory(Mage::registry('current_category'))
+			->getProductCollection()->getMinPrice();
+	$maxPrice=Mage::getSingleton('catalog/layer')->setCurrentCategory(Mage::registry('current_category'))
+			->getProductCollection()->getMaxPrice();
+	
+	echo '
+	<input class="dataurl" data-prefix="$ " data-split="price=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="range-inputs clearfix">
+	<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="$ '.$minPrice.'"/></div>
+	<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="$ '.$maxPrice.'"/></div>
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'"></div>
+	';
+		$price_added = true;
+	}	
+	}elseif($attrCode == 'd_carat'){
+	if($carat_added == false){
+	$minPrice=$_prodscarats[0];
+	$maxPrice=$_prodscarats[count($_prodscarats)-1];
+	echo '
+	<input class="dataurl" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="range-inputs clearfix">
+	<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="'.$minPrice.'"/></div>
+	<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="'.$maxPrice.'"/></div>
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'"></div>
+	';
+		$carat_added = true;
+	}	
+	}elseif($attrCode == 'd_cut'){
+	if($cut_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dcutarr);
+	$tick_l = '';
+	foreach($_dcutarr as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dcutarr).'" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$cut_added = true;
+	}	
+	}
+	elseif($attrCode == 'd_clarity'){
+	if($cl_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dclarr);
+	$tick_l = '';
+	foreach($_dclarr as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dclarr).'" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$cl_added = true;
+	}	
+	}
+	
+	elseif($attrCode == 'd_polish'){
+	if($pol_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dpolish);
+	$tick_l = '';
+	foreach($_dpolish as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dpolish).'" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$pol_added = true;
+	}	
+	}
+	
+	elseif($attrCode == 'd_symmetry'){
+	if($sym_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dsym);
+	$tick_l = '';
+	foreach($_dsym as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dsym).'" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$sym_added = true;
+	}	
+	}
+	
+	elseif($attrCode == 'd_fluorescence'){
+	if($flu_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dflu);
+	$tick_l = '';
+	foreach($_dflu as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dflu).'" data-prefix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-disabled="true" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$flu_added = true;
+	}	
+	}
+	
+	
+	 
+	
+	
+	elseif($attrCode == 'd_color'){
+	if($clr_added == false){
+	$minPrice=0;
+	$maxPrice=count($_dclrarr);
+	$tick_l = '';
+	foreach($_dclrarr as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dcutarr).'" data-prefix="" data-suffix="" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="ticker-inputs clearfix">
+	'.$tick_l.'
+	</div>
+	<div class="rangeslider" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$clr_added = true;
+	}	
+	}
+	
+	
+	
+	
+	elseif($attrCode == 'd_depth'){
+	if($ddpth_added == false){
+	$minPrice=$_prodsdepth[0];
+	$maxPrice=$_prodsdepth[count($_prodsdepth)-1];
+	$tick_l = '';
+	foreach($_ddepth as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_ddepth).'" data-prefix="" data-suffix="%" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="range-inputs clearfix">
+	<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="'.$minPrice.'%"/></div>
+	<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="'.$maxPrice.'%"/></div>
+	</div>
+	<div class="rangeslider" data-disabled="true" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$ddpth_added = true;
+	}	
+	}
+	
+	elseif($attrCode == 'd_table'){
+	if($tbl_added == false){
+	$minPrice=$_prodstable[0];
+	$maxPrice=$_prodstable[count($_prodstable)-1];
+	$tick_l = '';
+	foreach($_dtbl as $pc=>$pcval){
+		$tick_l .= '<span class="tick">'.$pc.'</span>';
+	}
+	
+	echo '
+	<input class="dataurl" data-values="'.json_encode($_dtbl).'" data-prefix="" data-suffix="%" data-split="d_carat=" type="hidden" value="'.$this->urlEscape($_item->getUrl()).'" />
+	<div class="range-inputs clearfix">
+	<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="'.$minPrice.'%"/></div>
+	<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="'.$maxPrice.'%"/></div>
+	</div>
+	<div class="rangeslider" data-disabled="true" data-attr="'.$_item->getLabel().'" data-min-value="'.$minPrice.'" data-max-value="'.$maxPrice.'" data-min="'.$minPrice.'" data-max="'.$maxPrice.'" data-range="true"></div>
+	';
+		$tbl_added = true;
+	}	
+	}
+	
+	
+	else{ ?>
+     <li <?php if ($_item->getMShowSelected()): ?>class="m-selected-ln-item"<?php endif; ?>>
+        <?php if ($_item->getMSelected()): ?>
+        	<span class="m-selected-filter-item"><?php echo $this->escapeHtml($_item->getLabel()) ?></span>
+        <?php else : ?>
+	        <?php if (!$this->getFilterOptions()->getDisableNoResultOptions() || $_item->getCount() > 0 || $_item->getMSelected()): ?>
+	        <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>" title="<?php echo $this->escapeHtml($_item->getLabel()) ?>"><?php echo $this->escapeHtml($_item->getLabel()) ?></a>
+	        <?php else: echo $this->escapeHtml($_item->getLabel()) ?>
+	        <?php endif; ?>
+        <?php endif; ?>
+        
+        
+        <?php } // MANA END ?>
+        <?php if (Mage::getStoreConfigFlag('mana_filters/display/count')) : ?>
+            <?php /*?>(<?php echo $_item->getCount() ?>)<?php */?>
+        <?php endif; ?>
+    </li>
+<?php endforeach ?>
+</ol>
+<?php echo Mage::helper('mana_core')->getNamedHtml('mana_filters/markup', 'after_items', array('block' => $this)) ?>

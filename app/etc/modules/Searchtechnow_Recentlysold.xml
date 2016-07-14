@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Searchtechnow_Recentlysold>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Searchtechnow_Recentlysold>
+    </modules>
+</config>

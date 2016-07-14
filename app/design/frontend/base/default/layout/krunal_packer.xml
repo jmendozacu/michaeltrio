@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>packer/style.css</file></action>
+			<action method="addItem"><type>skin_css</type><file>packer/jquery-ui.css</file></action>
+			<action method="addItem"><type>skin_css</type><file>packer/jquery-ui.theme.css</file></action>
+			<action method="addItem"><type>skin_css</type><file>packer/bootstrap-switch.css</file></action>
+			<action method="addItem"><type>skin_js</type><name>packer/bootstrap-switch.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>packer/script.js</name></action>
+        </reference>
+    </default>
+	 
+</layout>

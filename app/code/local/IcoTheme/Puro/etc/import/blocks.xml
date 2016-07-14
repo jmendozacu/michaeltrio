@@ -1,0 +1,201 @@
+<root><blocks><cms_block><title><![CDATA[Footer Links]]></title><identifier>footer_links</identifier><content><![CDATA[
+<ul>
+    <li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>
+    <li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>
+<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>
+</ul>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Footer Links Company]]></title><identifier>footer_links_company</identifier><content><![CDATA[
+<div class="links">
+    <div class="block-title">
+        <strong><span>Company</span></strong>
+    </div>
+    <ul>
+        <li><a href="{{store url=""}}about-magento-demo-store/">About Us</a></li>
+        <li><a href="{{store url=""}}contacts/">Contact Us</a></li>
+        <li><a href="{{store url=""}}customer-service/">Customer Service</a></li>
+        <li><a href="{{store url=""}}privacy-policy-cookie-restriction-mode/">Privacy Policy</a></li>
+    </ul>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Cookie restriction notice]]></title><identifier>cookie_restriction_notice_block</identifier><content><![CDATA[<p>This website requires cookies to provide all of its features. For more information on what data is contained in the cookies, please see our <a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy page</a>. To accept cookies from this site, please click the Allow button below.</p>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Home slider 01]]></title><identifier>home-slider-01</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 01" src="{{media url="wysiwyg/icotheme/slide/slide1.jpg"}}" /></div>
+<div class="slider-text">
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Home slider 02]]></title><identifier>home-slider-02</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 02" src="{{media url="wysiwyg/icotheme/slide/slide2.jpg"}}" /></div>
+<div class="slider-text">
+<h2 class="slider-title"><span>Trendy is the last stage before tacky</span></h2>
+<p class="slider-desc"><span> Learn about our <a class="slider-link">Shop now</a></span></p>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Footer]]></title><identifier>footer</identifier><content><![CDATA[<div class="about-social col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<div class="about"><img alt="" src="{{media url="wysiwyg/icotheme/puro/logo/logo_puro.png"}}" />
+<div class="about-text"><p> Sed ornare cras donec litora integer curabit ur orci at nullam aliquam libero nam himen aeos amet massa amet. </p> <p>Nisi porttitor inceptos consectetur donec orci, dui ipsum leo class gravida. </p></div>
+<div class="social">
+<div class="title-footer">FOLLOW US</div>
+<ul class="social-icons small light">
+<li class="facebook"><a class="fa fa-facebook" href="http://www.facebook.com/" target="_blank"><span>Facebook</span></a></li>
+<li class="twitter"><a class="fa fa-twitter" href="http://www.twitter.com/" target="_blank"><span>Twitter</span></a></li>
+<li class="behance"><a class="fa fa-behance" href="https://www.behance.net/" target="_blank"><span>Behance</span></a></li>
+<li class="gplus"><a class="fa fa-google-plus" href="https://plus.google.com/" target="_blank"><span>Google plus</span></a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="list-footer col-lg-8 col-md-8 col-sm-8 col-xs-12">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 newslettter">{{block type="newsletter/subscribe" template="newsletter/subscribe.phtml"}}</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 footer-links">
+<div class="footer-links">
+<div class="row">
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 info-footer">
+<div class="footer-block-title">
+<h3>Infomation<span class="mobile-button visible-xs active">accordion-footer</span></h3>
+</div>
+<div class="custom-footer-content">
+<ul class="footer-list">
+<li>{{widget type="cms/widget_page_link" title="About Us" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Contact Us" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Term & Conditions" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Privacy Policy" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Orders and Returns" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Sites Map" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 info-footer">
+<div class="footer-block-title">
+<h3>Why choose<span class="mobile-button visible-xs active">accordion-footer</span></h3>
+</div>
+<div class="custom-footer-content">
+<ul class="footer-list">
+<li>{{widget type="cms/widget_page_link" title="Product Recall" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Gift Vouchers" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Returns and Exchanges" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Shipping Options" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Help & FAQs" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Sale only today" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 info-footer">
+<div class="footer-block-title">
+<h3>My Account<span class="mobile-button visible-xs active">accordion-footer</span></h3>
+</div>
+<div class="custom-footer-content">
+<ul class="footer-list">
+<li>{{widget type="cms/widget_page_link" title="Sign In" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="View Cart" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="My Wishlist" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Check out" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Track my order" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+<li>{{widget type="cms/widget_page_link" title="Help" template="cms/widget/link/link_block.phtml" page_id="3"}}</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Deal of the day]]></title><identifier>deal_of_day</identifier><content><![CDATA[<div class="deal-of-day">
+    <img class="img-responsive" src="{{media url="wysiwyg/icotheme/image_deal.jpg"}}" alt="" />
+    <div class="content">
+        <div class="content-top">
+            <span class="title">Deal of the day</span> 
+            <span class="intro">Elegant Fashion on Sale Only Today</span> 
+        </div>
+        <div class="product-countdown">
+            {{widget type="widgetproducts/widget" cache="86400" widget_type="product" widget_tab="none" mode="id" countdown="1" product_ids="13" template="icotheme/widgetproducts/deal.phtml" limit="1" column="1"}}
+        </div>
+    </div>
+</div> ]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Home slider 03]]></title><identifier>home-slider-03</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 01" src="{{media url="wysiwyg/icotheme/slide/slide3.jpg"}}" /></div>
+<div class="slider-text">
+<h2 class="slider-title"><span>it's about something else <br/> that comes from within you</span></h2>
+<p class="slider-desc"><span> Learn about our <a class="slider-link">Shop now</a></span></p>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Home banner]]></title><identifier>home_banner</identifier><content><![CDATA[<div class="home-banner">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="inner-banner">
+            <div class="overlay">
+                <span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span>
+            </div>
+            <div class="banner-img"><span class="text">Shoes</span><img alt="" src="{{media url="wysiwyg/icotheme/Shoes-banner.jpg"}}" /></div>
+        </div>
+        <div class="inner-banner">
+            <div class="overlay"><span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span></div>
+            <div class="banner-img"><span class="text">Shirts</span><img alt="" src="{{media url="wysiwyg/icotheme/shirt-banner.jpg"}}" /></div>
+        </div>
+    </div> 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="inner-banner">
+            <div class="overlay"><span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span></div>
+            <div class="banner-img"><span class="text">Bag</span><img alt="" src="{{media url="wysiwyg/icotheme/bags-banner.jpg"}}" /></div>
+        </div>
+        <div class="inner-banner">
+            <div class="overlay"><span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span></div>
+            <div class="banner-img"><span class="text">Pants</span><img alt="" src="{{media url="wysiwyg/icotheme/pant-banner.jpg"}}" /></div>
+        </div>
+    </div> 
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Slide 1 Home 2]]></title><identifier>slide1home2</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 01" src="{{media url="wysiwyg/icotheme/slide/slide1home2.png"}}" /></div>
+<div class="slider-text">
+<h2 class="slider-title"><span>Always dress like you're going<br/>to see your worst enemy</span></h2>
+<p class="slider-desc"><span> Learn about our <a class="slider-link">Shop now</a></span></p>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Slide 2 Home 2]]></title><identifier>slide2home2</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 02" src="{{media url="wysiwyg/icotheme/slide/slide2home2.jpg"}}" /></div>
+<div class="slider-text">
+<h2 class="slider-title"><span>Trendy is the last stage before tacky</span></h2>
+<p class="slider-desc"><span> Learn about our <a class="slider-link">Shop now</a></span></p>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Slide 3 Home 2]]></title><identifier>slide3home2</identifier><content><![CDATA[<div class="slide-content">
+<div class="slide-inner-content">
+<div class="slider-image"><img class="images-resposive" alt="slider 01" src="{{media url="wysiwyg/icotheme/slide/slide3home2.jpg"}}" /></div>
+<div class="slider-text">
+<h2 class="slider-title"><span>it's about something else <br/> that comes from within you</span></h2>
+<p class="slider-desc"><span> Learn about our <a class="slider-link">Shop now</a></span></p>
+</div>
+</div>
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Home 2 banner]]></title><identifier>home2banner</identifier><content><![CDATA[<div class="home-banner">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <div class="inner-banner">
+            <div class="overlay">
+                <span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span>
+            </div>
+            <div class="banner-img"><span class="content-inner"><span class="text">Summer<br/>Collection</span></span><img alt="" src="{{media url="wysiwyg/icotheme/banner1h2.jpg"}}" /></div>
+        </div> 
+    </div> 
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="inner-banner">
+            <div class="overlay"><span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span></div>
+            <div class="banner-img"><span class="content-inner"><span class="text">New Hat</span></span><img alt="" src="{{media url="wysiwyg/icotheme/banner2h2.jpg"}}" /></div>
+        </div>
+        <div class="inner-banner">
+            <div class="overlay"><span class="widget widget-category-link"><a href="#"><i class="fs1" aria-hidden="true" data-icon="$"></i></a></span></div>
+            <div class="banner-img"><span class="content-inner"><span class="text">New Shoes</span></span><img alt="" src="{{media url="wysiwyg/icotheme/banner3h2.jpg"}}" /></div>
+        </div>
+    </div> 
+</div>]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block><cms_block><title><![CDATA[Block Video]]></title><identifier>block_video</identifier><content><![CDATA[<div class="video-wrapper">
+    <div class="wrapper-main-video">
+        <div class="container-main-video">
+            <div class="inner-main-video">
+                <div class="upb_video-wrapper">
+                    <div class="upb_video-bg" data-bg-override="ex-full">
+                        <video  preload="auto" loop="loop">
+                            <source src="media/wysiwyg/icotheme/video/video.mp4" type="video/mp4">
+                            <source src="media/wysiwyg/icotheme/video/video.webm" type="video/webm">
+                        </video>
+                        <em class="fa fa-2x fa-play"></em>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div> 
+</div> ]]></content><is_active>1</is_active><stores><item>0</item></stores></cms_block></blocks></root>

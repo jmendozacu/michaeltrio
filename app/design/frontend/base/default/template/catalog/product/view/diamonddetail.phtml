@@ -1,0 +1,273 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_Product_View_Description
+ */
+?>
+<?php /*$_description = $this->getProduct()->getDescription(); ?>
+<?php if ($_description): ?>
+    <h2><?php echo $this->__('Details') ?></h2>
+    <div class="std">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
+        <h6>Model no:</h6>
+        <h6>Product name:</h6>
+        <h6>Width:</h6>
+    </div>
+<?php endif;*/ ?>
+<?php  $ids = $this->getProduct()->getCategoryIds(); if(in_array('3',$ids)){ ?>
+<?php
+$_resource = Mage::getResourceSingleton('catalog/product');
+$pid = $this->getProduct()->getId();
+?>
+
+<div class="product-tabs-content-inner clearfix">
+  <div class="_std"> <?php //echo $this->getProduct()->getName(); ?>
+    <table class="table-clean" style="width:80%;">
+      <tr>
+        <td style="width: 20%;"><h6>Stock Number:</h6></td>
+        <td style="width: 28%;"><span><?php echo (int)$_resource->getAttributeRawValue($pid, 'diamond_report_number', Mage::app()->getStore()); ?></span></td>
+		<td class="nobtmline"> </td>
+		<td style="width: 28%;"><h6>Depth :</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_depth', Mage::app()->getStore()); ?></span></td>
+      </tr>
+	  
+	  <tr>
+        <td><h6>Shape:</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_shape', Mage::app()->getStore()); ?></span></td>
+		<td class="nobtmline"> </td>
+		<td><h6>Table :</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_table', Mage::app()->getStore()); ?></span></td>
+      </tr>
+	  
+  <tr>
+	<td><h6>Carat weight:</h6></td>
+	<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_weight', Mage::app()->getStore()); ?></span></td>
+	<td class="nobtmline"> </td>
+	<td><h6>Polish :</h6></td>
+	<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_polish', Mage::app()->getStore()); ?></span></td>
+  </tr>
+  
+	<tr>
+	<td><h6>Cut:</h6></td>
+	<td>
+	<span>
+	<?php 
+/*	$diamond_cut_attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'diamond_cut'); 
+	$all_diamond_cut_Options = $diamond_cut_attribute->getSource()->getAllOptions(true, true);
+	foreach ($all_diamond_cut_Options as $instance) {
+	$diamond_cut_Array[$instance['value']] = $instance['label'];
+	}
+	$diamond_cut_id = $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+	echo $diamond_cut_Array[$diamond_cut_id];*/
+	
+	echo $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+	 ?>
+	</span>
+	</td>
+	<td class="nobtmline"> </td>
+	<td><h6>Symmetry :</h6></td>
+	<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_symmetry', Mage::app()->getStore()); ?></span></td>
+	</tr>
+	  
+	  <tr>
+        <td><h6>Colour:</h6></td>
+        <td><span>		
+		<?php 
+			/*$diamond_color_attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'diamond_color'); 
+			$all_diamond_color_Options = $diamond_color_attribute->getSource()->getAllOptions(true, true);
+			foreach ($all_diamond_color_Options as $instance) {
+			$diamond_color_Array[$instance['value']] = $instance['label'];
+			}	
+			$diamond_color_id = $_resource->getAttributeRawValue($pid, 'diamond_color', Mage::app()->getStore());	
+			echo $diamond_color_Array[$diamond_color_id];*/	
+			
+			echo $_resource->getAttributeRawValue($pid, 'diamond_color', Mage::app()->getStore());
+		?>
+		</span></td>
+		<td class="nobtmline"> </td>
+		<td><h6>Culet :</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_cert', Mage::app()->getStore()); ?></span></td>
+      </tr>
+	  
+	<tr>
+	<td><h6>Clarity:</h6></td>
+	<td>
+	<span>
+	<?php 
+/*	$diamond_clarity_attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'diamond_clarity'); 
+	$all_diamond_clarity_Options = $diamond_clarity_attribute->getSource()->getAllOptions(true, true);
+	foreach ($all_diamond_clarity_Options as $instance) {
+	$diamond_clarity_Array[$instance['value']] = $instance['label'];
+	}
+	$diamond_clarity_id = $_resource->getAttributeRawValue($pid, 'diamond_clarity', Mage::app()->getStore());
+	echo $diamond_clarity_Array[$diamond_clarity_id];*/
+	
+	echo $_resource->getAttributeRawValue($pid, 'diamond_clarity', Mage::app()->getStore());
+	
+	 ?>
+	</span>
+	</td>
+	<td class="nobtmline"> </td>
+	<td><h6>Fluorescence :</h6></td>
+	<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_fluorescence', Mage::app()->getStore()); ?></span></td>
+	</tr>
+	  
+      <tr>
+        <td><h6>Price per carat:</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_price_per_carat', Mage::app()->getStore()); ?></span></td>
+		<td class="nobtmline"> </td>
+		<td><h6>Measurements :</h6></td>
+        <td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_measurement1', Mage::app()->getStore()); ?> x <?php echo $_resource->getAttributeRawValue($pid, 'diamond_measurement2', Mage::app()->getStore()); ?> x <?php echo $_resource->getAttributeRawValue($pid, 'diamond_measurement3', Mage::app()->getStore()); ?> mm</span></td>
+      </tr>
+      
+<tr>
+<td><h6>Length/width ratio:</h6></td>
+<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_depth', Mage::app()->getStore()); ?> / </span></td>
+<td class="nobtmline"> </td>
+<td><h6>Girdle :</h6></td>
+<td><span><?php echo $_resource->getAttributeRawValue($pid, 'diamond_gridle', Mage::app()->getStore()); ?></span></td>
+</tr>
+
+    </table>
+  </div>
+  <!--div class="prod_overview">
+  
+        <div class="prod_overview_box">
+                        <span class="title1">CUT: <?php echo $diamond_cut_Array[$diamond_cut_id]; ?></span>
+            <div class="blueList">
+			<?php
+			$onebyone='1';
+			foreach($diamond_cut_Array as $key=>$value)
+			{
+				if(!empty($key))
+				{
+					if($key==$diamond_cut_id)
+					{
+					$cls_selected="selected";
+					}
+					else
+					{
+					$cls_selected="";
+					}
+					
+					if(count($diamond_cut_Array)==$onebyone)
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>';
+					}
+					else
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>|';
+					}
+				}
+				$onebyone++;
+			}
+			?>                   
+			</div>
+            <p>This diamond is cut to more exacting standards than the finest graded cuts currently available. With a Signature cut, this diamond reflects the maximum brilliance. This is our finest grade of diamond cut.</p>
+        </div>
+		
+        <div class="prod_overview_box">
+            <span class="title1">COLOUR: <?php echo $diamond_color_Array[$diamond_color_id]; ?></span>
+            <div class="blueList">
+            <?php
+			$onebyone='1';
+			foreach($diamond_color_Array as $key=>$value)
+			{
+				if(!empty($key))
+				{
+					if($key==$diamond_color_id)
+					{
+					$cls_selected="selected";
+					}
+					else
+					{
+					$cls_selected="";
+					}
+				
+				if(count($diamond_color_Array)==$onebyone)
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>';
+					}
+					else
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>|';
+					}
+				}
+				$onebyone++;
+			}
+			?>     
+			</div>
+            <p>
+			This diamond is nearly colorless. A diamond with <i><?php echo $diamond_color_Array[$diamond_color_id]; ?></i>-colour has an extremely faint tint that is only noticeable to a trained gemologist. <i>G</i>-colour diamonds make for beautiful jewellery and they offer an outstanding value, since they are less expensive than the colorless grades, but appear to the eye to be colorless when mounted.
+			</p>
+        </div>
+		
+        <div class="prod_overview_box" style="margin-right: 0px;">
+            <span class="title1">CLARITY: <?php echo $diamond_clarity_Array[$diamond_clarity_id]; ?></span>
+            <div class="blueList">
+            <?php
+			$onebyone='1';
+			foreach($diamond_clarity_Array as $key=>$value)
+			{
+				if(!empty($key))
+				{
+					if($key==$diamond_clarity_id)
+					{
+					$cls_selected="selected";
+					}
+					else
+					{
+					$cls_selected="";
+					}
+					if(count($diamond_clarity_Array)==$onebyone)
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>';
+					}
+					else
+					{
+					echo '<span class="'.$cls_selected.'">'.$value.'</span>|';
+					}
+				}
+				$onebyone++;
+			}
+			
+			?> 
+			</div>
+            <p>
+			This diamond has no internal or external identifying characteristics, even when viewed under a microscope at extreme magnification. Diamonds of this grade of clarity are incredibly rare.
+			</p>
+        </div>
+		
+    </div-->
+</div>
+<?php } else { ?>
+<div class="product-tabs-content-inner clearfix">
+  <div class="_std"> <?php echo $this->getProduct()->getName(); ?> </div>
+</div>
+<?php } ?>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Krunal_Packer>
+      <active>true</active>
+      <codePool>community</codePool>
+    </Krunal_Packer>
+  </modules>
+</config>

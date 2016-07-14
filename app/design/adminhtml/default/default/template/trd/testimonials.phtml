@@ -1,0 +1,39 @@
+<?php
+$photo = '';
+$description = '';
+
+if ($this->model) {
+    $description = $this->model->getDescription();
+    $photo = $this->model->getPhoto();
+
+}
+?>
+
+
+<style>
+    input[type=text]{
+        width:100%;
+    }
+</style>
+
+
+<h2>Manage Testimonials</h2>
+
+<form action="<?php echo Mage::helper("adminhtml")->getUrl("contacts/manage/saveTestimonials"); ?>" method="post">
+
+    <?php //print_r( $this->model ); ?>
+
+    <table>
+        <tr>
+            <td width="120">Phone number:</td>
+            <td width="300"><input type="text" name="description" value="<?php echo $description; ?>" /></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="text" name="photo" value="<?php echo $photo; ?>" /></td>
+        </tr>
+
+    </table>
+    <?php echo $this->getBlockHtml('formkey') ?>
+    <input type="submit" name="submit" value="Save" />
+</form>

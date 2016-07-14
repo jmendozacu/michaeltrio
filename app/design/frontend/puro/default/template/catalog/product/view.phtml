@@ -1,0 +1,1495 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php
+$_product = $this->getProduct();
+//echo count($_product->getOptions());
+ ?>
+<?php $theme = $this->helper('puro'); ?>
+<?php $ids = $_product->getCategoryIds(); ?>
+
+<?php
+$section = array();
+$layout = $theme->getCfg('product_page/layout');
+$replaceRelated = $theme->getCfg('product_page/replace_related');
+if ($replaceRelated == 1) { //don't replace with static block
+    if ($tmpHtml = trim($this->getChildHtml('related_products')))
+        $section['related'] = $tmpHtml;
+} elseif ($replaceRelated == 2) { //if related is empty, replace with static block
+    if ($tmpHtml = trim($this->getChildHtml('related_products')))
+        $section['related'] = $tmpHtml;
+    else //related empty
+    if ($tmpHtml = $this->getChildHtml('block_replace_related'))
+        $section['related'] = '<div class="block_replace_related">' . $tmpHtml . '</div>';
+} elseif ($replaceRelated == 3) { //replace with static block
+    if ($tmpHtml = $this->getChildHtml('block_replace_related'))
+        $section['related'] = '<div class="block_replace_related">' . $tmpHtml . '</div>';
+}
+$_prevnext = Mage::helper('puro')->prevnext($_product);
+
+$selectedRingTypedata = Mage::getSingleton('core/session')->getRingData();
+//print_r($selectedRingTypedata);
+
+if (in_array('103', $ids)) 
+{
+    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl().'special-orders')->sendResponse();
+    exit;
+}
+/*echo $_product->getId();
+$productss = Mage::getModel("catalog/product")->load(57594);
+echo $productss->getName();*/
+?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<style>
+    .product-view .product-options {
+        display:inline-block;
+        padding:0px;
+		width:100%;
+    }
+    .footer-wrapper {
+        border-top: 1px solid #e5edf0;
+        margin-top: 0 !important;
+    }
+</style>
+<!--ring sizer chart popup -->
+<?php
+if(in_array('111', $ids) || in_array('112', $ids) || in_array('113', $ids))
+	{
+?>
+<div class="page-form-overlay-chart">
+	<div class="chart-open">
+		<header>
+			<a class="close-popup" data-target="page-form-overlay-chart" href="javascript:;">&times;</a>
+		</header>
+		<br>
+		<br>
+		<section>
+			<?php
+			echo Mage::getModel('cms/page')->load(12)->getContent(); // Here 3 is page id
+			?>
+		</section>
+	</div>
+</div>
+<!-- Engraving popup -->
+<div class="engraving-popup" id="engraving-popup-close">
+    <div class="popup-content">
+        <header>
+            <h5>Add Engraving <a class="close-popup" data-target="engraving-popup" href="javascript:;">&times;</a> </h5>    
+        </header>
+
+        <section>
+<div class="gravurSelect">
+	<div class="optionSelect drop_down">
+	<p>Engraving alignment</p>
+		<div class="wrapper-select-alignment">
+		<ul>
+		<li class="item-etui seledted" id="alignmentLeft" onclick="changealignment('Left');">
+		<span>
+		<img src="<?php echo $this->getSkinUrl('images/alignmentleft.png') ?>" title="<?php echo $this->__('Alignment Left') ?>" alt="<?php echo $this->__('Alignment Left') ?>" class="" />
+		</span>
+		</li>
+		<li class="item-etui" id="alignmentMiddle" onclick="changealignment('Middle');">
+		<span>
+		<img src="<?php echo $this->getSkinUrl('images/alignmentmiddle.png') ?>" title="<?php echo $this->__('Alignment Middle') ?>" alt="<?php echo $this->__('Alignment Middle') ?>" class="" />
+		</span>
+		</li>
+		<li class="item-etui" id="alignmentRight" onclick="changealignment('Right');">
+		<span>
+		<img src="<?php echo $this->getSkinUrl('images/alignmentright.png') ?>" title="<?php echo $this->__('Alignment Right') ?>" alt="<?php echo $this->__('Alignment Right') ?>" class="" />
+		</span>
+		</li>
+		</ul>
+		</div>
+	</div>
+</div>
+            <p>Engraving Text</p>
+            
+			<?php
+			$os_product = array("240587","240586","240585","240584","240580","240581","167151","167152","167154");
+            
+			if (in_array($_product->getId(), $os_product))
+			{
+			?>
+			<input class="ring-engraving" type="text" name="ring_engraving" id="ringengraving" maxlength="1" onkeyup="renderEngraving(1);">
+			<span>max. 1 characters*</span> <span class="remaing_word" style="color: rgb(0, 0, 0); margin-left: 85px;"></span>
+			<?php
+			}
+			elseif($_product->getId() == '167154' || $_product->getId()=='167152' || $_product->getId()=='167151')
+			{
+			?>
+			<input class="ring-engraving" type="text" name="ring_engraving" id="ringengraving" maxlength="6" onkeyup="renderEngraving(6);">
+			<span>max. 6 characters*</span> <span class="remaing_word" style="color: rgb(0, 0, 0); margin-left: 85px;"></span>
+			<?php
+			}
+			else
+			{
+			?>
+			<input class="ring-engraving" type="text" name="ring_engraving" id="ringengraving" maxlength="10" onkeyup="renderEngraving(10);">
+			<span>max. 10 characters*</span> <span class="remaing_word" style="color: rgb(0, 0, 0); margin-left: 85px;"></span>
+			<?php } ?>
+            <input disabled="" type="text" value="" class="preview Harrington" id="previewring">
+            <span>Preview</span> 
+            <div class="gravurSelect">
+                <div class="optionSelect drop_down">
+                    <div class="wrapper-select">
+                        <ul>
+                            <li class="item-etui seledted" id="Harrington" onclick="changefont('Harrington');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/Harrington.png') ?>" alt="<?php echo $this->__('Harrington') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="LaurenScriptRegular" onclick="changefont('LaurenScriptRegular');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/LaurenScriptRegular.png') ?>" alt="<?php echo $this->__('Lauren Script-Regular') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="TimesNewRoman" onclick="changefont('TimesNewRoman');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/TimesNewRoman.png') ?>" alt="<?php echo $this->__('Times New Roman') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="Tunga" onclick="changefont('Tunga');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/Tunga.png') ?>" alt="<?php echo $this->__('Tunga') ?>" class="" />
+                                </span>
+                            </li>
+                        </ul>
+                        <ul class="specail_engrWo">
+                            <li id="specail_1" onclick="engravingchangeSpecialChar('&#9829;', 'specail_1');">&#9829;</li>
+                            <li id="specail_2" onclick="engravingchangeSpecialChar('&infin;', 'specail_2');">&infin;</li>
+                            <li id="specail_3" onclick="engravingchangeSpecialChar('&#9825;', 'specail_3');">&#9825;</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <small class="disclaimer">The text can only contain alphanumeric (A-Z, a-z, and/or 0-9) and special characters (heart and the infinity) </small>
+
+            <a class="save save-engraving-btn" href="javascript:void(0);">SAVE</a>
+        </section>
+
+    </div>
+</div>
+<?php 
+}
+else
+{
+?>
+<div class="page-form-overlay-chart">
+	<div class="chart-open">
+		<header>
+			<a class="close-popup" data-target="page-form-overlay-chart" href="javascript:;">&times;</a>
+		</header>
+		<br>
+		<br>
+		<section>
+			<?php
+			echo Mage::getModel('cms/page')->load(12)->getContent(); // Here 3 is page id
+			?>
+		</section>
+	</div>
+</div>
+<!-- Engraving popup -->
+<div class="engraving-popup" id="engraving-popup-close">
+    <div class="popup-content">
+        <header>
+            <h5>Add Engraving <a class="close-popup" data-target="engraving-popup" href="javascript:;">&times;</a> </h5>    
+        </header>
+
+        <section>
+            <h6 class='inner'>Inner Engraving</h6>
+            <p>Women's Ring Engraving</p>
+            <input class="ring-engraving" type="text" name="ring_engraving" id="ringengraving" maxlength="15" onkeyup="renderEngraving(15);">
+            <span>max. 15 characters*</span> <span class="remaing_word" style="color: rgb(0, 0, 0); margin-left: 85px;"></span>
+            <input disabled="" type="text" value="" class="preview Harrington" id="previewring">
+            <span>Preview</span> 
+            <div class="gravurSelect">
+                <div class="optionSelect drop_down">
+                    <div class="wrapper-select" value="engrWo">
+                        <ul>
+                            <li class="item-etui seledted" id="Harrington" onclick="changefont('Harrington');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/Harrington.png') ?>" alt="<?php echo $this->__('Harrington') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="LaurenScriptRegular" onclick="changefont('LaurenScriptRegular');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/LaurenScriptRegular.png') ?>" alt="<?php echo $this->__('Lauren Script-Regular') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="TimesNewRoman" onclick="changefont('TimesNewRoman');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/TimesNewRoman.png') ?>" alt="<?php echo $this->__('Times New Roman') ?>" class="" />
+                                </span>
+                            </li>
+                            <li class="item-etui" id="Tunga" onclick="changefont('Tunga');">
+                                <span>
+                                    <img src="<?php echo $this->getSkinUrl('images/Tunga.png') ?>" alt="<?php echo $this->__('Tunga') ?>" class="" />
+                                </span>
+                            </li>
+                        </ul>
+                        <ul class="specail_engrWo">
+                            <li id="specail_1" onclick="changeSpecialChar('&#9829;', 'specail_1');">&#9829;</li>
+                            <li id="specail_2" onclick="changeSpecialChar('&infin;', 'specail_2');">&infin;</li>
+                            <li id="specail_3" onclick="changeSpecialChar('&#9825;', 'specail_3');">&#9825;</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <small class="disclaimer">The text can only contain alphanumeric (A-Z, a-z, and/or 0-9) and special characters (heart and the infinity) </small>
+
+            <a class="save save-engraving-btn" href="javascript:void(0);">SAVE</a>
+        </section>
+
+    </div>
+</div>
+<?php 
+}
+?>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        var productId = '<?php echo $_product->getId(); ?>',
+                engravingSaveUrl = '<?php echo Mage::getBaseUrl() . "engraving/index/save"; ?>';
+
+        jQuery('.save-engraving-btn').click(function (e) {
+            var text = jQuery('.ring-engraving').val();
+            var fontval = jQuery('#ring_font').val();
+			var alignmentval = jQuery('#engraving_alignment').val();
+			
+            jQuery('#cart_ring_engraving').val(text);
+            jQuery('#ring_font').val(fontval);
+            //alert(text);
+            //alert('data worng eneter');
+
+            if (text != '') {
+                var data = {
+                    'product_id': productId,
+                    'text': text,
+                    'font': fontval,
+					'alignment': alignmentval
+                };
+                jQuery.post(engravingSaveUrl, data, function (response) {
+                    response = JSON.parse(response);
+                    if (response.status) {
+                        //jQuery('.ring-engraving').val('');
+                        //alert('Success saved');
+						jQuery('#engraving').val(response.lastid);
+                        jQuery('#engraving-popup-close').hide('500');
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            } else {
+                //alert('data check error');
+                //alert('Please fill the field');
+				jQuery('div.main-engraving').find('ul').find('li:nth-child(2) input[type=radio]:nth-child(1)').prop('checked', true);
+                jQuery('#engraving-popup-close').hide('500');
+                if (jQuery("#metals_option_yes").length) {
+                    jQuery("#metals_option_yes").html('');
+                }
+                opConfig.reloadPrice();
+            }
+        });
+
+    });
+
+	jQuery('#engraving-popup-close .close-popup').click(function (e) {
+	   jQuery('div.main-engraving').find('ul').find('li:nth-child(2) input[type=radio]:nth-child(1)').prop('checked', true);
+		jQuery('#engraving-popup-close').hide('500');
+		if (jQuery("#metals_option_yes").length) {
+			jQuery("#metals_option_yes").html('');
+		}
+		//if (test) {
+           opConfig.reloadPrice();
+        //}       
+	});
+	
+    function changeSpecialChar(addval, length_val)
+    {
+        var lastpreviewval;
+        if (jQuery("#ringengraving").val().length < 15)
+        {
+            lastpreviewval = jQuery("#ringengraving").val();
+            $char_leng = lastpreviewval.length
+
+            jQuery("#ringengraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+            jQuery("#cart_ring_engraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+            jQuery("#engraving").val('1');
+			renderEngraving(15);
+        }
+    }
+	
+	function engravingchangeSpecialChar(addval, length_val)
+    {
+        var lastpreviewval;
+			
+			<?php
+			if (in_array($_product->getId(), $os_product))
+			{
+			?>
+				if (jQuery("#ringengraving").val().length < 1)
+				{
+					lastpreviewval = jQuery("#ringengraving").val();
+					$char_leng = lastpreviewval.length
+		
+					jQuery("#ringengraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+					jQuery("#cart_ring_engraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+					jQuery("#engraving").val('1');
+					renderEngraving(1);
+				}
+			<?php
+			}
+			elseif($_product->getId()=='167154' || $_product->getId()=='167152' || $_product->getId()=='167151')
+			{
+			?>
+				if (jQuery("#ringengraving").val().length < 6)
+				{
+					lastpreviewval = jQuery("#ringengraving").val();
+					$char_leng = lastpreviewval.length
+		
+					jQuery("#ringengraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+					jQuery("#cart_ring_engraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+					jQuery("#engraving").val('1');
+					renderEngraving(6);
+				}
+			<?php
+			}
+			else
+			{
+			?>
+        if (jQuery("#ringengraving").val().length < 10)
+        {
+            lastpreviewval = jQuery("#ringengraving").val();
+            $char_leng = lastpreviewval.length
+
+            jQuery("#ringengraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+            jQuery("#cart_ring_engraving").val(lastpreviewval + jQuery("<div>").html(addval).text());
+            jQuery("#engraving").val('1');
+			renderEngraving(10);
+        }
+			<?php } ?>
+
+
+    }
+	
+    function renderEngraving(length_val)
+    {
+        jQuery("#previewring").val(jQuery("#ringengraving").val());
+            var lastpreviewval = jQuery("#ringengraving").val();
+            var char_leng = (length_val - lastpreviewval.length);
+            jQuery(".remaing_word").text(char_leng + " characters left");
+
+    }
+	
+    function changefont(addpreviewclass)
+    {
+
+        jQuery('#previewring').removeClass('Tunga');
+        jQuery('#previewring').removeClass('TimesNewRoman');
+        jQuery('#previewring').removeClass('LaurenScriptRegular');
+        jQuery('#previewring').removeClass('Harrington');
+
+        jQuery('#previewring').addClass(addpreviewclass);
+
+        jQuery('.wrapper-select .item-etui').removeClass('seledted');
+        jQuery('#' + addpreviewclass).addClass('seledted');
+        jQuery("#ring_font").val(addpreviewclass);
+
+    }
+	
+	function changealignment(addpreviewclass)
+    {
+        jQuery('.wrapper-select-alignment .item-etui').removeClass('seledted');
+        jQuery('#alignment' + addpreviewclass).addClass('seledted');
+        jQuery("#engraving_alignment").val(addpreviewclass);
+    }
+
+
+</script>
+
+<!-- End Engraving Popup -->
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential show-grid">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <div class="no-display col-lg-12">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
+                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                <input type="hidden" name="product-price" value="<?php echo Mage::helper('directory')->currencyConvert($_product->getFinalPrice(), 'SGD', Mage::app()->getStore()->getCurrentCurrencyCode()) ?>"/>
+                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                <input type="hidden" name="color" id="color" value="Bronze"/>
+                <input type="hidden" name="metals"  id="metals" value=""/>
+                <input type="hidden" name="engraving" id="engraving" value=""/>
+                <input type="hidden" name="ring_engraving" id="cart_ring_engraving" value=""/>
+                <input type="hidden" name="ring_font" id="ring_font" value="Harrington"/>
+				<?php
+				if(in_array('111', $ids) || in_array('112', $ids) || in_array('113', $ids))
+				{
+				?>
+				<input type="hidden" name="engraving_alignment" id="engraving_alignment" value="Left"/>
+				<?php
+				} 
+				else
+				{
+				?>
+				?>
+				<input type="hidden" name="engraving_alignment" id="engraving_alignment" value=""/>
+				<?php
+				} 
+				?>
+            </div>
+            <?php
+            if ($layout == 'default') {
+                $mediaCol = 'col-md-4 col-sm-4 col-xs-12';
+                $producInfoCol = 'col-md-5 col-sm-5 col-xs-12';
+                $slideBarCol = 'col-md-3 col-sm-3 col-xs-12 hidden-xs';
+            } elseif ($layout == 'horizontal') {
+                $mediaCol = 'col-md-6';
+                $producInfoCol = 'col-md-6';
+            } elseif ($layout == 'vertical') {
+                $mediaCol = 'col-md-4 col-sm-4 col-xs-12';
+                $producInfoCol = 'col-md-5 col-sm-5 col-xs-12';
+                $slideBarCol = 'col-md-3 col-sm-3 col-xs-12 hidden-xs';
+            } elseif ($layout == 'custom1') {
+                $mediaCol = 'col-md-12';
+                $producInfoCol = 'col-md-12';
+            } elseif ($layout == 'custom2') {
+                $mediaCol = 'col-md-6 col-sm-6';
+                $producInfoCol = 'col-md-6 col-sm-6';
+            }
+            ?>
+            <div class="product-img-box <?php echo $mediaCol; ?>">
+                <div class="product-img-list">
+                    <?php echo $this->getChildHtml('media') ?>
+                </div>
+                <?php 
+				if (in_array('4', $ids)) { 					 
+					?>
+                    <div class="product-img-list">
+                        <?php echo $this->getChildHtml('recentlypurchased') ?>
+                    </div>
+                <?php
+				}
+				?>
+            </div>
+			
+            <div class="product-shop <?php echo $producInfoCol ?>">
+                <div class="product-shop-wrapper">
+                    <!--div class="product-prev-next nav-wrapper pull-right">
+                        <?php echo $_prevnext; ?>
+                    </div-->
+                    <div class="product-name top-product-detail ">
+                        <h2><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h2>
+                    </div>
+                    <div class="middle-product-detail">
+                        <div class="review-product-details">
+                            <?php echo $this->getReviewsSummaryHtml($_product, false, true) ?>
+                        </div>
+                        <div class="short-description-detail">
+                            <?php if ($_product->getShortDescription()): ?>
+                                <div class="short-description">
+                                    <h2><?php echo $this->__('Quick Overview') ?></h2>
+                                    <div class="std"><?php echo $_helper->productAttribute($_product, $_product->getDescription(), 'short_description') ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="product-type-data">
+                            <?php echo $this->getChildHtml('alert_urls') ?>
+                            <?php echo $this->getChildHtml('product_type_data') ?>
+                            <?php echo $this->getTierPriceHtml() ?>
+                            <?php echo $this->getChildHtml('extrahint') ?>
+                        </div>
+
+                    </div>
+					
+					<?php 
+//print_r($ids);
+
+		if (in_array('6', $ids))
+		{ 
+		if (!in_array('111', $ids))
+		{
+		}
+		else if (!in_array('112', $ids))
+		{
+		}
+		else if (!in_array('113', $ids))
+		{
+		}	
+		else
+		{				 
+		$metalcolors = explode(",", $_product->getColorMetals());
+		if(!empty($metalcolors))
+		{
+		$datametalcolorValues = array(146 => 'White', 147 => 'Rose', 148 => 'Yellow');
+		$datametalcolorvaluess = array(146 => 'option_silver', 147 => 'option_bronze', 148 => 'option_gold');
+		$metalcolorsAry = array();
+		$metalcolorsarry = array();
+		foreach ($metalcolors as $val) {
+			$metalcolorsAry[] = $datametalcolorValues[$val];
+			$metalcolorsarry[] = $datametalcolorvaluess[$val];
+		}
+		if(!empty($metalcolorsarry))
+		{
+		?>
+        <div class="sections col-md-6 main-color" style="display: block;">
+		<label class="ringoptions required">
+		Color 	 
+		</label>
+		<div>
+		<div class="input-box">
+		<ul class="options-list">
+		<li>		
+		<span class="label">
+		<label id="<?php echo $metalcolorsarry['0'];?>"><?php echo $metalcolorsAry['0'];?> </label>
+		</span>
+		</li></ul>                                      
+		</div>
+		</div>
+		</div>
+		<?php
+		}
+		}
+		}
+		
+		$metals = explode(",", $_product->getMetals());
+		if(!empty($metals))
+		{
+		$dataSettingValues = array(126 => '14K', 127 => '18K', 128 => 'Platinum');
+		$metalsAry = array();
+		foreach ($metals as $val) {
+			if(!empty($val))
+			{
+			$metalsAry[] = $dataSettingValues[$val];
+			}
+		}
+		if(!empty($metalsAry))
+		{		
+		?>
+		<div class="sections col-md-6 main-metals">
+		<label class="ringoptions required">
+		Metals 	   
+		</label>
+		<div>
+		<div class="input-box">
+		<ul class="options-list">
+		<li>
+        <input type="radio" checked="checked" value="" name="options" class="radio  validate-one-required-by-name product-custom-option">
+		<span class="label"><label class=""><?php echo $metalsAry['0'];?> </label></span>
+		</li>
+		</ul>    
+		</div>
+		</div>
+		</div>
+		<hr style="width:100%;float:left;margin-bottom:0px;margin-top:18px;">
+                <?php
+				}
+				}
+				}
+				?>
+                    <?php if (!$this->hasOptions()): ?>
+                        <div class="actions-wrapper">
+                            <?php if ($_product->isSaleable()): ?>
+                                <?php echo $this->getChildHtml('addtocart') ?>
+                            <?php endif; ?>
+                        </div>
+                        <?php echo $this->getChildHtml('extra_buttons') ?>
+                    <?php elseif (!$_product->isSaleable()): ?>
+                        <div class="actions-wrapper">
+                            <?php echo $this->getChildHtml('addto') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php echo $this->getChildHtml('other'); ?>
+
+                    <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+            <?php if ($layout == 'default' || $layout == 'vertical'): ?>
+                <div class="<?php echo $slideBarCol; ?>">
+                    <?php if ($tmpHtml = $this->getChildHtml('block_product_slidebar_right')): ?>
+                        <div class="feature-wrapper top-border block_product_slidebar_right"><?php echo $tmpHtml; ?></div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php endif; ?>
+        </form>
+        <script type="text/javascript">
+            //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            var addProductToSettingSession = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function (button, url) {
+			
+				if (jQuery(".input-box > .selectpicker").length) {
+                  if (jQuery('.input-box > .selectpicker').val() == "") {
+                    alert('Please select ring size.');
+                    return;
+                  }
+                }
+				
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                        form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function (button, url) {
+			
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+
+
+
+
+            addProductToSettingSession.submit = function (button, url) {
+
+                if (jQuery('.input-box > .selectpicker').val() == "") {
+                    alert('Please select ring size.');
+                    return;
+                }
+
+                //alert(jQuery('.price-box').find('.price').html());return;
+
+
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+                    if (this.validator.validate()) {
+//                        if (url) {
+//                            this.form.action = url;
+//                        }
+                        var e = null;
+//Start of our new ajax code
+//                        if (!url) {
+//                            url = jQuery('#product_addtocart_form').attr('action');
+//                        }
+                        var data = jQuery('#product_addtocart_form').serialize();
+                        data += '&amp;isAjax=1&prprice=' + jQuery('.price-box').find('.price').html();
+                        /* jQuery('#myModalButton').before('<div class="popup-wrapper"><div class="loading" style="display: block;"></div></div>');*/
+                        try {
+                            jQuery.ajax({
+                                url: url,
+                                dataType: 'json',
+                                type: 'post',
+                                data: data,
+                                success: function (data) {
+                                    renderSidebarInfo();
+                                    var productName = jQuery('.product-name h2').text();
+                                    var productImg = jQuery('.product-image-gallery img:first-child').attr('src');
+                                    var productPrice = jQuery('.regular-price span').text();
+
+                                    var diamondUrl = jQuery('.more-item-info').attr('href');
+                                    var goToStepUrl = '<?php echo Mage::getUrl('diamonds/diamond/gotostep'); ?>';
+                                    var currentUrl = window.location.href;
+                                    var onlyUrl = window.location.href.replace(window.location.search, '');
+                                    onlyUrl += '?step=2';
+                                    var diamond_id = <?php echo $_product->getId(); ?>;
+
+                                    showSweetCart({
+                                        url: productImg,
+                                        name: productName,
+                                        message: ' was added to your configuration',
+                                        btnClose: true,
+                                        //btnToStep2: true,
+                                        currentUrl: currentUrl,
+                                        diamond_id: diamond_id,
+                                        btnViewRing: true
+                                    });
+
+                                    //    alert(data.status + ": " + data.message);
+                                }
+                            });
+                        } catch (e) {
+                        }
+                        // this.form.submit();
+                        //return false;
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(addProductToSettingSession);
+            //]]>
+
+            function renderSidebarInfo() {
+                jQuery.post('<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/sidebarinfo/', {}, function (response) {
+                    jQuery('#myModalButton').prev('.popup-wrapper').remove();
+                    var response = JSON.parse(response);
+                    console.log(response);
+                    console.log(response.currency_code);
+                    console.log(response.currency_code == 'undefined');
+                    var currCode;
+
+                    if (typeof response.currency_code === 'undefined') {
+                        currCode = ' ';
+                    } else {
+                        currCode = response.currency_code;
+                    }
+
+                    var totalPrice = 0;
+                    var checkdiamond = false;
+                    var checkring = false;
+                    if (response.diamond_type) {
+                        checkdiamond = true;
+                        jQuery(".setup-diamonds .none-selected").addClass('hidden');
+                        jQuery(".setup-diamonds .diamond-selected").removeClass('hidden');
+                        jQuery('.setup-diamonds .item-price1').html(response.diamond_data.diamonds_price);
+                        jQuery('.setup-diamonds .item-description').text(response.diamond_data.diamonds_name);
+                        // jQuery('.btn-view-diamond a').attr('href',  );
+                        jQuery('img.sidebar-diamond').attr('src', '<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/diamonds_pics/' + response.diamond_data.shape.toLowerCase() + '_t.jpg');
+                        totalPrice += parseFloat(response.diamond_data.diamonds_price_val);
+                        jQuery('.diamond-selected').find('.viewdiamond').attr('href', response.diamond_url);
+                    } else {
+
+                        jQuery(".setup-diamonds .none-selected").removeClass('hidden');
+                        jQuery(".setup-diamonds .none-selected").addClass('show');
+                        jQuery(".setup-diamonds .diamond-selected").removeClass('show');
+                        jQuery(".setup-diamonds .diamond-selected").addClass('hidden');
+
+
+
+
+                        totalPrice += 0;
+                    }
+
+                    if (response.ring != false) {
+                        checkring = true;
+                        jQuery(".setup-settings .none-selected").addClass('hidden');
+                        jQuery(".setup-settings .ring-selected").removeClass('hidden');
+                        jQuery('.setup-settings .item-price1').html(response.ring_price);
+                        jQuery('.setup-settings .item-description').text(response.ring_name);
+                        jQuery('.btn-view-ring a').attr('href', response.ring_url);
+                        jQuery('img.sidebar-ring').attr('src', response.ring_img);
+                        jQuery('.sidebar-checkout').removeClass('hidden');
+                        window.localStorage.setItem('ringImg', response.ring_img);
+                        window.localStorage.setItem('ringName', response.ring_name);
+                        totalPrice += parseFloat(response.ring_price_val);
+                        jQuery('.ring-selected').find('.viewring').attr('href', response.ring_url);
+                    } else {
+                        jQuery(".setup-settings .none-selected").removeClass('hidden');
+                        jQuery(".setup-settings .none-selected").addClass('show');
+                        jQuery(".setup-settings .ring-selected").removeClass('show');
+                        jQuery(".setup-settings .ring-selected").addClass('hidden');
+                        totalPrice += 0;
+
+                    }
+
+                    if (response.diamond == false) {
+                        currCode = '';
+                    }
+
+                    if (checkring == true && checkdiamond == true) {
+                        renderSidebarContent();
+                        jQuery('.total-content').find('button').show();
+                    }
+
+
+                    jQuery('.total-price').html(response.totalprice);
+                    jQuery('#myModalButton').prev('.popup-wrapper').remove();
+                    jQuery('.sidebar-container ').removeClass('closed');
+
+                    jQuery('.loader-sidebar').removeClass('loader-show');
+                });
+
+            }
+            jQuery(document).ready(function ($) {
+
+                jQuery('.main-metals #option_platinum').click(function () {
+
+                    if (jQuery("#metals_option_platinum").length) {
+                        jQuery("#metals_option_platinum").html('');
+                    }
+
+                    jQuery("#metals_option_platinum").html("" + jQuery(this).html() + "");
+
+                    jQuery('div.main-color').find('ul').find('li:nth-child(1),li:nth-child(2)').css('display', 'none');
+                    jQuery('div.main-color').find('ul').find('li:nth-child(3) input[type=radio]:nth-child(1)').prop('checked', true);
+
+<?php
+if (in_array('95', $ids)) {
+    ?>
+                        jQuery('#9_size').show();
+                        jQuery('#10_size').show();
+                        jQuery('#11_size').show();
+                        jQuery('#12_size').show();
+                        jQuery('#13_size').show();
+						jQuery('#14_size').show();
+                        jQuery('#15_size').show();
+                        jQuery('#16_size').show();
+                        jQuery('#17_size').show();
+                        jQuery('#18_size').show();
+						jQuery('#19_size').show();
+
+                        jQuery('#20_size').hide();
+                        jQuery('#21_size').hide();
+                        jQuery('#22_size').hide();
+                        jQuery('#23_size').hide();
+                        jQuery('#24_size').hide();
+						jQuery('#25_size').hide();
+                        jQuery('#26_size').hide();
+                        jQuery('#27_size').hide();
+                        jQuery('#28_size').hide();
+                        jQuery('#29_size').hide();
+						jQuery('#30_size').hide();
+    <?php
+}
+else if (in_array('94', $ids)) {
+    ?>
+                        jQuery('#18_size').show();
+                        jQuery('#19_size').show();
+                        jQuery('#20_size').show();
+                        jQuery('#21_size').show();
+                        jQuery('#22_size').show();
+
+                        jQuery('#23_size').hide();
+                        jQuery('#24_size').hide();
+                        jQuery('#25_size').hide();
+                        jQuery('#26_size').hide();
+                        jQuery('#27_size').hide();
+    <?php
+} else {
+    ?>
+                        jQuery('#12_size').show();
+                        jQuery('#13_size').show();
+                        jQuery('#14_size').show();
+                        jQuery('#15_size').show();
+                        jQuery('#16_size').show();
+
+                        jQuery('#17_size').hide();
+                        jQuery('#18_size').hide();
+                        jQuery('#19_size').hide();
+                        jQuery('#20_size').hide();
+                        jQuery('#21_size').hide();
+    <?php
+}
+?>
+
+                    if (jQuery("#main_engraving_option").length) {
+                        jQuery("#main_engraving_option").html('');
+                    }
+
+                    jQuery('.selectpicker').selectpicker('deselectAll');
+                    jQuery('.selectpicker').selectpicker('refresh');
+                });
+
+                jQuery('.main-metals #option_18k').click(function () {
+
+                    if (jQuery("#metals_option_platinum").length) {
+                        jQuery("#metals_option_platinum").html('');
+                    }
+       jQuery('div.main-color').find('ul').find('li:nth-child(1),li:nth-child(2)').css('display', 'inline-block');
+
+<?php
+if (in_array('95', $ids)) {
+    ?>
+                        jQuery('#20_size').show();
+                        jQuery('#21_size').show();
+                        jQuery('#22_size').show();
+                        jQuery('#23_size').show();
+                        jQuery('#24_size').show();
+						jQuery('#25_size').show();
+                        jQuery('#26_size').show();
+                        jQuery('#27_size').show();
+                        jQuery('#28_size').show();
+                        jQuery('#29_size').show();
+						jQuery('#30_size').show();
+						
+						jQuery('#9_size').hide();
+                        jQuery('#10_size').hide();
+                        jQuery('#11_size').hide();
+                        jQuery('#12_size').hide();
+                        jQuery('#13_size').hide();
+						jQuery('#14_size').hide();
+                        jQuery('#15_size').hide();
+                        jQuery('#16_size').hide();
+                        jQuery('#17_size').hide();
+                        jQuery('#18_size').hide();
+						jQuery('#19_size').hide();
+						
+    <?php
+}
+elseif (in_array('94', $ids)) {
+    ?>
+                        jQuery('#23_size').show();
+                        jQuery('#24_size').show();
+                        jQuery('#25_size').show();
+                        jQuery('#26_size').show();
+                        jQuery('#27_size').show();
+
+                        jQuery('#18_size').hide();
+                        jQuery('#19_size').hide();
+                        jQuery('#20_size').hide();
+                        jQuery('#21_size').hide();
+                        jQuery('#22_size').hide();
+    <?php
+} else {
+    ?>
+                        jQuery('#17_size').show();
+                        jQuery('#18_size').show();
+                        jQuery('#19_size').show();
+                        jQuery('#20_size').show();
+                        jQuery('#21_size').show();
+
+                        jQuery('#12_size').hide();
+                        jQuery('#13_size').hide();
+                        jQuery('#14_size').hide();
+                        jQuery('#15_size').hide();
+                        jQuery('#16_size').hide();
+    <?php
+}
+?>
+                    jQuery('.selectpicker').selectpicker('deselectAll');
+                    jQuery('.selectpicker').selectpicker('refresh');
+                });
+
+                jQuery('.main-engraving #option_yes').click(function () {
+                    if (jQuery("#metals_option_yes").length) {
+                        jQuery("#metals_option_yes").html('');
+                    }
+
+                    jQuery("#metals_option_yes").html("Engraving " + jQuery('.main-engraving #option_yes .price-notice').html() + "");
+                });
+
+                jQuery('.main-engraving #option_no').click(function () {
+                    if (jQuery("#metals_option_yes").length) {
+                        jQuery("#metals_option_yes").html('');
+                    }
+                });
+
+                jQuery('.main-ring_size select').change(function () {
+                    if (jQuery("#main_engraving_option").length) {
+                        jQuery("#main_engraving_option").html('');
+                    }
+                    //alert(jQuery(this).val());
+                    //alert(jQuery(this).text());
+                    var data = jQuery('.main-ring_size select option:selected').text();
+                    var arr = data.split('+');
+
+                    if (arr[1] != undefined)
+                    {
+                        jQuery("#main_engraving_option").html("Ring size +<span class='price'>" + arr[1] + "</span>");
+                    }
+                });
+
+<?php
+if ($selectedRingTypedata['prprice'] != '' && !in_array('3', $ids)) {
+    ?>
+                    //jQuery('.price-box .price').text('<?php echo $selectedRingTypedata['prprice']; ?>');
+                    opConfig.reloadPrice();
+
+    <?php
+}
+?>
+            });
+            function loadlistring()
+            {
+                jQuery('#12_size').show();
+                jQuery('#13_size').show();
+                jQuery('#14_size').show();
+                jQuery('#15_size').show();
+                jQuery('#16_size').show();
+
+                jQuery('#17_size').hide();
+                jQuery('#18_size').hide();
+                jQuery('#19_size').hide();
+                jQuery('#20_size').hide();
+                jQuery('#21_size').hide();
+                jQuery('.selectpicker').selectpicker('refresh');
+            }
+
+
+            goToStepUrl = '<?php echo Mage::getUrl('diamonds/diamond/gotostep'); ?>';
+            function requestStep2() {
+                var currentUrl = window.location.href;
+                var diamond_id = <?php echo $_product->getId(); ?>;
+
+                jQuery.post(goToStepUrl, {step: '2', url: currentUrl, diamond_id: diamond_id}, function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    if (response.status) {
+                        //alert(response.status);
+                        //window.location.href = onlyUrl;
+                        renderSidebarInfo();
+
+                        renderSidebarContent();
+                        var productName = jQuery('.product-name h2').text();
+                        var productImg = jQuery('.product-image-gallery img:first-child').attr('src');
+                        showSweetCart({
+                            url: productImg,
+                            name: productName,
+                            message: ' was added to your configuration',
+                            btnClose: true
+                        });
+                    } else {
+                        alert('Error! Please try later');
+                    }
+                });
+            }
+
+            function requestStep3() {
+                var upateCartUrl = '<?php echo Mage::getUrl('diamonds/diamond/updatecart'); ?>';
+                var addToCartUrl = '<?php echo Mage::getUrl('diamonds/diamond/addtocart'); ?>';
+                var itemId = <?php echo $_product->getId(); ?>;
+
+                showLoader();
+
+                jQuery.post(addToCartUrl, {pid: itemId}, function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    
+                    if (response.status) {
+					
+						jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+						jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+					
+                        var productName = jQuery('.product-name h2').text();
+                        var productImg = jQuery('.product-image-gallery img:first-child').attr('src');
+                        showSweetCart({
+                            url: productImg,
+                            name: productName,
+                            message: ' was added to your configuration',
+                            btnClose: true
+                        });
+
+                        jQuery.post(upateCartUrl, {}, function (cartData) {
+
+                            cartData = JSON.parse(cartData);
+                            console.log(cartData);
+                            renderCart(cartData);
+                            var purchasedObj;
+                            jQuery.each(cartData.diamonds, function (index, item) {
+                                if (index != 'subtotal') {
+                                    purchasedObj = item;
+                                }
+                            });
+
+                            showSweetCart({
+                                url: purchasedObj.image_url,
+                                name: purchasedObj.product_name,
+                                message: ' was added to shopping cart',
+                                btnCart: true,
+                                btnClose: true,
+                            });
+
+                        });
+
+                    } else {
+                        //swal("Error!", "Sorry! This function is temporary unavailable", "error");
+					swal("Error!", response.message, "error");
+					setTimeout(function () {                    
+                    jQuery(".sweet-overlay").css("display", "none");
+                    jQuery(".sweet-alert").css("display", "none");
+		    hideLoader();
+                }, 2000);
+                    }
+                }).done(function () {
+                    setTimeout(function () {
+                        hideLoader();
+                    }, 1700);
+                });
+            }
+
+            function hideLoader() {
+                jQuery('.spinner-container').attr("style", "display: none !important");
+            }
+
+            function showLoader() {
+                jQuery('.spinner-container').attr("style", "display: block !important");
+            }
+
+            function renderCart(cartData) {
+                var $cartContent = jQuery('.cart-content.mCustomScrollbar._mCS_2').find('.mCSB_container');
+                var htmlUl = '';
+                var htmlButtons = '<div class="cart-checkout"><a href="/checkout/cart/" class="btn-button view-cart"> <span>View cart</span> </a> <a href="/checkout/onepage/" class="btn-button "><span>Checkout</span></a></div>';
+                var htmlSubtotal = '<p class="subtotal"><span class="label">Total:</span> <span class="price">' + cartData.subtotal + '</span></p>';
+                $cartContent.html('');
+
+                var renderCartCategory = function (elements, categoryName) {
+                    var htmlUl = '<span class="mini-cart-product-type">' + categoryName + '</span>';
+                    htmlUl += '<ul class="clearfix">';
+                    jQuery.each(elements, function (index, item) {
+                        if (index != 'subtotal') {
+                            var li = '<li class="item">';
+                            li += '<a class="product-image" href="' + item.product_url + '" >' + item.image_url + '</a>';
+                            li += '<div class="product-details row-fluid show-grid">' + item.product_otherdetail +
+                                    '<div class="items clearfix"><span class="price">' + item.price + '</span></div>' +
+                                    '<div class="access clearfix"><a href="' + item.delete_url + '" title="Remove" class="btn-remove"><i class="fa fa-trash"></i></a></div>' +
+                                    '</div>';
+                            li += '</li>';
+                            htmlUl += li;
+                        }
+                    });
+                    htmlUl += '</ul>';
+                    $cartContent.append(htmlUl);
+                };
+
+                if (cartData.diamonds) {
+                    renderCartCategory(cartData.diamonds, 'Diamond');
+                }
+
+                if (cartData.rings) {
+                    renderCartCategory(cartData.rings, 'Settings');
+                }
+
+                if (cartData.other_products) {
+                    renderCartCategory(cartData.other_products, 'Other Products');
+                }
+
+                $cartContent.append(htmlSubtotal);
+
+                if (!jQuery('.cart-wrapper .cart-checkout').length) {
+                    jQuery('.cart-wrapper').append(htmlButtons);
+                }
+
+                jQuery(".header-maincart .cart-content").mCustomScrollbar('destroy');
+                jQuery(".header-maincart .cart-content").mCustomScrollbar({
+                    scrollInertia: 150,
+                    theme: "dark",
+                    scrollButtons: {
+                        enable: true
+                    }
+                });
+            }
+        </script>
+    </div>
+    <div class="product-collateral">
+        <?php echo $this->getChildHtml('info_tabs') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>
+    </div>
+    <?php
+    if (in_array('3', $ids)) {
+        ?>
+    </div>
+    </div>
+    </div>
+    </div>
+    <?php
+}
+if (isset($section['related'])) {
+    echo $section['related'];
+}
+if (in_array('3', $ids)) {
+    $diamond_carat_attribute = $_product->getResource()->getAttribute('diamond_carat')->getFrontend()->getValue($_product);
+    ?>
+    <div class="product-collateral2">
+        <section class="horizontal-group animatable" id="diamond-size">
+            <div class="information-cell active container">
+                <div class="diamond-row">
+                    <h2>
+                        <span class="diamondlabel">Diamond Size: </span>
+                        <span class="value">
+                            <?php
+                            if (is_numeric($diamond_carat_attribute)) {
+                                $maincarat = number_format($diamond_carat_attribute, 2);
+                                echo $maincarat;
+
+                                $marzinleft = -64 + (($maincarat - .125) * 100) * 4.32;
+                            }
+                            ?> Carat</span>
+                    </h2>
+
+                    <div class="columns">
+                        <div class="main column">
+                            The international unit of weight used for measuring diamonds and gemstones, 1 carat is equal to 200 milligrams, or 0.2 grams. A specific measurement of a diamond's weight, carat weight alone may not accurately represent a diamond's visual size.
+                        </div>
+                        <div class="column">
+                            <p>We recommend considering carat weight along with two other influential characteristics: the overall dimensions and the cut grade of the diamond.</p>
+                            <a class="cta" href="<?php echo $this->getBaseUrl(); ?>carat">Learn More<i class="fa fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="diamond-row">
+                    <div class="diamond-size-illustration">
+                        <div class="small cell first">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="0.25" data-size="4.1">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">0.25 ct.</span>
+                                    <span class="secondary">(4.1 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="0.5" data-size="5.1">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">0.50 ct.</span>
+                                    <span class="secondary">(5.1 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="0.75" data-size="5.8">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">0.75 ct.</span>
+                                    <span class="secondary">(5.8 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="1" data-size="6.4">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">1.00 ct.</span>
+                                    <span class="secondary">(6.4 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="1.25" data-size="6.9">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">1.25 ct.</span>
+                                    <span class="secondary">(6.9 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="1.5" data-size="7.4">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">1.50 ct.</span>
+                                    <span class="secondary">(7.4 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="1.75" data-size="7.8">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">1.75 ct.</span>
+                                    <span class="secondary">(7.8 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small cell last-diamond">&nbsp;</div>
+                        <div class="large cell">
+                            <div class="item" data-carat="2" data-size="8.1">
+                                <img src="<?php echo $this->getSkinUrl('images/size_round.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">2.00 ct. +</span>
+                                    <span class="secondary">(8.1 mm)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty cell"></div>
+                        <div class="large cell"></div>
+                        <div class="small cell last">
+                            <div class="item" data-size="17.9">
+                                <img src="<?php echo $this->getSkinUrl('images/size_18.png') ?>" class="" />
+                                <div class="diamond-size-label">
+                                    <span class="main">18 mm</span>
+                                    <span class="secondary">&nbsp;</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="left: <?php echo $marzinleft; ?>px;" class="carat-indicator">
+                            <div style="left: 65px;" class="diamond-size-tooltip"></div>
+                            <div class="size"><span class="bold"><?php echo $diamond_carat_attribute; ?></span>ct.</div>
+                            <div class="diamond-size-label"><span>Diamond</span> <span>Selected</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <?php
+//echo $diamond_cut_attribute = $_product->getResource()->getAttribute('diamond_cut').'123';
+    $diamond_cut_attribute = $_product->getResource()->getAttribute('diamond_cut')->getFrontend()->getValue($_product);
+//echo $diamond_cut_attribute =$attribute=Mage::getModel('catalog/product')->getResource()->getAttribute("diamond_cut").'babu123'; 
+//echo $attributeId = Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product', 'diamond_cut');
+    switch (strtoupper($diamond_cut_attribute)) {
+        case 'H&A':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('cut_signature_ideal')->toHtml();
+            break;
+        case 'EX':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('cut_excellent')->toHtml();
+            break;
+        case 'VG':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('cut_very_good')->toHtml();
+            break;
+        case 'GD':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('cut_good')->toHtml();
+            break;
+        case 'FR':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('cut_fair')->toHtml();
+            break;
+    }
+
+    $diamond_colour_attribute = $_product->getResource()->getAttribute('diamond_color')->getFrontend()->getValue($_product);
+
+    switch (strtoupper($diamond_colour_attribute)) {
+        case 'D':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_d')->toHtml();
+            break;
+        case 'E':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_e')->toHtml();
+            break;
+        case 'F':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_f')->toHtml();
+            break;
+        case 'G':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_g')->toHtml();
+            break;
+        case 'H':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_h')->toHtml();
+            break;
+        case 'I':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_i')->toHtml();
+            break;
+        case 'J':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_j')->toHtml();
+            break;
+        case 'K':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('colour_k')->toHtml();
+            break;
+    }
+
+    $diamond_clarity_attribute = $_product->getResource()->getAttribute('diamond_clarity')->getFrontend()->getValue($_product);
+
+    switch (strtoupper($diamond_clarity_attribute)) {
+        case 'FL':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_fl_if')->toHtml();
+            break;
+        case 'IF':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_fl_if')->toHtml();
+            break;
+        case 'VVS1':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_vvs1')->toHtml();
+            break;
+        case 'VVS2':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_vvs2')->toHtml();
+            break;
+        case 'VS1':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_vs1')->toHtml();
+            break;
+        case 'VS2':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_vs2')->toHtml();
+            break;
+        case 'SI1':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_si1')->toHtml();
+            break;
+        case 'SI2':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_si2')->toHtml();
+            break;
+        case 'I1':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_i1')->toHtml();
+            break;
+        case 'I2':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_i2')->toHtml();
+            break;
+        case 'I3':
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId('clarity_i3')->toHtml();
+            break;
+    }
+    ?>
+    <div class="container">
+        <div class="row show-grid">
+            <div class="col-main">
+                <div class="product-view">
+
+                    <?php
+                } else {
+                    ?>
+                    <style>
+                        .product-view .product-collateral {
+                            clear: both;
+                            overflow: hidden;
+                            padding: 78px 15px 68px;
+                            position: relative;
+                            z-index: 0;
+                        }
+                    </style>
+                <?php } ?>
+
+            </div>

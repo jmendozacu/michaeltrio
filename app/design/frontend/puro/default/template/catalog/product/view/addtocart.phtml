@@ -1,0 +1,228 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+<?php $ids = $_product->getCategoryIds(); ?>
+	<?php
+	if(in_array('111', $ids) || in_array('112', $ids) || in_array('113', $ids))
+	{
+	?>
+		<div class="">
+		<div class="product-type-data" style="margin: 2% 0px 4%;"><label style="font-weight: normal;">Remarks: </label> 
+		<textarea cols="30" rows="4" name="itemcomment" class="form-control comments" id=""></textarea>
+		</div>
+		</div>
+	<?php
+	} 
+	?>
+<?php
+    //if($this->getRequest()->getParam('step')=='setting' || in_array('4', $ids)){
+	if(in_array('4', $ids)){
+	?>
+	<div class="col-md-6_stn">
+	 <div class="add-to-cart">
+	<div class="actions">
+            <div class="action-list addtocart">
+                <span class="button-wrapper">
+                    <div class="fs" aria-hidden="true" data-icon=""></div>
+                    <button type="button" title="<?php echo $this->__('Select Style');?>" class="btn-cart" onclick="addProductToSettingSession.submit(this,'<?php echo Mage::getBaseUrl();?>diamonds/diamond/setringtosetting')">
+                        <span>
+                            <span>
+                                <?php echo $this->__('Select Style'); ?>
+                            </span>
+                        </span>		
+						
+                    </button>
+			
+							
+                </span>
+				
+            </div>
+            <div class="action-list wishlist">
+                <ul class="add-to-links">
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <li class="first wishlist">
+                            <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href);
+                                            return false;" class="link-wishlist"><i class="fa fa-heart-o"></i><?php echo $this->__('Wishlist') ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+	</div>
+	</div>
+	 
+	<?php
+	}
+	elseif (in_array('3', $ids)) {
+    ?>
+	
+    <div class="add-to-cart">
+        <div class="actions">
+            <div class="action-list addtocart">
+                <span class="button-wrapper span-cart">
+                    <div class="fs" aria-hidden="true" data-icon=""></div>
+                    <button type="button" title="<?php echo $this->__('Add to Ring'); ?>" class="btn-cart" onclick="requestStep2();">
+                        <span>
+                            <span>
+                                <?php echo $this->__('Add to Ring'); ?>
+                            </span>
+                        </span>
+                    </button>                    
+                </span>
+            </div>
+            <div class="action-list wishlist">
+                <ul class="add-to-links">
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <li class="first wishlist">
+                            <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href);
+                                            return false;" class="link-wishlist"><i class="fa fa-heart-o"></i><?php echo $this->__('Wishlist') ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+	 <div class="add-to-cart">
+	<div class="actions">
+            <div class="action-list addtocart">
+                <span class="button-wrapper">
+                    <div class="fs" aria-hidden="true" data-icon=""></div>
+                    <button type="button" title="<?php echo $this->__('Add to Cart');?>" class="btn-cart" onclick="requestStep3();">
+                        <span>
+                            <span>
+                                <?php echo $this->__('Add to Cart'); ?>
+                            </span>
+                        </span>
+                    </button>
+					
+					<span class="spinner-container">
+                        <div class="spinner">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </span>
+                </span>
+            </div>
+            <div class="action-list wishlist">
+                <ul class="add-to-links">
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <li class="first wishlist">
+                            <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><i class="fa fa-heart-o"></i><?php echo $this->__('Wishlist') ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+		</div>
+	
+		<style>
+		.product-view .actions-wrapper .add-to-cart{ float:left; width:284px;}
+	        .spinner-container {
+                background-color: #fff;
+                border: 1px solid #99aec2;
+                bottom: 0;
+                display: none !important;
+                left: 0;
+                padding-left: 71px;
+                padding-top: 9px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .spinner {
+                display: inline-block !important;
+                height: 13px !important;
+                left: 32px;
+                margin: 0;
+                padding: 0;
+                position: absolute;
+                text-align: center;
+                top: 4px;
+            }
+		</style>
+    <?php
+}
+	else{
+?>
+
+<?php if($_product->isSaleable()): ?>
+	<div class="col-md-6_stn">
+    <div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+            <!-- <div class="input-box pull-left">
+                <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">
+                    <i class="fa fa-minus"></i>
+                </div>
+                <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                <div class="increase items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">
+                    <i class="fa fa-plus"></i>
+                </div>
+            </div> -->
+        <?php endif; ?>
+        <div class="actions">
+            <div class="action-list addtocart">
+                <span class="button-wrapper">
+                    <div class="fs" aria-hidden="true" data-icon=""></div>
+                    <button type="button" title="<?php echo $this->__('Add to Cart');?>" class="btn-cart" onclick="productAddToCartForm.submit(this)">
+                        <span>
+                            <span>
+                                <?php echo $this->__('Add to Cart'); ?>
+                            </span>
+                        </span>
+                    </button>
+                </span>
+            </div>
+            <div class="action-list wishlist">
+                <ul class="add-to-links">
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <li class="first wishlist">
+                            <a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><i class="fa fa-heart-o"></i><?php echo $this->__('Wishlist') ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <!--div class="action-list compare">
+                <ul class="add-to-links">
+                    <?php $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product);?>
+                    <?php if($_compareUrl) : ?>
+                        <li class="conpare"><a href="<?php echo $_compareUrl ?>" class="link-compare"><i class="fa fa-pie-chart"></i><?php echo $this->__('Compare') ?></a></li>
+                    <?php endif; ?>
+                </ul>
+            </div-->
+        </div>
+        <?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+	</div>	
+<?php endif; ?>
+
+<?php } ?>

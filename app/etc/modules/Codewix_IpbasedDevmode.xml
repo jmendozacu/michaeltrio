@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Codewix_IpbasedDevmode>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Codewix_IpbasedDevmode>
+    </modules>
+</config>

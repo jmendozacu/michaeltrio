@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trd_Contacts>
+            <version>0.1.1</version>
+        </Trd_Contacts>
+    </modules>
+    <global>
+        <models>
+            <trd_contacts>
+                <class>Trd_Contacts_Model</class>
+                <resourceModel>trd_contacts_resource</resourceModel>
+            </trd_contacts>
+            <trd_contacts_resource>
+                <class>Trd_Contacts_Model_Resource</class>
+                <entities>
+                    <list>
+                        <table>list</table>
+                    </list>
+                    <testimonials>
+                        <table>testimonials</table>
+                    </testimonials>
+                </entities>
+            </trd_contacts_resource>
+        </models>
+        <blocks>
+            <trd_contacts>
+                <class>Trd_Contacts_Block</class>
+            </trd_contacts>
+        </blocks>
+        <helpers>
+            <trd_contacts>
+                <class>Trd_Contacts_Helper</class>
+            </trd_contacts>
+        </helpers>
+        <resources>
+            <trd_contacts_setup>
+                <setup>
+                    <module>Trd_Contacts</module>
+                </setup>
+            </trd_contacts_setup>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <contacts>
+                <use>admin</use>
+                <args>
+                    <module>Trd_Contacts</module>
+                    <frontName>contacts</frontName>
+                </args>
+            </contacts>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <contacts translate="title" module="trd_contacts">
+                <title>Home Page</title>
+                <sort_order>15</sort_order>
+
+                <children>
+
+                    <contacts_adminform translate="title" module="trd_contacts">
+                        <title>Edit Contacts</title>
+                        <action>contacts/manage</action>
+                    </contacts_adminform>
+                    
+                    <contacts_adminformtestimonials translate="title" module="trd_contacts">
+                        <title>Edit Testimonials</title>
+                        <action>contacts/manage/testimonials</action>
+                    </contacts_adminformtestimonials>
+
+                    <contacts_appointment translate="title" module="trd_forms">
+                        <title>Edit Appointment</title>
+                        <action>admtrdforms/manage/appointments</action>
+                    </contacts_appointment>
+
+                </children>
+                
+            </contacts>
+        </menu>
+    </adminhtml>
+</config>

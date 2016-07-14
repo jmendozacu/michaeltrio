@@ -1,0 +1,101 @@
+<h2 class="recently-title" style="margin-top:20px;"><?php echo $this->__('Recently Purchased'); ?></h2>
+<?php
+$products = $this->getRecentlysoldProducts();
+if(count($products) > 0){ ?>
+<div id="recentlysold">
+  <?php foreach($products as $product){
+	  	$m1 = '';
+		$dshp = strtolower(Mage::getResourceModel('catalog/product')->getAttributeRawValue($product->getId(), 'diamond_shape', Mage::app()->getStore()));
+		if($dshp != '' && $dshp != NULL){
+			$m1 = $dshp.'_t.jpg';
+			$m1 = Mage::getModel('recentlysold/recentlysold')->imgResizeCustm(100,100,$m1);
+		} else {
+			$m1 = $this->helper('catalog/image')->init($product, 'image')->resize(100, 100);
+		}
+            $i = 0; ?>
+  <a class="recently-purchased" data-pid="<?php echo $product->getId(); ?>" title="<?php echo $product->getName(); ?>"> <img class="img-responsive" src="<?php echo $m1; //$this->helper('catalog/image')->init($product, 'image')->resize(100, 100) ?>" alt="<?php echo $product->getName(); ?>"/> </a>
+  <?php $i++; } ?>
+</div>
+<?php } ?>
+
+
+
+<style>
+h2.recently-title{
+	font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: 70px;
+    margin: 0;
+	font-family: Montserrat,arial,serif;
+	color: #2f383d;
+    text-transform: uppercase;
+}
+.modal-footer {
+  border: medium none;
+}
+.modal-content .col-sm-12 {
+  clear: both;
+}
+a.recently-purchased {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+  border: 1px solid #dcdcdc !important;
+  display: block;
+  float: left !important;
+  margin: 0 5px !important;
+  padding: 0 !important;
+  width: 100px !important;
+  cursor:pointer;
+}
+#recentlysold .owl-wrapper{
+	margin:0;	
+}
+.modal-dialog .col-md-6 > img {
+  width: 100%;
+}
+#recentlysold.owl-carousel .owl-wrapper-outer {
+    height: auto;
+}
+a.recently-purchased .img-responsive {
+  padding: 0 !important;
+}
+.modal-backdrop{
+	z-index:9999;	
+}
+.modal-dialog{
+	padding-top:90px;	
+}
+.modal{
+	z-index:10000;	
+}
+.modal-dialog {
+  left: 50%;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  right: auto;
+  width: 90%;
+  max-width: 1000px;
+}
+.modal hr{
+	width:100%;
+	float:left;	
+}
+</style>
+<script type="text/javascript">
+	jQuery(function ($) {
+		jQuery('#recentlysold').owlCarousel({
+			items: 5,
+			lazyLoad: true,
+			slideSpeed: 500,
+			autoplay:true,
+			autoWidth:true,
+			pagination: false,
+			navigation: false,	
+			itemsMobile: [479,3]
+		});
+
+		jQuery(document).delegate('button.submitstyle','click',function(){
+			window.location.href = jQuery(this).attr('data-target');	
+		});
+	});
+</script>

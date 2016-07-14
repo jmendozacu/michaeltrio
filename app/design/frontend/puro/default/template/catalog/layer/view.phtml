@@ -1,0 +1,292 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?><?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php if($this->canShowBlock()): ?>
+<div class="block block-layered-nav">
+   <?php /*?> <div class="block-title">
+        <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        <span class="mobile-button visible-xs active"></span>
+    </div><?php */?>
+    <div class="block-content">
+        <?php echo $this->getStateHtml() ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+            <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+        <?php endif; ?>
+        <?php if($this->canShowOptions()): ?>
+            <dl id="narrow-by-list">
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                <?php if($_filter->getItemsCount()): ?>
+                    <dt><?php echo $this->__($_filter->getName()) ?></dt>
+                    <dd><?php echo $_filter->getHtml() ?></dd>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
+            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php if($this->canShowBlock()): ?>
+<div class="block block-layered-nav" style="display:none">
+   <?php /*?> <div class="block-title">
+        <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        <span class="mobile-button visible-xs active"></span>
+    </div><?php */?>
+    <div class="block-content">
+        <?php echo $this->getStateHtml() ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+           <?php /*?> <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div><?php */?>
+        <?php endif; ?>
+        <?php if($this->canShowOptions()): ?>
+            <div id="narrow-by-list" class="clearfix list_filters" >
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                <?php if($_filter->getItemsCount()): ?>
+                    <div class="filter_box">
+                    <div class="filter_title">
+					<?php echo $this->__($_filter->getName()) ?><img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                    <?PHP 
+					
+					if($_filter->getName() == 'Cut'){ ?>
+                    <div class="popover fade bottom in mypop" style="position: fixed; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">DIAMOND CUT <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                       <img class="cut_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/SIG_ID.png" />
+                      
+                      <div class="grey_box_con">
+                      CHOOSE A CLARITY GRADE:
+                      </div>
+                      <div class="btn-grp-con">
+                      <div class="mbtn mbtn-lg active" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/SIG_ID.png">
+                      SIGNATURE IDEAL
+                      </div>
+                      <div class="mbtn mbtn-lg" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/EXCELLENT.png">
+                      EXCELLENT
+                      </div>
+                      <div class="mbtn" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/VERY_GOOD.png">
+                      VERY GOOD
+                      </div>
+                       <div class="mbtn" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/GOOD.png">
+                      GOOD
+                      </div>
+                       <div class="mbtn" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/FAIR.png">
+                      FAIR
+                      </div>
+                      </div>
+                      
+                      <p>
+                      <b>Signature Ideal cut:</b> Top 1% of
+diamond quality - with precise
+proportions, polish and symmetry =
+allowing the diamond to reflect even
+more light than the standard Ideal cut.
+                      </p>
+                      
+                      </div>
+                    </div>
+                    <?PHP
+					}elseif($_filter->getName() == 'color'){ ?>
+                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">DIAMOND COLOUR <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                       <img class="color_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_df.png" />
+                      
+                      <div class="grey_box_con">
+                      CHOOSE A COLOUR GRADE:
+                      </div>
+                      <div class="btn-grp-con">
+                      <div class="mbtn mbtn-lg active" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_df.png">
+                      D-F
+                      </div>
+                      <div class="mbtn mbtn-lg" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_gi.png">
+                     	G-I
+                      </div>
+                      <div class="mbtn" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_jk.png">
+                      J-K
+                      </div>
+                      
+                      </div>
+                      
+                      <p>
+                      Highest,  absolutely colourless grade,appreciated best set in platinum orwhite gold. Exceptionally rare.
+                      </p>
+                      
+                      </div>
+                    </div>
+					<?PHP }
+					elseif($_filter->getName() == 'Clarity'){ ?>
+                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">DIAMOND CLARITY <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                       <img class="clr_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vfl-tl.png" />
+                      
+                      <div class="grey_box_con">
+                      CHOOSE A CLARITY GRADE:
+                      </div>
+                      <div class="btn-grp-con">
+                      <div class="mbtn mbtn-lg active" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vfl-tl.png">
+                      FL-IF
+                      </div>
+                      <div class="mbtn mbtn-lg" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vvs1-vvs2.png">
+                      VVS1-VVS2
+                      </div>
+                      <div class="mbtn" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vs1-vs2.png">
+                     VS1-VS2	
+                      </div>
+                       <div class="mbtn" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_si1-si2.png">
+                      SI1-SI2
+                      </div>
+                       
+                      </div>
+                      
+                      <p>
+                      <b>FLAWLESS</b>: NO INTERNAL OR EXTERNAL
+CHARACTERISTICS. INTERNALLY FLAWLESS:
+MAY HAVE EXTERNAL BLEMISHES ONLY. BOTH
+EXTREMELY RARE.
+                      </p>
+                      
+                      </div>
+                    </div>
+					<?PHP }
+					
+					
+					elseif($_filter->getName() == 'Polish'){ ?>
+                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">Polish <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                       <p>
+                     The overall condition of a finished diamond's faceted surfaces, including how smoothly the facets have been polished, whether any marks are visible from the polishing wheel, and how defined the edges of each facet are. Polish marks are almost always invisible to the unaided eye, but good polish is essential for maximum light performance. 
+                      </p>
+                      
+                      </div>
+                    </div>
+					<?PHP }
+					
+					elseif($_filter->getName() == 'Polish'){ ?>
+                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">Symmetry <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                       <p>
+                     The precision and alignment of a diamond's facets and the resulting effects on its brilliance. 
+                      </p>
+                      
+                      </div>
+                    </div>
+					<?PHP }
+					
+					
+					elseif($_filter->getName() == 'Fluorescence'){ ?>
+                    <div class="filter-trigger-cont pull-right"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                      <div class="arrow"></div>
+                      <h3 class="pop-title">Fluorescence <a href="#" class="close_pop">x</a></h3>
+                
+                      <div class="popover-content text-center">
+                      <p>
+                      A measure of the visible light some diamonds emit when exposed to ultraviolet (UV) rays. Diamonds with a strong or very strong fluorescence are a better value because the market prices them slightly lower. It is quite rare for fluorescence to have any visual impact on a diamond's appearance, and it does not compromise the gem's structural integrity in any way. 
+                      </p>
+                      
+                      </div>
+                    </div>
+					<?PHP }
+					
+					elseif($_filter->getName() == 'Depth'){ ?>
+                    <div class="filter-trigger-cont pull-right"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                    
+					<?PHP }
+					
+					elseif($_filter->getName() == 'Table'){ ?>
+                    <div class="filter-trigger-cont pull-right"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                    
+					<?PHP }
+					
+					?>
+                    
+                    
+                    
+                    </div>
+                    <div class="filter_value"><?php echo $_filter->getHtml() ?></div>
+                	</div>
+				<?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

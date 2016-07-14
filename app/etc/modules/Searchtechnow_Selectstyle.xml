@@ -1,0 +1,9 @@
+<?xml version ="1.0" ?>
+<config>
+	<modules>
+		<Searchtechnow_Selectstyle>
+			<activate>true</activate>
+			<codePool>community</codePool>
+		</Searchtechnow_Selectstyle>		
+	</modules>
+</config>

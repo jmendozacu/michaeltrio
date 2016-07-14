@@ -1,0 +1,261 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$helper = $this->helper('nletter');
+$width = $helper->getCfgWidth();
+$height = $helper->getCfgHeight();
+$backgroundColor = $helper->getCfgBackgroundColor();
+$backgroundImage = $helper->getCfgBackgroundImage();
+$desc = $helper->getCfgIntro();
+$enable = $helper->getCfgEnable();
+$routeName = Mage::app()->getRequest()->getRouteName();
+$identifier = Mage::getSingleton('cms/page')->getIdentifier();
+?>
+<?php
+if(!Mage::getSingleton('customer/session')->isLoggedIn())
+		{
+ if($routeName == 'cms' && $identifier == 'home' && $enable){?>
+<div style="display: none">
+
+
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=164332277107049";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+    <div id="popup_newsletter" class="block block-subscribe">
+
+        <img src="media/wysiwyg/icotheme/newsletter/default/newsletter.jpg" class="banner-img-newsletter" alt="">
+
+        <div class="content">
+            <!-- <div class="mobile-only"><?php echo $desc;?></div>
+            <a class="fb_button" href="javascript:;"><img src="media/wysiwyg/icotheme/newsletter/default/fb_button.png" alt=""></a> -->
+        </div>
+        <form onsubmit="return false;" action="<?php echo $this->getFormActionUrl() ?>" method="post" id="popup-newsletter-validate-detail">
+            <div class="block-content">
+            <div class="login_fb"> <button  style="border:none; background:none;" rel="facebook-connect" type="button" title="<?php echo $this->__('Connect with Facebook') ?>" class="button"><img alt="" class="fb_log" src="media/wysiwyg/icotheme/newsletter/default/login_fb.png"></button></div>
+            <div class="sign_up_email"><a href="#"><img alt="" class="signup" src="media/wysiwyg/icotheme/newsletter/default/signup.png">
+            </a></div>
+                <div class="input-box">
+                    <input type="text" name="email" id="popup-newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" />
+                    <span class="success-message">You have subscribed to Michael Trio Newsletter</span>
+                    <div class="action-newsletter">
+                        <button id="email-subscribe" type="submit" title="<?php echo $this->__('Subscribe') ?>" class="button"><span><span><?php echo $this->__('Subscribe') ?></span></span></button>
+                    </div>
+                </div>
+                
+
+               <!-- <div class="fb-like" data-href="https://www.facebook.com/michaeltriojewels" data-layout="standard" data-action="like" data-show-faces="true" data-share="false"></div>-->
+
+            </div>
+			<div class="subcriper_label">
+                    <input type="checkbox">
+                    Don't show this popup again
+            </div>
+        </form>
+        <script type="text/javascript">
+            //<![CDATA[
+            var newsletterSubscriberFormDetail = new VarienForm('popup-newsletter-validate-detail');
+            jQuery(function($){
+                isSuccess = $('ul.messages li.success-msg').length;
+                subscribeFlag = $.cookie('newsletterSubscribeFlag');
+                function subsSetcookie(){
+                    $.cookie('newsletterSubscribe', 'true', {
+                        expires: 1,
+                        path: '/'
+                    });
+                }
+                $('#popup_newsletter .subcriper_label input').on('click', function(){
+                    if($(this).parent().find('input:checked').length){
+                        subsSetcookie();
+                    } else {
+                        $.removeCookie('newsletterSubscribe', { path: '/' });
+                    }
+                });
+                $('#popup_newsletter .input-box button.button').on('click', function(){
+                    var button = $(this);
+                    setTimeout(function(){
+                        if(!button.parent().find('input#popup-newsletter').hasClass('validation-failed')){
+                            $.cookie('newsletterSubscribeFlag', 'true', {
+                                path: '/'
+                            });
+                        }
+                    }, 500);
+                });
+                if(!(subscribeFlag && isSuccess) && !$.cookie('newsletterSubscribe')){
+                    $.colorbox({
+                        inline:true,
+                        href:$('#popup_newsletter'),
+                        opacity:    0.3,
+                        speed:      500,
+                        innerWidth:'<?php echo $width;?>px',
+                        innerHeight:'<?php echo $height;?>px',
+                        fixed: true,
+                        
+                        onOpen: function(){
+                            $('#cboxContent').addClass('newsletterbox');
+                            $('#cboxLoadingGraphic').addClass('box-loading');
+                            $(".newsletterbox").css({
+                                'width' : '672px',
+                                'height' : '300px'
+                            });
+
+                            $('#cboxContent').css({'width':'671px'},function(){ console.log('css done') });
+
+                        },
+
+                        onComplete: function(){
+                            setTimeout(function(){
+                                $('#cboxLoadingGraphic').removeClass('box-loading');
+                            },800);
+
+                        },
+                        onClosed: function(){
+                            $('#cboxContent').removeClass('newsletterbox');
+                            $('#cboxContent').attr('style','');
+                        }
+                    });
+                    var colorboxResize = function(resize) {
+                        var width = "90%";
+                        var height = "<?php echo $height;?>px";
+                        height = "330px";
+
+                        if( $(window).width()  > 700 ) { width = "671px" , height = "330px" }
+                        if( $(window).height() > 700 ) { width = "671px", height = "330px" }
+                        if( $(window).width() <= 700 ) { width = "90%"; height = "330px"; }
+                        if( $(window).width() <= 370 ) {
+                            width = "100%";
+                            height = "325px";
+                            $('#popup_newsletter img').css({'width': '655px'});
+                            $('#cboxContent form#popup-newsletter-validate-detail').css({'margin-left': '-12px'});
+
+                        } else {
+                            $('.newsletterbox .block-subscribe').css({
+                                'width':'50%',
+                                'top': '22px'
+                            });
+                        }
+
+                        $.colorbox.settings.height = height;
+                        $.colorbox.settings.width = width;
+
+                        //if window is resized while lightbox open
+                        if(resize) {
+
+                            $.colorbox.resize({
+                                'height': height,
+                                'width': width
+                            });
+
+                        }
+                    }
+                    //In case of window being resized
+                    $(window).resize(function() {
+                        colorboxResize(true);
+                    });
+                    colorboxResize(true);
+                }else{
+                    $.removeCookie('newsletterSubscribeFlag', { path: '/' });
+                    subsSetcookie();
+                }
+            
+
+
+                function isRFC822ValidEmail(sEmail) {
+
+                    var sQtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
+                    var sDtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
+                    var sAtom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
+                    var sQuotedPair = '\\x5c[\\x00-\\x7f]';
+                    var sDomainLiteral = '\\x5b(' + sDtext + '|' + sQuotedPair + ')*\\x5d';
+                    var sQuotedString = '\\x22(' + sQtext + '|' + sQuotedPair + ')*\\x22';
+                    var sDomain_ref = sAtom;
+                    var sSubDomain = '(' + sDomain_ref + '|' + sDomainLiteral + ')';
+                    var sWord = '(' + sAtom + '|' + sQuotedString + ')';
+                    var sDomain = sSubDomain + '(\\x2e' + sSubDomain + ')*';
+                    var sLocalPart = sWord + '(\\x2e' + sWord + ')*';
+                    var sAddrSpec = sLocalPart + '\\x40' + sDomain; // complete RFC822 email address spec
+                    var sValidEmail = '^' + sAddrSpec + '$'; // as whole string
+                    var reValidEmail = new RegExp(sValidEmail);
+
+                    if (reValidEmail.test(sEmail)) {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+
+                $('#email-subscribe').on("click", function(e) {
+
+                    var email = $('#popup-newsletter');
+
+                    if ( email.val() === "" || !isRFC822ValidEmail(email.val()) ){
+                        
+                        email.focus();
+
+                    } else {
+
+                      $.get("js/Mailchimp/subscribe-user.php?mc=1&email="+email.val(), function( data ) {
+
+                        var email = $('#popup-newsletter');
+
+                        console.log(data);
+
+                        if (data.error == "0" && data.result.email === email.val()) {
+                            console.log('success');
+                            $('.block-content').addClass('subscribed');
+                            // $("#popup-newsletter").css({'opacity':'0'});
+                            // $("#email-subscribe").css({'opacity':'0'}).hide();
+                            // $('.success-message').fadeIn();
+                            email.val(' ');
+                            $('.subcriper_label').click();
+                            subsSetcookie();
+                        } else {
+                            email.focus();
+                        }
+
+                      });
+
+                    };
+
+                });
+
+            });
+            //]]>          
+        </script>
+    </div>
+</div>
+<?php }} ?>

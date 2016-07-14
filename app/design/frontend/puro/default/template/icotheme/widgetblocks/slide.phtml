@@ -1,0 +1,283 @@
+<?php
+/**
+ * @copyright   Copyright (C)2015 IcoTheme.com. All Rights Reserved.
+ * http://24x7phpsupport.com/michaeltrionew/newsletter/subscriber/new/
+ */
+?>
+<?php
+$blocks = $this->getBlocks();
+$id = $this->getConfig('id');
+$scroll = $this->getConfig('scroll');
+$title = $this->getConfig('widget_title');
+?>
+
+
+<div class="<?php echo $this->getConfig('classes') ?>" id="block-slide-home">
+    <?php if ($title): ?>
+        <h2><?php echo $title ?></h2>
+    <?php endif ?>
+
+    <?php
+$u_agent = $_SERVER['HTTP_USER_AGENT']; 
+function isMobile() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
+
+if(strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') || strstr($_SERVER['HTTP_USER_AGENT'],'iPod') || isMobile())
+{
+
+	?>
+	   <div id="homeslide" class="slide-home <?php echo $scroll == 1 ? 'owl-carousel ' : '' ?>" style="display: none; opacity: 0;">
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-1"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/0bg.jpg" /></div>
+                <div class="slider-text slide-11">
+                     <a class="url-holder go-to-step-two" href="<?php echo Mage::getBaseUrl(); ?>engagement.php">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x0w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-2"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/1bg.jpg" /></div>
+                <div class="slider-text slide-21">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="earrings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=pearl">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x1w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-3"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/2bg.jpg" /></div>
+                <div class="slider-text slide-31">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x2w.png" />
+					 </a>
+                </div>
+            </div>
+        </div>
+		        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-4"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/3bg.jpg" /></div>
+                <div class="slider-text slide-41">
+<a class="url-holder go-to-step-three-wedding" wedding="couple/cross-wave" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=cross-wave">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x3w.png" />
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-5"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/4bg.jpg" /></div>
+                <div class="slider-text slide-51">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="necklace/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.html?maincat=necklace&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x4w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-6"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/5bg.jpg" /></div>
+                <div class="slider-text slide-61">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="earrings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.html?maincat=earrings&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x5w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+    </div>
+	    <script type="text/javascript">
+
+		function postchk(){
+		  jQuery("#homeslide").show();
+		  jQuery("#homeslide").css("display","block");
+		  jQuery("#homeslide").css("opacity","1");
+		  jQuery('.owl-wrapper-outer').removeClass('opacity-0');
+          jQuery('.owl-pagination').removeClass('opacity-0');
+		  jQuery('.loader-sidebar').removeClass('loader-show');
+		}
+		
+		
+        jQuery(document).ready(function($){
+     
+	      jQuery('.loader-sidebar').addClass('loader-show');
+	      setTimeout("postchk()",1000);
+		  
+		  jQuery("#homeslide").owlCarousel({
+                items: 1,
+                center: true,
+                loop: true,
+                margin: 10,
+                autoPlay: true,
+                autoPlayTimeout: 1000,
+                autoplayHoverPause: true,
+                navContainer: false,
+                dots: false,
+            });
+
+            var owlControls = jQuery('div.owl-controls');
+            owlControls.hide();
+			
+            widgetConfig.init('block-slide-home', {
+                carousel: <?php echo $this->getConfig('carousel') ?>
+            });
+
+        });
+    </script>
+	<?php
+}
+else
+{
+?>
+    <div class="video-holder">
+        <a class="mute-video" href="javascript:;">
+            <img data-baseurl="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/sound-on.png" alt="">
+        </a>
+        <video class="promo-video" id="promo-video" width="100%" height="100%" autoplay="autoplay" preload="auto"  >
+            <source src="media/wysiwyg/icotheme/slide/new_video.mp4" type="video/mp4">
+ 
+        </video> 
+    </div>
+
+   <div id="homeslide" class="slide-home <?php echo $scroll == 1 ? 'owl-carousel ' : '' ?>" style="display: block; opacity: 0;">
+
+                <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-1"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/0bg.jpg" /></div>
+                <div class="slider-text slide-11">
+                     <a class="url-holder go-to-step-two" href="<?php echo Mage::getBaseUrl(); ?>engagement.php">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x0w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-2"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/1bg.jpg" /></div>
+                <div class="slider-text slide-21">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="earrings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=pearl">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x1w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-3"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/2bg.jpg" /></div>
+                <div class="slider-text slide-31">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x2w.png" />
+					 </a>
+                </div>
+            </div>
+        </div>
+		        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-4"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/3bg.jpg" /></div>
+                <div class="slider-text slide-41">
+<a class="url-holder go-to-step-three-wedding" wedding="couple/cross-wave" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=cross-wave">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x3w.png" />
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-5"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/4bg.jpg" /></div>
+                <div class="slider-text slide-51">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="necklace/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.html?maincat=necklace&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x4w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image slide-6"><img class="images-resposive" alt="slider 01" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/5bg.jpg" /></div>
+                <div class="slider-text slide-61">
+                     <a class="url-holder go-to-step-one-jewellery-gifts" jewellerygifts="earrings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.html?maincat=earrings&style=diamond">
+					 <img class="images-resposive" alt="slider 02" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/slide/slide_x5w.png" /> 
+					 </a>
+                </div>
+            </div>
+        </div>
+
+        <?php //foreach ($blocks as $block): ?>
+        <?php //echo $block['content'] ?>
+        <?php //endforeach ?>
+    </div>
+	    <script type="text/javascript">
+	
+        jQuery(document).ready(function($){
+		  
+		  jQuery("#homeslide").owlCarousel({
+                items: 1,
+                center: true,
+                loop: true,
+                margin: 10,
+                autoPlay: true,
+                autoPlayTimeout: 1000,
+                autoplayHoverPause: true,
+                navContainer: false,
+                dots: false,
+            });
+
+            var owlControls = jQuery('div.owl-controls');
+            owlControls.hide();
+			
+            widgetConfig.init('block-slide-home', {
+                carousel: <?php echo $this->getConfig('carousel') ?>
+            });
+
+            if( $(window).width() < 1025 ){
+                $('.video-holder').remove();
+            }
+
+
+		
+		       if( document.getElementById('promo-video') ){
+                //document.getElementById('promo-video').addEventListener('ended',myHandler,false);
+				
+                $('.owl-wrapper-outer').addClass('opacity-0');
+                $('.owl-pagination').addClass('opacity-0');
+				
+				
+                function myHandler(e) {
+				    $("#homeslide").css("opacity","1"); 
+                    document.getElementById('promo-video').hide();
+                    $('.owl-wrapper-outer').removeClass('opacity-0');
+                    $('.owl-pagination').removeClass('opacity-0');
+                    $('.mute-video').fadeOut(1000);
+                }    
+ 
+			  
+				jQuery("#promo-video").bind('ended', function(){
+				   $("#homeslide").css("opacity","1"); 
+				   document.getElementById('promo-video').hide();
+                    jQuery('.owl-wrapper-outer').removeClass('opacity-0');
+                    jQuery('.owl-pagination').removeClass('opacity-0');
+                    jQuery('.mute-video').fadeOut(1000);
+				}); 
+
+            }
+	
+
+        });
+    </script>
+	<?php } ?>
+
+</div>

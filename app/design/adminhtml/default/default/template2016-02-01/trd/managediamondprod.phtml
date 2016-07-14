@@ -1,0 +1,29 @@
+<?php
+$product_id = 0;
+
+if ($this->model) {
+    $product_id = $this->model->getProductId();
+}
+?>
+
+<style>
+    input[type=text]{
+        width:100%;
+    }
+</style>
+
+<h2>Manage Diamond Product</h2>
+
+
+
+<form action="<?php echo Mage::helper("adminhtml")->getUrl("diamond/adminhtml_manage/save"); ?>" method="post">
+
+    <table>
+        <tr>
+            <td width="120">Product Id:</td>
+            <td width="300"><input type="text" name="product_id" value="<?php echo $product_id; ?>" /></td>
+        </tr>
+    </table>
+    <?php echo $this->getBlockHtml('formkey') ?>
+    <input type="submit" name="submit" value="Save" />
+</form>

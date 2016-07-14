@@ -1,0 +1,79 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_resource_View_Description
+ */
+?>
+<?php
+$_resource = Mage::getResourceSingleton('catalog/product');
+$pid = $this->getProduct()->getId();
+$ringproduct = Mage::getModel('catalog/product');
+$ringproduct->load($pid);
+?>
+<div class="product-tabs-content-inner clearfix">
+  <table class="table-grading" style="width:350px;">
+  <?php
+            if ($ringproduct->getSst1Gemstone() != '') {
+                echo '<tr><td><h6>Gemstones :</h6></td>
+				<td><span>  ' . $ringproduct->getSst1Gemstone() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getSst1Shape() != '') {
+                echo '<tr><td><h6>Shape : </h6></td>
+				<td><span>  ' . $ringproduct->getSst1Shape() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1NumberDiamonds() != '') {
+                echo '<tr><td><h6>Number of Diamonds :  </h6></td>
+			<td><span>' . $ringproduct->getSst1NumberDiamonds() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getSst1WeightEstimated() != '') {
+                echo '<tr><td><h6>Total carat weight :  </h6></td><td><span>' . $ringproduct->getSst1WeightEstimated() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getSst1AverageColor() != '') {
+                echo '<tr><td><h6>Average Color :  </h6></td>
+			<td><span> ' .
+                $ringproduct->getSst1AverageColor() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getSst1AverageClarity() != '') {
+                echo '<tr><td><h6>Average Clarity :  </h6></td>
+			<td><span> ' . $ringproduct->getSst1AverageClarity() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getSst1AverageCut() != '') {
+                echo '<tr><td><h6>Average Cut :  </h6></td>
+			<td><span> ' . $ringproduct->getSst1AverageCut() . '</span></td></tr>';
+            }
+
+  ?>
+  </table>
+</div>

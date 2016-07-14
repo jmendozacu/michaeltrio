@@ -1,0 +1,464 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_Product_View_Description
+ */
+?>
+
+<?php $ids = $this->getProduct()->getCategoryIds(); ?>
+<?php
+$_resource = Mage::getResourceSingleton('catalog/product');
+$pid = $this->getProduct()->getId();
+$style_shape_id = $_resource->getAttributeRawValue($pid, 'style', Mage::app()->getStore());
+$ringproduct = Mage::getModel('catalog/product');
+$_product=$ringproduct->load($pid);
+$ids = $_product->getCategoryIds();
+?>
+
+<div class="product-tabs-content-inner clearfix">
+    <div class="_std"> 
+<style>
+.setting_tabcss tr td:first-child{min-width:300px;}
+.setting_tabcss tr td:last-child{padding:0px 10px;}
+</style>
+        <table class="setting_tabcss" style="width:auto !important;">
+		<?php
+if (in_array('95', $ids) || in_array('89', $ids)) { 
+			?>
+            <tr>
+                <td><h6>Band Width:</h6></td>
+                <td><span><?php echo $_resource->getAttributeRawValue($pid, 'band_width', Mage::app()->getStore()); ?></span></td>
+            </tr>
+            <tr>
+                <td><h6>Comfort Fit :</h6></td>
+                <td>
+				<span>
+                        <?php
+                        $confirmfit = $_resource->getAttributeRawValue($pid, 'confirmfit', Mage::app()->getStore());
+                        if ($confirmfit == '1') {
+                            echo "Yes";
+                        } else {
+                            echo "No";
+                        }
+                        ?>
+				</span>
+				</td>
+            </tr>
+			
+			
+			
+			
+			
+			
+            <?php } 
+			else
+			{
+			
+				$metals = explode(",", $ringproduct->getMetals());
+
+				$dataSettingValues = array(126 => '14K', 127 => '18K', 128 => 'Platinum');
+
+				$metalsAry = array();
+
+				foreach ($metals as $val) {            $metalsAry[] = $dataSettingValues[$val];          }
+
+				if(in_array('94', $ids))	 {		}
+				else if(in_array('88', $ids)){			}
+				else
+				{
+				 echo $ringAttrbute = '<tr><td><h6>Metal :</h6></td><td><span>' . implode(",", $metalsAry) . '</span></td></tr>';
+				}
+
+				if ($ringproduct->getBandWidth() != '') {
+								echo '<tr><td><h6>Band Width :</h6></td>
+								<td><span>  ' . $ringproduct->getBandWidth() . '</span></td></tr>';
+				}
+			
+?>
+<tr>
+                <td><h6>Comfort Fit :</h6></td>
+                <td>
+				<span>
+                        <?php
+                        $confirmfit = $_resource->getAttributeRawValue($pid, 'confirmfit', Mage::app()->getStore());
+                        if ($confirmfit == '1') {
+                            echo "Yes";
+                        } else {
+                            echo "No";
+                        }
+                        ?>
+				</span>
+				</td>
+            </tr>
+<?php
+            if ($ringproduct->getSst1Gemstone() != '') {
+                echo '<tr><td><h6>Diamond :</h6></td>
+				<td><span>  ' . $ringproduct->getSst1Gemstone() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1Shape() != '') {
+                echo '<tr><td><h6>Diamond Shape : </h6></td>
+				<td><span>  ' . $ringproduct->getSst1Shape() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1NumberDiamonds() != '') {
+                echo '<tr><td><h6>Number of Diamonds :  </h6></td>
+			<td><span>' . $ringproduct->getSst1NumberDiamonds() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1WeightEstimated() != '') {
+                echo '<tr><td><h6>Total Carat Weight Estimated :  </h6></td><td><span>' . $ringproduct->getSst1WeightEstimated() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1AverageColor() != '') {
+                echo '<tr><td><h6>Average Color :  </h6></td>
+			<td><span> ' .
+                $ringproduct->getSst1AverageColor() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1AverageClarity() != '') {
+                echo '<tr><td><h6>Average Clarity :  </h6></td>
+			<td><span> ' . $ringproduct->getSst1AverageClarity() . '</span></td></tr>';
+            }
+			
+			/*
+			if ($ringproduct->getSst1Shape() != '') {
+			echo '<tr><td><h6>Diamond Shape :</h6></td>
+			<td><span>  ' . $ringproduct->getSst1Shape() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst1NumberDiamonds() != '') {
+			echo '<tr><td><h6>Number of Diamonds :</h6></td>
+			<td><span>  ' . $ringproduct->getSst1NumberDiamonds() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst1WeightEstimated() != '') {
+			echo '<tr><td><h6>Total Carat Weight Estimated :</h6></td>
+			<td><span>  ' . $ringproduct->getSst1WeightEstimated() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst1AverageColor() != '') {
+			echo '<tr><td><h6>Average Color :</h6></td>
+			<td><span>  ' . $ringproduct->getSst1AverageColor() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst1AverageClarity() != '') {
+			echo '<tr><td><h6>Average Clarity :</h6></td>
+			<td><span>  ' . $ringproduct->getSst1AverageClarity() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2Gemstone() != '') {
+			echo '<tr><td><h6>Stone Type :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2Gemstone() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2Shape() != '') {
+			echo '<tr><td><h6>Stone Shape :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2Shape() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2NumberDiamonds() != '') {
+			echo '<tr><td><h6>Number of Diamonds :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2NumberDiamonds() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2WeightEstimated() != '') {
+			echo '<tr><td><h6>Total Carat Weight Estimated :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2WeightEstimated() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2AverageColor() != '') {
+			echo '<tr><td><h6>Average Color :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2AverageColor() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSst2AverageClarity() != '') {
+			echo '<tr><td><h6>Average Clarity :</h6></td>
+			<td><span>  ' . $ringproduct->getSst2AverageClarity() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSetting1Type() != '') {
+			echo '<tr><td><h6>Setting Type 1 :</h6></td>
+			<td><span>  ' . $ringproduct->getSetting1Type() . '</span></td></tr>';
+			}
+			if ($ringproduct->getSetting2Type() != '') {
+			echo '<tr><td><h6>Setting Type 2 :</h6></td>
+			<td><span>  ' . $ringproduct->getSetting2Type() . '</span></td></tr>';
+			}*/
+			}
+			?>
+			
+			
+			 <?php
+			 if (in_array('5', $ids)) { 
+			 
+                 $sst1_gemstone = $_resource->getAttributeRawValue($pid, 'sst1_gemstone', Mage::app()->getStore());
+                 if (!empty($sst1_gemstone)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Gemstone :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_gemstone;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				//sst1_shape
+				
+				 $sst1_shape = $_resource->getAttributeRawValue($pid, 'sst1_shape', Mage::app()->getStore());
+                 if (!empty($sst1_shape)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Shape :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_shape;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				
+				 $sst1_number_diamonds = $_resource->getAttributeRawValue($pid, 'sst1_number_diamonds', Mage::app()->getStore());
+                 if (!empty($sst1_number_diamonds)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Number of Diamonds :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_number_diamonds;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				//sst1_weight_estimated
+				
+				 $sst1_weight_estimated = $_resource->getAttributeRawValue($pid, 'sst1_weight_estimated', Mage::app()->getStore());
+                 if (!empty($sst1_weight_estimated)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Total Carat Weight Estimated :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_weight_estimated;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				 $sst1_average_color = $_resource->getAttributeRawValue($pid, 'sst1_average_color', Mage::app()->getStore());
+                 if (!empty($sst1_average_color)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Average Color :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_average_color;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				 $sst1_average_clarity = $_resource->getAttributeRawValue($pid, 'sst1_average_clarity', Mage::app()->getStore());
+                 if (!empty($sst1_average_clarity)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Average Clarity :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_average_clarity;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				 $sst1_average_cut = $_resource->getAttributeRawValue($pid, 'sst1_average_cut', Mage::app()->getStore());
+                 if (!empty($sst1_average_cut)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Average Cut :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_average_cut;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				 $sst1_average_cut = $_resource->getAttributeRawValue($pid, 'sst1_average_cut', Mage::app()->getStore());
+                 if (!empty($sst1_average_cut)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (1) Average Cut :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst1_average_cut;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+                 $sst2_gemstone = $_resource->getAttributeRawValue($pid, 'sst2_gemstone', Mage::app()->getStore());
+                 if (!empty($sst2_gemstone)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Gemstone :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_gemstone;?>
+					</span>
+					</td>
+				</tr>
+			<?php }
+			
+			
+			
+			 $sst2_shape = $_resource->getAttributeRawValue($pid, 'sst2_shape', Mage::app()->getStore());
+                 if (!empty($sst2_shape)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Shape :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_shape;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				
+				 $sst2_number_diamonds = $_resource->getAttributeRawValue($pid, 'sst2_number_diamonds', Mage::app()->getStore());
+                 if (!empty($sst2_number_diamonds)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Number of Diamonds :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_number_diamonds;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				//sst1_weight_estimated
+				
+				 $sst2_weight_estimated = $_resource->getAttributeRawValue($pid, 'sst2_weight_estimated', Mage::app()->getStore());
+                 if (!empty($sst2_weight_estimated)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Total Carat Weight Estimated :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_weight_estimated;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				 $sst2_average_color = $_resource->getAttributeRawValue($pid, 'sst2_average_color', Mage::app()->getStore());
+                 if (!empty($sst2_average_color)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Average Color :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_average_color;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				 $sst2_average_clarity = $_resource->getAttributeRawValue($pid, 'sst2_average_clarity', Mage::app()->getStore());
+                 if (!empty($sst2_average_clarity)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Average Clarity :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_average_clarity;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				
+				 $sst2_average_cut = $_resource->getAttributeRawValue($pid, 'sst2_average_cut', Mage::app()->getStore());
+                 if (!empty($sst2_average_cut)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Average Cut :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_average_cut;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+				
+				 $sst2_average_cut = $_resource->getAttributeRawValue($pid, 'sst2_average_cut', Mage::app()->getStore());
+                 if (!empty($sst2_average_cut)) {
+                ?> 
+				<tr>
+					<td><h6>Side Stone (2) Average Cut :</h6></td>
+					<td>
+					<span>
+					<?php echo $sst2_average_cut;?>
+					</span>
+					</td>
+				</tr>
+				<?php } 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				}
+			?>
+			
+        </table>
+    </div>
+</div>
+

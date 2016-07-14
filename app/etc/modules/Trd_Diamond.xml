@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trd_Diamond>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Trd_Diamond>
+    </modules>
+</config>

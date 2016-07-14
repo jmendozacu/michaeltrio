@@ -1,0 +1,536 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$_CurrCat='';
+$layer = Mage::getSingleton('catalog/layer');
+$Category = $layer->getCurrentCategory();
+$_CurrCat= $Category ->getId();
+//echo "<pre>";
+//print_r($crumbs);
+
+if ($crumbs && is_array($crumbs) && ($_CurrCat != '5' && $_CurrCat != '6' && $_CurrCat != '27' && $_CurrCat != '29')) {
+    ?>
+    <div class="breadcrumbs" >
+        <ul>
+            <?php foreach ($crumbs as $_crumbName => $_crumbInfo):
+			
+			if($_crumbName =='0')
+			{
+			 ?>
+                <li class="<?php echo $_crumbName ?>">
+                    <?php
+                    $current_product = Mage::registry('current_product');
+                    $pos = strpos($_crumbName, 'category');
+                    if ($current_product && $pos !== false) {
+                        $_crumbInfo['link'] = '';
+                    }
+                    ?>
+                    <?php if ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <strong><?php echo $this->htmlEscape($_crumbInfo['label']) ?></strong>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): 
+					if($_CurrCat=='98')
+					{
+					?>
+                        <span>- </span>
+                    <?php
+					}
+					else
+					{
+					?>
+                        <span>/ </span>
+                    <?php
+					}
+					 endif; ?>
+                </li>
+            <?php 
+			}
+			elseif($_crumbName !='dcategory4')
+			{
+			if($_crumbName =='cms_page')
+			{
+			
+			$pagelabel= $this->htmlEscape($_crumbInfo['title']);
+
+			switch ($pagelabel) {
+				case 'Customer Testimonial':
+					?>
+					<li class="cms_page_media">Media<span> / </span></li> 
+					<?php
+				break;
+				case 'Rings Education':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> 
+					<?php
+				break;
+				case 'Metal Education':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> 
+					<?php
+				break;
+				case 'Pearls Education':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> 
+					<?php
+				break;
+				case 'Customer Testimonial':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li>  
+					<?php
+				break;
+				case 'Cut':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+				case 'Colour':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+				case 'Clarity':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+				case 'Carat':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+				case 'Diamond Certificate':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+				case 'MT SIGNATURE IDEAL™ Diamond Collection':
+					?>
+					<li class="cms_page_education">Education<span> / </span></li> <li class="cms_page_diamonds">Diamonds<span> / </span></li> 
+					<?php
+				break;
+			}
+			}
+			 ?>
+                <li class="<?php echo $_crumbName ?>">
+                    <?php
+                    $current_product = Mage::registry('current_product');
+                    $pos = strpos($_crumbName, 'category');
+                    if ($current_product && $pos !== false) {
+                        $_crumbInfo['link'] = '';
+                    }
+                    ?>
+                    <?php if ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <strong><?php echo $this->htmlEscape($_crumbInfo['label']) ?></strong>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): ?>
+                        <span>/ </span>
+                    <?php endif; ?>
+                </li>
+            <?php 
+			
+			}
+			
+			endforeach; ?>
+        </ul>
+    </div>
+    <?php
+}
+if ($_CurrCat == '5') {
+    ?>
+    <div class="breadcrumbs">
+        <ul>
+            <?php 
+			
+			foreach ($crumbs as $_crumbName => $_crumbInfo):
+			
+			$current_product = Mage::registry('current_product');
+			$pos = strpos($_crumbName, 'category');
+			if ($current_product && $pos !== false) {
+			$_crumbInfo['link'] = '';
+			}
+			
+			$weddingcatlink = array('dcategory89','dcategory90','dcategory91','dcategory92','dcategory93','dcategory95','dcategory96','dcategory97');
+			if($_crumbName =='0')
+			{
+			 ?>
+                <li class="<?php echo $_crumbName ?>">
+                    <?php if ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?><span>/ </span>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): ?>
+                        <span>/ </span>
+                    <?php endif; ?>
+                </li>
+            <?php
+			}
+			elseif($_crumbName !='dcategory5')
+			{
+			 ?>
+                <li class="<?php echo $_crumbName ?>">
+				<?php if (in_array($_crumbName, $weddingcatlink)): ?>
+                        <?php
+                        switch ($_crumbName) {
+                            case 'dcategory89':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=classic">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory90':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/stackable" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=stackable">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory91':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=diamond">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory92':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory93':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=alternative-metal-rings">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory95':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="men/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=classic">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory96':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="men/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=diamond">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory97':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="men/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=alternative-metal-rings">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                        }                        
+						elseif ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?><span>/ </span>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): ?>
+                        <span>/ </span>
+                    <?php endif; ?>
+                </li>
+				
+            <?php
+			}
+            endforeach;
+            if ($_GET['maincat'] != '') {
+                $maincat = $_GET['maincat'];
+            } else {
+                $maincat = $selectedWeddingMaincat;
+            }
+            if ($_GET['weddingstyle'] != '') {
+                $weddingstyle = $_GET['weddingstyle'];
+            } else {
+                $weddingstyle = $selectedWeddingStyle;
+            }
+            switch ($maincat) {
+                case 'women':
+                    echo '<li class="category88">WOMEN<span>/ </span></li>';
+                    break;
+                case 'men':
+                    echo '<li class="category94">MEN<span>/ </span></li>';
+                    break;
+                case 'couple':
+                    echo '<li class="category94">COUPLE<span>/ </span></li>';
+                    break;
+            }
+            echo '<li class="category88"><strong>'.strtoupper(str_replace(" ", "-", $weddingstyle)).'</strong></li>';
+            ?>
+
+        </ul>
+    </div>
+    <?php
+}
+elseif ($_CurrCat == '6') {
+    ?>
+    <div class="breadcrumbs">
+        <ul>
+            <?php 
+            if ($_GET['maincat'] != '') {
+                $maincat = $_GET['maincat'];
+            } else {
+                $maincat = Mage::getSingleton('core/session')->getJewellerygiftMaincat();
+            }
+			
+			foreach ($crumbs as $_crumbName => $_crumbInfo): 
+			
+			?>
+                <li class="<?php echo $_crumbName ?>">
+                    <?php
+                    $current_product = Mage::registry('current_product');
+                    $pos = strpos($_crumbName, 'category');
+                    if ($current_product && $pos !== false) {
+                        $_crumbInfo['link'] = '';
+                    }
+                    $jewellcatlink = array('dcategory38','dcategory32','dcategory30','dcategory92','dcategory34', 'dcategory35', 'dcategory36','dcategory107','engraveable');
+                    ?>
+                    <?php if (in_array($_crumbName, $jewellcatlink)): ?>
+                        <?php
+                        switch ($_crumbName) {
+                            case 'dcategory38':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=diamond">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory32':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=pearl">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory30':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=diamond">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory107':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=gemstone">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory92':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory34':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=diamond">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory35':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=gemstone">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+                            case 'dcategory36':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=pearl">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+                                break;
+							case 'engraveable':
+							switch ($maincat) {
+							
+							 case 'gift':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=engravable">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+								break;
+							 case 'bracelet':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=engravable">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+								break;
+							 case 'necklace':
+                                ?>
+                                <a title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>" class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=necklace&style=engravable">
+                                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                                </a>
+                                <?php
+								break;	
+								}
+                                break;
+                        }
+                        
+						elseif ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?><span>/ </span>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): ?>
+                        <span>/ </span>
+                    <?php endif; ?>
+                </li>
+            <?php
+
+            endforeach;
+			
+            if ($_GET['maincat'] != '') {
+                $maincat = $_GET['maincat'];
+            } else {
+                $maincat = Mage::getSingleton('core/session')->getJewellerygiftMaincat();
+            }
+			
+			
+            if ($_GET['style'] != '') {
+                $style = $_GET['style'];
+            }
+			elseif ($_GET['styletype'] != '') {
+                $style = $_GET['styletype'];
+            } else {
+                $style = $selectedJewellerygiftStyle;
+            }
+			
+			if($this->getRequest()->getControllerName()!='product')
+			{
+            switch ($maincat) {
+                case 'necklace':
+                    echo '<li class="category27">NECKLACE<span>/ </span></li>';
+                    break;
+                case 'earrings':
+                    echo '<li class="category28">EARRINGS<span>/ </span></li>';
+                    break;
+                case 'bracelet':
+                    echo '<li class="category29">BRACELET<span>/ </span></li>';
+                    break;
+				case 'jewellery-rings':
+                    echo '<li class="category106">RING<span>/ </span></li>';
+                    break;	
+            }
+			}
+            echo '<li class="category88"><strong>'.strtoupper(str_replace(" ", "-", $style)).'</strong></li>';
+            ?>
+
+        </ul>
+    </div>
+    <?php
+}
+elseif ($_CurrCat == '27' || $_CurrCat == '29') {
+    ?>
+    <div class="breadcrumbs">
+        <ul>
+            <?php 
+			foreach ($crumbs as $_crumbName => $_crumbInfo): 
+			
+			?>
+                <li class="<?php echo $_crumbName ?>">
+                    <?php
+                    $current_product = Mage::registry('current_product');
+                    $pos = strpos($_crumbName, 'category');
+					$posmain = strpos($_crumbName, 'category6');
+                    if ($current_product && $pos !== false) {
+                        $_crumbInfo['link'] = '';
+                    }
+					else if ($_crumbName == 'category6') {
+                        $_crumbInfo['link'] = '';
+                    }
+					
+                    ?>
+                    <?php if ($_crumbInfo['link']): ?>
+                        <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                    <?php elseif ($_crumbInfo['last']): ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?><span>/ </span>
+                    <?php else: ?>
+                        <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                    <?php endif; ?>
+                    <?php if (!$_crumbInfo['last']): ?>
+                        <span>/ </span>
+                    <?php endif; ?>
+                </li>
+            <?php
+            endforeach;
+			
+            if ($_GET['maincat'] != '') {
+                $maincat = $_GET['maincat'];
+            } else {
+                $maincat = Mage::getSingleton('core/session')->getJewellerygiftMaincat();
+            }
+			
+			
+            if ($_GET['style'] != '') {
+                $style = $_GET['style'];
+            }
+			 else {
+                $style = Mage::getSingleton('core/session')->getJewellerygiftStyle();
+            }
+
+            echo '<li class="category88"><strong>'.strtoupper(str_replace(" ", "-", $style)).'</strong></li>';
+            ?>
+
+        </ul>
+    </div>
+    <?php
+}
+ else {
+
+ }
+?>
+       
+
+

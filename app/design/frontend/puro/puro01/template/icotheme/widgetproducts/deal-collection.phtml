@@ -1,0 +1,42 @@
+<?php
+$productCollection  = $this->getData('collection');
+$count              = $productCollection ? $productCollection->count() : 0;
+$carousel           = $this->getData('carousel');
+$row                = $this->getData('row');
+$column             = $carousel == 1 && $row == 1 ? $count : ($carousel == 1 && $row > 1 ? $row : $this->getData('column'));
+/* @var $helper Mage_Catalog_Helper_Image */
+$helper             = Mage::helper('catalog/image');
+?>
+<?php if (!$count): ?>
+    <p class="note-msg">
+        <?php echo $this->__('There are no products matching the selection.') ?>
+    </p>
+<?php else: ?>
+    <?php $i=0; foreach ($productCollection as $_product): ?>
+        <?php /* @var $_product Mage_Catalog_Model_Product */ ?>
+        <?php if ($carousel == 1 && $row > 1 && $i == 0): ?>
+            <div class="owl-carousel">
+        <?php endif ?>
+        <?php if ($i % $column == 0 || ($row > 1 && $i % $row == 0)): ?>
+        <ul class="products-grid <?php echo $carousel && $row == 1 ? ' owl-carousel' : '' ?>">
+    <?php endif ?>
+        <?php $i++ ?>
+        <li class="item">
+            <div class="wrapper-product-date">
+                <?php $currentDate = Mage::getModel('core/date')->date('M d, Y h:i', strtotime($_product->getData('special_to_date')));?>
+                <div class="product-date clearfix" data-date="<?php echo $currentDate ?>"></div>
+            </div>
+            <div class="shop-now button">
+                <a class="btn-button" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->__('Shop Now') ?>">
+                    <?php echo $this->__('Shop Now') ?>
+                </a>
+            </div>
+        </li>
+        <?php if ($i == $count || $i % $column == 0 || ($row > 1 && $i % $row == 0)): ?>
+        </ul>
+    <?php endif ?>
+        <?php if ($carousel == 1 && $row > 1 && $i == $count): ?>
+            </div>
+        <?php endif ?>
+    <?php endforeach ?>
+<?php endif ?>

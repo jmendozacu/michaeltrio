@@ -1,0 +1,55 @@
+<?php
+    $phone = '';
+    $email = '';
+    $map = '';
+    $long = '';
+    $lat = '';
+
+    if ($this->model) {
+        $phone = $this->model->getPhone();
+        $email = $this->model->getEmail();
+        $map = $this->model->getMap();
+        $long = $this->model->getLong();
+        $lat = $this->model->getLat();
+    }
+?>
+
+<style>
+    input[type=text]{
+        width:100%;
+    }
+</style>
+
+<h2>Manage Contacts</h2>
+
+
+
+<form action="<?php echo Mage::helper("adminhtml")->getUrl("contacts/manage/save"); ?>" method="post">
+
+    <?php //print_r( $this->model ); ?>
+
+    <table>
+        <tr>
+            <td width="120">Phone number:</td>
+            <td width="300"><input type="text" name="phone" value="<?php echo $phone; ?>" /></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="text" name="email" value="<?php echo $email; ?>" /></td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input type="text" name="map" value="<?php echo $map; ?>" /></td>
+        </tr>
+        <tr>
+            <td>Google Maps URL:</td>
+            <td><input type="text" name="long" value="<?php echo $long; ?>" /></td>
+        </tr>
+        <!-- <tr>
+            <td>lat:</td>
+            <td><input type="text" name="lat" value="<?php echo $lat; ?>" /></td>
+        </tr> -->
+    </table>
+    <?php echo $this->getBlockHtml('formkey') ?>
+    <input type="submit" name="submit" value="Save" />
+</form>

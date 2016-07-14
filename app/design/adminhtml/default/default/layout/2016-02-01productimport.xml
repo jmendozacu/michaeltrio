@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout>
+    
+    <adminhtml_productimport_index_index>
+   		<reference name="content">
+			<block type="adminhtml/template" name="productimport" template="productimport/form.phtml" />
+    	</reference>
+
+       <reference name="messages">
+            <action method="addNotice" translate="message">
+                <message>Total size of uploadable files must not exceed 100 KB &amp; file type must be  XLSX, XLS, CSV </message>
+            </action>
+        </reference>
+    </adminhtml_productimport_index_index>
+    
+</layout>

@@ -1,0 +1,2065 @@
+<?php Mage::getSingleton('core/session')->setDiamondStep('1'); ?>
+
+<?php
+
+$currSymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+
+$_productCollection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToSelect('*')
+        ->addAttributeToSort('price', 'asc')
+        ->addAttributeToFilter('status', 1)->setPageSize(100)
+        ->addAttributeToFilter('visibility', 3);
+
+$collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('price', 'asc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$collection->getSelect()->limit(1);
+//echo $collection->count();
+$maxcollection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('price', 'desc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$maxcollection->getSelect()->limit(1);
+
+$mincarats_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_carat', 'asc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$mincarats_collection->getSelect()->limit(1);
+
+$maxcarats_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_carat', 'desc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$maxcarats_collection->getSelect()->limit(1);
+
+$mindepth_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_depth', 'asc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$mindepth_collection->getSelect()->limit(1);
+
+$maxdepth_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_depth', 'desc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$maxdepth_collection->getSelect()->limit(1);
+
+$mintable_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_table', 'asc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$mintable_collection->getSelect()->limit(1);
+
+$maxtable_collection = Mage::getModel('catalog/category')->load(3)
+        ->getProductCollection()
+        ->addAttributeToFilter('status', 1)
+        ->addAttributeToSort('diamond_table', 'desc')
+        ->addAttributeToFilter('visibility', 3)->setPage(1,1);
+//$maxtable_collection->getSelect()->limit(1);
+
+$_productCollection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$maxcollection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$mincarats_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$maxcarats_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$mindepth_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$maxdepth_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$mintable_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+$maxtable_collection->joinField('is_in_stock', 'cataloginventory/stock_item', 'is_in_stock', 'product_id=entity_id', 'is_in_stock=1', '{{table}}.stock_id=1', 'left');
+
+$selectedDiamondShape = Mage::getSingleton('core/session')->getSDiamondShape();
+$selectedDiamondCut = Mage::getSingleton('core/session')->getSDiamondCut();
+
+if ($this->getRequest()->getParam('shape')) {
+    $selectedDiamondShape = $_GET['shape'];
+    $_productCollection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$maxcollection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$mincarats_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$maxcarats_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$mindepth_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$maxdepth_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$mintable_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+    //$maxtable_collection->addAttributeToFilter('diamond_shape', $_GET['shape']);
+} else if ($selectedDiamondShape) {
+    $_productCollection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$maxcollection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$mincarats_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$maxcarats_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$mindepth_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$maxdepth_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$mintable_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+    //$maxtable_collection->addAttributeToFilter('diamond_shape', $selectedDiamondShape);
+}
+if ($selectedDiamondCut) {
+    $_productCollection->addAttributeToFilter('diamond_cut', $selectedDiamondCut);
+    $collection->addAttributeToFilter('diamond_cut', $selectedDiamondCut);
+}
+//echo  $collection->getSelect();
+//exit;
+$all_prices = array();
+$all_carats = array();
+$all_cuts = array();
+$all_clarity = array();
+$all_polish = array();
+$all_symmetry = array();
+$all_fluorescence = array();
+$all_depth = array();
+$all_table = array();
+$all_shapes = array();
+$all_colors = array();
+
+/*foreach ($collection as $p) {
+    array_push($all_prices, trim($p->getPrice()));
+}*/
+foreach ($maxcollection as $p) {
+    array_push($all_prices, trim($p->getPrice()));
+}
+foreach ($mincarats_collection as $p) {
+    array_push($all_carats, trim($p->getDiamondCarat()));
+}
+
+foreach ($maxcarats_collection as $p) {
+    array_push($all_carats, trim($p->getDiamondCarat()));
+}
+foreach ($mindepth_collection as $p) {
+    array_push($all_depth, trim($p->getDiamondDepth()));
+}
+foreach ($maxdepth_collection as $p) {
+    array_push($all_depth, trim($p->getDiamondDepth()));
+}
+foreach ($mintable_collection as $p) {
+    array_push($all_table, trim($p->getDiamondTable()));
+}
+foreach ($maxtable_collection as $p) {
+    array_push($all_table, trim($p->getDiamondTable()));
+}
+
+$minPrice = min($all_prices);
+$maxPrice = max($all_prices);
+
+$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+if ($_currentCurrencyCode == 'USD') {
+    $minPrice = Mage::helper('directory')->currencyConvert($minPrice, 'SGD', 'USD');
+    $maxPrice = Mage::helper('directory')->currencyConvert($maxPrice, 'SGD', 'USD');
+    $left_padding = "40px";
+} else {
+    $left_padding = "50px";
+}
+
+$minPrice--;
+$maxPrice++;
+
+//$min_price_diamonds = number_format($minPrice, 2, '.', '');
+$min_price_diamonds = '0';
+
+$max_price_diamonds = number_format($maxPrice, 2, '.', '');
+
+$minCarat = min($all_carats);
+
+$maxCarat = max($all_carats);
+
+$minDepth = min($all_depth);
+
+$maxDepth = max($all_depth);
+
+$minTable = min($all_table);
+
+$maxTable = max($all_table);
+
+?>
+<script type="text/javascript">
+    window.diamondFilterUrl = '<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/filter';
+    window.diamondTotalPages = '<?php echo $_productCollection->getLastPageNumber(); ?>';
+</script>
+<style>
+    .cell-price .price {
+        float: left;
+        width: 130px;
+    }
+    .pl30 {
+        padding-left: 15px;
+    }
+    .loader-opacity-div-1
+    {
+        position: absolute;
+    }
+</style>
+
+<div class="myshoppage" style="position: relative;">
+    <div class="container shop-steps-three">
+        <div class="row">
+            <div class="col-md-4 step-top step-active">
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont">
+					<img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/choose a diamond.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>1</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Choose a
+                            <h2>diamond</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 step-top">    
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont select-diamond-step" step="2">
+					<img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/choose a setting.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>2</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Choose a
+                            <h2>Setting</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 step-top">
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont"> <img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/complete shopping cart.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>3</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Complete
+                            <h2>Shopping Cart</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter_area clearfix">
+        <div class="filter_area_title">
+            <div class="container">
+                <h1>Create your own ring</h1>
+            </div>
+        </div>
+
+        <?PHP
+//	error_reporting(E_ALL);
+//ini_set('display_errors','on');
+        /* Attribute code */
+        $clr = array();
+        $clr['AS'] = 'asscher';
+        $clr['CU'] = 'cushion';
+        $clr['EC'] = 'emerald';
+        $clr['HS'] = 'heart';
+        $clr['MQ'] = 'marquise';
+        $clr['OV'] = 'oval';
+        $clr['PR'] = 'pear';
+        $clr['PS'] = 'princess';
+        $clr['RA'] = 'radiant';
+        $clr['RD'] = 'round';
+
+        $lblVals = array();
+        $lblVals['EP'] = 'Extremely Poor';
+        $lblVals['VP'] = 'Very Poor';
+
+        $lblVals['PO'] = 'Poor';
+        $lblVals['FR'] = 'Fair';
+        $lblVals['GD'] = 'Good';
+        $lblVals['VG'] = 'Very Good';
+        $lblVals['EX'] = 'Excellent';
+        $lblVals['H&A'] = 'Signature Ideal';
+
+
+        $prods = Mage::getSingleton('catalog/layer')->setCurrentCategory(Mage::registry('current_category'))
+                ->getProductCollection();
+
+        $_prodscarats = $_prodscut = array();
+        foreach ($prods as $_prods) {
+            if ($_prods->getResource()->getAttribute('d_carat')->getFrontend()->getValue($_prods) != '') {
+                $_prodscarats[] = $_prods->getResource()->getAttribute('d_carat')->getFrontend()->getValue($_prods);
+            }
+            if ($_prods->getResource()->getAttribute('d_cut')->getFrontend()->getValue($_prods) != '') {
+                $_prodscut[] = $_prods->getResource()->getAttribute('d_cut')->getFrontend()->getValue($_prods);
+            }
+            if ($_prods->getResource()->getAttribute('d_depth')->getFrontend()->getValue($_prods) != '') {
+                $_prodsdepth[] = $_prods->getResource()->getAttribute('d_depth')->getFrontend()->getValue($_prods);
+            }
+            if ($_prods->getResource()->getAttribute('d_table')->getFrontend()->getValue($_prods) != '') {
+                $_prodstable[] = $_prods->getResource()->getAttribute('d_table')->getFrontend()->getValue($_prods);
+            }
+        }
+
+        $options = Mage::getResourceModel('eav/entity_attribute_option_collection');
+        $values = $options->setAttributeFilter('d_cut')->setStoreFilter($storeId)->toOptionArray();
+        $config = Mage::getModel('eav/config');
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_cut');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dcutarr = $_dcutValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] != '') {
+                $_dcutarr[$val['label']] = $val['value'];
+                $_dcutValues[] = $val['value'];
+            }
+        }
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_clarity');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dclarr = $_dclValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] != '' && $val['label'] != 'I1' && $val['label'] != 'I2' && $val['label'] != 'I3') {
+                $_dclarr[$val['label']] = $val['value'];
+                $_dclValues[] = $val['value'];
+            }
+        }
+
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_polish');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dpolish = $_dpolishValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] == 'GD' || $val['label'] == 'VG' || $val['label'] == 'EX') {
+                $_dpolish[$val['label']] = $val['value'];
+                $_dpolishValues[] = $val['value'];
+            }
+        }
+
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_fluorescence');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dflu = $_dfluValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] != '' && $val['label'] != 'SLIGHT') {
+                $_dflu[$val['label']] = $val['value'];
+                $_dfluValues[] = $val['value'];
+            }
+        }
+
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_symmetry');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dsym = $_dsymValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] == 'GD' || $val['label'] == 'VG' || $val['label'] == 'EX') {
+                $_dsym[$val['label']] = $val['value'];
+                $_dsymValues[] = $val['value'];
+            }
+        }
+
+
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_color');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_dclrarr = $_dclrValues = array();
+
+        foreach ($values as $key => $val) {
+            if ($val['label'] != '') {
+                $_dclrarr[$val['label']] = $val['value'];
+                $_dclrValues[] = $val['value'];
+            }
+        }
+
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'd_depth');
+        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+        $_ddepth = $_ddepthValues = array();
+        foreach ($values as $key => $val) {
+            if ($val['label'] != '') {
+                $_ddepth[$val['label']] = $val['value'];
+                $_ddepthValues[] = $val['value'];
+            }
+        }
+        ?>
+        <div class="container overflow-h">
+            <div class="row filters_div clearfix" >
+
+                <div class="block block-layered-nav filters-panel slide-1">
+
+                    <div class="block-content">
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+
+                            <div class="filter_box shape">
+                                <div class="filter_title">Shape
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+
+                                    <div class="popover fade bottom in mypop d-shapes-popover" style="position: fixed; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">DIAMOND SHAPE <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content pop-diamonds-shape text-center">
+                                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                <tr>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/round.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Round</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/princess.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Princess</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/emerald.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Emerald</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/heart.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Heart</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/pear.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Pear</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/cushion.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Cushion</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/radiant.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Radiant</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/oval.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Oval</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/asscher.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Asscher</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="img-holder">
+                                                            <img src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/shape/marquise.png" alt="">
+                                                            <br>
+                                                        </div>
+                                                        <span>Marquise</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-controls" data-control="shape">
+                                    <div class="slider">
+                                        <span class="values"></span>
+                                    </div>
+                                </div>
+
+                                <div class="filter_value">
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="50%">
+                                                    <span class="values"></span>
+                                                    <!-- <span class="value-to"></span> -->
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list shapes-filter ">
+                                        <?PHP
+                                        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'shape');
+                                        $values = $attribute->setStoreId($storeId)->getSource()->getAllOptions();
+                                        $_dtbl = array();
+                                        $selectedDiamondShapedata = Mage::getSingleton('core/session')->getSDiamondShape();
+
+                                        if ($this->getRequest()->getParam('shape')) {
+                                            $selectedDiamondShape = $_GET['shape'];
+                                            $selectedDiamondShapearray = explode(",", $selectedDiamondShape);
+                                        } else if ($selectedDiamondShapedata) {
+                                            $selectedDiamondShapearray = array($selectedDiamondShapedata);
+                                        }
+                                        ?>
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                        if (in_array("RD", $selectedDiamondShapearray)) {
+                                            echo "checked-clr";
+                                        }
+                                        ?>" data-filter="shape" data-value="25" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Round"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/round.png" class="unchecked_img">
+                                            </a>
+                                        </li>
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("PS", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="61" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Princess"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/princess.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("EC", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="59" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Emerald"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/emerald.png" class="unchecked_img">
+
+                                            </a>
+                                        </li>	
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("HS", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="23" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Heart"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/heart.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("PR", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="24" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Pear"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/pear.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("CU", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="58" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Cushion"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/cushion.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("RA", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="56" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Radiant">
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/radiant.png" class="unchecked_img">
+                                            </a>
+                                        </li>
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("OV", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="26" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Oval">
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/oval.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("AS", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="57" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Asscher"> 
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/asscher.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+
+                                        <li class="shape_li_pull "> 
+                                            <a href="javascript:void(0);" class="btn-clr ajax-filter <?php
+                                               if (in_array("MQ", $selectedDiamondShapearray)) {
+                                                   echo "checked-clr";
+                                               }
+                                        ?>" data-filter="shape" data-value="60" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Marquise">
+                                                <img width="auto" height="50" src="<?php echo Mage::getBaseUrl(); ?>skin/frontend/base/default/packer/images/diamonds/marquise.png" class="unchecked_img">
+                                            </a>
+                                        </li>	
+
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box price">
+
+                                <div class="filter_title">Price</div>
+
+                                <div class="mobile-controls" data-control="price">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list prices">
+                                        <?php
+                                        echo '
+									<input class="dataurl" type="hidden" data-prefix="' . $currSymbol . '"  value="" />
+									<div class="range-inputs clearfix">
+									<div class="range-input pull-left" style="position: relative;" ><label style="font-weight: normal; position: absolute; left: 12px; font-size: 14px; top: 7px;">' . $currSymbol . ' </label><input type="text" style="padding-left: ' . $left_padding . ';" class="form-control rangemin" value="' . $min_price_diamonds . '"/></div>
+									<div class="range-input pull-right" style="position: relative;" ><label style="font-weight: normal; position: absolute; left: 12px; font-size: 14px; top: 7px;">' . $currSymbol . ' </label><input type="text" style="padding-left: ' . $left_padding . ';" class="form-control rangemax" value="' . $max_price_diamonds . '"/></div>
+									</div>
+									<div class="rangeslider" data-filter="price" data-min-value="' . $min_price_diamonds . '" data-max-value="' . $max_price_diamonds . '" data-min="' . $min_price_diamonds . '" data-max="' . $max_price_diamonds . '"></div>';
+                                        ?>
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+
+                            <div class="filter_box carat">
+
+                                <div class="filter_title"> Carat 
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Carat (ct.)<a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <p>
+                                                The international unit of weight, used for measuring diamonds and gemstones. 1 carat is equal to 200 milligrams, or 0.2 grams. 
+                                            </p>
+
+                                        </div>
+                                    </div>
+
+                                </div><!-- end filter title -->
+
+                                <div class="mobile-controls" data-control="carat">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+                                <div class="filter_value">
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+
+
+                                    <ol class="m-filter-item-list carat ">
+
+                                        <?PHP										
+                                        echo '
+									<input class="dataurl" type="hidden" data-prefix=" " value="" />
+									<div class="range-inputs clearfix">
+									<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="' . $minCarat . '"/></div>
+									<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="' . $maxCarat . '"/></div>
+									</div>
+									<div class="rangeslider carat-slider" data-filter="d_carat" data-min-value="' . $minCarat . '" data-max-value="' . $maxCarat . '" data-min="' . $minCarat . '" data-max="' . $maxCarat . '"></div>';
+                                        ?>
+
+                                    </ol>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box cut">
+                                <div class="filter_title"> Cut 
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                                    <div class="popover fade bottom in mypop" style="position: fixed; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">DIAMOND CUT <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <img class="cut_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/SIG_ID.png" />
+
+                                            <div class="grey_box_con">
+                                                CHOOSE A DIAMOND CUT:
+                                            </div>
+                                            <div class="btn-grp-con">
+                                                <div class="mbtn mbtn-lg active"  onClick="changelistcut('List_Diamond_Signature_Ideal');" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/SIG_ID.png">
+                                                    SIGNATURE IDEAL
+                                                </div>
+                                                <div class="mbtn mbtn-lg" onClick="changelistcut('List_Diamond_Excellent');" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/EXCELLENT.png">
+                                                    EXCELLENT
+                                                </div>
+                                                <div class="mbtn" onClick="changelistcut('List_Diamond_Very_Good');" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/VERY_GOOD.png">
+                                                    VERY GOOD
+                                                </div>
+                                                <div class="mbtn" onClick="changelistcut('List_Diamond_Good');" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/GOOD.png">
+                                                    GOOD
+                                                </div>
+                                                <!--div class="mbtn" data-container=".cut_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/cut/FAIR.png">
+                                                    FAIR
+                                                </div-->
+                                            </div>
+                                            
+											<p style="display: block; text-align: justify;" id="List_Diamond_Signature_Ideal">
+											<b>Signature Ideal cut:</b> Top 1% of diamond quality - with precise proportions, polish and symmetry = allowing the diamond to reflect even more light than the standard Ideal cut.
+											</p>
+											<p style="display: none; text-align: justify;" id="List_Diamond_Excellent">
+											<b>Excellent cut:</b> Highest cut grade. Its proportions produce a beautiful balance of fire and sparkle in a diamond.
+											</p>
+											<p style="display: none; text-align: justify;" id="List_Diamond_Very_Good">
+											<b>Very Good cut:</b> Very slightly less measurable fire or sparkle than an ideal cut diamond, at a more affordable price.
+											</p>
+											<p style="display: none; text-align: justify;" id="List_Diamond_Good">
+											<b>Good cut:</b> Quality at a lower price than a very good cut, still producing a beautiful diamond for the budget-minded.
+											</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-controls" data-control="cut">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+                                <div class="filter_value">
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list cut-range">
+
+                                        <input class="dataurl" data-values=["1","2","3","4"] data-prefix="" data-split="d_carat=" type="hidden" value="" />
+                                        <div class="ticker-inputs clearfix">
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">GOOD</span></td>
+                                                    <td><span class="tick">VERY GOOD</span></td>
+                                                    <td><span class="tick">EXCELLENT</span></td>
+                                                    <td><span class="tick">SIGNATURE IDEAL</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+<div class="rangeslider step_1_cut_range" data-filter="d_cut" data-min-value="0" data-max-value="4" data-min="0" data-max="4" data-range="true"></div>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box color">
+                                <div class="filter_title"> color
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">DIAMOND COLOUR <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <img class="color_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_df.png" />
+
+                                            <div class="grey_box_con">
+                                                CHOOSE A COLOUR GRADE:
+                                            </div>
+                                            <div class="btn-grp-con">
+                                                <div class="mbtn mbtn-lg active" onClick="changelistcolor('List_Diamond_Color_Df');" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_df.png">
+                                                    D-F
+                                                </div>
+                                                <div class="mbtn mbtn-lg" onClick="changelistcolor('List_Diamond_Color_Gi');" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_gi.png">
+                                                    G-I
+                                                </div>
+                                                <div class="mbtn" onClick="changelistcolor('List_Diamond_Color_Jk');" data-container=".color_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/color/color_jk.png">
+                                                    J-K
+                                                </div>
+
+                                            </div>
+
+						  <p style="display: block; text-align: left;" id="List_Diamond_Color_Df">
+						  <b>Colourless:</b> None or minute traces of color, but can only be detected by expert gemologist. usually set with platinum or white gold settings.
+						  </p>
+						  <p style="display: none; text-align: left;" id="List_Diamond_Color_Gi">
+						  <b>Near Colourless:</b> The yellow tints are insignificant. Color may be detectable when compared to much higher "colourless" grades.
+						  </p>
+						  <p style="display: none; text-align: left;" id="List_Diamond_Color_Jk">
+						  There is a hint of yellow tint that can be observed with the naked eye without any comparison.
+						  </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="mobile-controls" data-control="color">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+
+                                    <ol class="m-filter-item-list color-range">
+                                        <?PHP
+                                        $minPrice = 0;
+                                        $maxPrice = count($_dclrarr);
+                                        ?>
+
+                                        <input class="dataurl" data-values=["44","45","46","47","48","49","50","51","52"] data-prefix="" data-suffix="" data-split="d_carat=" type="hidden" value="" />
+                                        <div class="ticker-inputs clearfix">
+
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">K</span></td>
+                                                    <td><span class="tick">J</span></td>
+                                                    <td><span class="tick">I</span></td>
+                                                    <td><span class="tick">H</span></td>
+                                                    <td><span class="tick">G</span></td>
+                                                    <td><span class="tick">F</span></td>
+                                                    <td><span class="tick">E</span></td>
+                                                    <td><span class="tick">D</span></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                        <div class="rangeslider step_1_color_range" data-filter="d_color" data-min-value="0" data-max-value="8" data-min="0" data-max="8" data-range="true"></div>
+
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box clarity">
+                                <div class="filter_title"> Clarity 
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">DIAMOND CLARITY <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <img class="clr_show_img" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vfl-tl.png" />
+
+                                            <div class="grey_box_con">
+                                                CHOOSE A CLARITY GRADE:
+                                            </div>
+                                            <div class="btn-grp-con">
+                                                <div class="mbtn mbtn-lg active" onClick="changelistclarity('List_Diamond_Flawless_Internally_flawless');" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vfl-tl.png">
+                                                    FL-IF
+                                                </div>
+                                                <div class="mbtn mbtn-lg" onClick="changelistclarity('List_Diamond_Very_Very_Slight_Included');" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vvs1-vvs2.png">
+                                                    VVS1-VVS2
+                                                </div>
+                                                <div class="mbtn" onClick="changelistclarity('List_Diamond_Very_Slight_Included');" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_vs1-vs2.png">
+                                                    VS1-VS2	
+                                                </div>
+                                                <div class="mbtn" onClick="changelistclarity('List_Diamond_Slightly_Included');" data-container=".clr_show_img" data-img="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/clarity/cl_si1-si2.png">
+                                                    SI1-SI2
+                                                </div>
+
+                                            </div>
+
+
+<p style="display: block; text-align: justify;" id="List_Diamond_Flawless_Internally_flawless">
+<b>Flawless, Internally flawless (FL & IF)</b>: Contains no internal inclusions when viewed with 10x magnification. Internally Flawless diamonds may contain external characteristics (also known as blemishes).
+</p>
+<p style="display: none; text-align: justify;" id="List_Diamond_Very_Very_Slight_Included">
+<b>Very Very Slight Included (VVS1 & VVS2)</b>: Contains minute inclusions that are extremely difficult to locate under 10 x magnifications.
+</p>
+<p style="display: none; text-align: justify;" id="List_Diamond_Very_Slight_Included">
+<b>Very Slight Included (VS1 & VS2)</b>: Contains minute inclusions, such as clouds, crystals, or feathers, which are difficult to locate with 10x magnification.
+</p>
+<p style="display: none; text-align: justify;" id="List_Diamond_Slightly_Included">
+<b>Slightly Included (SI1, SI2 & SI3)</b>: Contains noticeable inclusions under 10x magnification, including clouds, knots, crystals, cavities, and feathers.
+</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-controls" data-control="clarity">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list clarity-range">
+                                        <?PHP
+                                        $minPrice = 0;
+                                        $maxPrice = count($_dclarr);
+                                        $tick_l = '';
+                                        foreach ($_dclarr as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . (isset($lblVals[$pc]) ? $lblVals[$pc] : $pc) . '</span>';
+                                        }
+                                        ?>
+
+                                        <input class="dataurl" data-values='["44","45","46","47","48","49","50","51"]' data-prefix="" data-split="d_carat=" type="hidden" value="" />
+
+                                        <div class="ticker-inputs clearfix">
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">SI2</span></td>
+                                                    <td><span class="tick">SI1</span></td>
+                                                    <td><span class="tick">VS2</span></td>
+                                                    <td><span class="tick">VS1</span></td>
+                                                    <td><span class="tick">VVS2</span></td>
+                                                    <td><span class="tick">VVS1</span></td>
+                                                    <td><span class="tick">IF</span></td>
+                                                    <td><span class="tick">FL</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="rangeslider step_1_clarity_range" data-filter="d_clarity" data-min-value="0" data-max-value="8" data-min="0" data-max="8" data-range="true"></div>
+
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="block block-layered-nav filters-panel slide-2 slided">
+                    <div class="block-content">
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+
+                            <div class="filter_box polish">
+                                <div class="filter_title"> Polish 
+                                    <img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png" class="info_title">
+                                    <div style="position: fixed; top: 30px; left: -100px; width: 260px;" class="popover fade bottom in mypop">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Polish <a class="close_pop" href="javascript:void(0);">&times;</a></h3>
+                                        <div class="popover-content text-center">
+                                            <p> The overall condition of a finished diamond's faceted surfaces, including how smoothly the facets have been polished, whether any marks are visible from the polishing wheel, and how defined the edges of each facet are. Polish marks are almost always invisible to the unaided eye, but good polish is essential for maximum light performance. </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mobile-controls" data-control="polish">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+                                <div class="filter_value">
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <ol class="m-filter-item-list polish-range">
+                                        <?PHP
+                                        $minPrice = 0;
+                                        $maxPrice = count($_dpolish);
+                                        $tick_l = '';
+                                        foreach ($_dpolish as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . (isset($lblVals[$pc]) ? $lblVals[$pc] : $pc) . '</span>';
+                                        }
+                                        ?>
+                                        <input class="dataurl" data-values='["73","72","67"]' type="hidden" value="" />
+                                        <div class="ticker-inputs clearfix">
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">Good</span></td>
+                                                    <td><span class="tick">Very Good</span></td>
+                                                    <td><span class="tick">Excellent</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div  class="rangeslider step_1_polish_range" data-filter="d_polish" data-min-value="0" data-max-value="3" data-min="0" data-max="3" data-range="true"></div>
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box symmetry">
+                                <div class="filter_title"> Symmetry 
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Symmetry <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <p>
+                                                The precision and alignment of a diamond's facets and the resulting effects on its brilliance. 
+                                            </p>
+
+                                            <img style="width:212px;" src="<?PHP echo Mage::getBaseUrl(); ?>skin/frontend/puro/default/images/diamonds_filter/symmetry.png" alt="">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="mobile-controls" data-control="symmetry">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list symmetry-range">
+                                        <?PHP
+                                        $minPrice = 0;
+                                        $maxPrice = count($_dsym);
+                                        $tick_l = '';
+                                        foreach ($_dsym as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . (isset($lblVals[$pc]) ? $lblVals[$pc] : $pc) . '</span>';
+                                        }
+                                        ?>
+
+                                        <input class="dataurl" data-values='["80","79","74"]' data-prefix="" data-split="d_carat=" type="hidden" value="" />
+                                        <div class="ticker-inputs clearfix">
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">Good</span></td>
+                                                    <td><span class="tick">Very Good</span></td>
+                                                    <td><span class="tick">Excellent</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="rangeslider step_1_symmetry_range" data-filter="d_symmetry" data-min-value="0" data-max-value="3" data-min="0" data-max="3" data-range="true"></div>
+
+                                    </ol>
+                                </div>
+                            </div>
+                        </div><!-- col-md-4  col-sm-6 col-xs-4 END -->
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+
+                            <div class="filter_box fluorescence">
+
+                                <div class="filter_title"> Fluorescence
+
+                                    <div class="filter-trigger-cont pull-right mobile-hide"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Fluorescence <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <p>
+                                                A measure of the visible light some diamonds emit when exposed to ultraviolet (UV) rays. Diamonds with a strong or very strong fluorescence are a better value because the market prices them slightly lower. It is quite rare for fluorescence to have any visual impact on a diamond's appearance, and it does not compromise the gem's structural integrity in any way. 
+                                            </p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="mobile-controls" data-control="fluorescence">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td width="100">
+                                                    <div class="filter-trigger-cont pull-right mobile-only"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                                                </td>
+                                                <td width="50">
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list  disable-range fluorescence-range">
+                                        <?PHP
+                                        $minPrice = 0;
+                                        $maxPrice = count($_dflu);
+                                        $tick_l = '';
+                                        foreach ($_dflu as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . (isset($lblVals[$pc]) ? $lblVals[$pc] : $pc) . '</span>';
+                                        }
+                                        ?>
+
+
+                                        <input class="dataurl" data-values='["81","82","84","85","86"]' data-prefix="" data-split="d_carat=" type="hidden" value="" />
+                                        <div class="ticker-inputs clearfix">
+                                            <table width="100%" class="ticker-table">
+                                                <tr>
+                                                    <td><span class="tick">NONE</span></td>		
+                                                    <td><span class="tick">FAINT</span></td>
+                                                    <td><span class="tick">MEDIUM</span></td>
+                                                    <td><span class="tick">STRONG</span></td>
+                                                    <td><span class="tick">VERY STRONG</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="rangeslider step_1_fluorescence_range" data-disabled="true" data-filter="d_fluorescence" data-min-value="0" data-max-value="5" data-min="0" data-max="5" data-range="true"></div>
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div><!-- col-md-4  col-sm-6 col-xs-4 END -->
+
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+
+                            <div class="filter_box depth">
+                                <div class="filter_title"> Depth
+
+                                    <div class="filter-trigger-cont pull-right mobile-hide"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Depth percentage <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <p>
+                                                The height of a diamond, measured from the culet to the table, divided by its average girdle diameter. One of the basic proportions that contributes to a diamond's appearance, brilliance and fire. 
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-controls" data-control="depth">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <div class="filter-trigger-cont pull-right mobile-only"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list  disable-range depth">
+                                        <?PHP
+                                        $minPrice = $_prodsdepth[0];
+                                        $maxPrice = $_prodsdepth[count($_prodsdepth) - 1];
+                                        $tick_l = '';
+                                        foreach ($_ddepth as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . $pc . '</span>';
+                                        }
+
+                                        echo '
+							<input class="dataurl" data-values=\'' . (json_encode($_ddepthValues)) . '\' data-prefix="" data-suffix="%" data-split="d_carat=" type="hidden" value="" />
+							<div class="range-inputs clearfix">
+							<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="' . $minDepth . '%"/></div>
+							<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="' . $maxDepth . '%"/></div>
+							</div>
+							<div class="rangeslider" data-disabled="true" data-filter="d_depth" data-min-value="' . $minDepth . '" data-max-value="' . $maxDepth . '" data-min="' . $minDepth . '" data-max="' . $maxDepth . '" data-range="true"></div>
+							';
+                                        ?> 
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div><!-- col-md-4  col-sm-6 col-xs-4 END -->
+
+                        <div class="col-md-4  col-sm-6 col-xs-4">
+                            <div class="filter_box _table">
+                                <div class="filter_title"> Table
+
+                                    <div class="filter-trigger-cont pull-right mobile-hide"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+
+                                    <img class="info_title" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/info.png"/>
+                                    <div class="popover fade bottom in mypop" style="position: fixed; top: 30px; left: -100px; width: 260px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="pop-title">Table percentage <a href="javascript:void(0);" class="close_pop">&times;</a></h3>
+
+                                        <div class="popover-content text-center">
+                                            <p>
+                                                The width of the diamond's table expressed as a percentage of its average diameter. A component of the overall cut grade, this measurement is critical to a diamond's light performance. 
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-controls" data-control="_table">
+                                    <div class="slider">
+                                        <span class="value-from"></span> - 
+                                        <span class="value-to"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_value">
+
+                                    <div class="popup-header mobile-only"> 
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <span class="value-from"></span> - 
+                                                    <span class="value-to"></span>
+                                                </td>
+                                                <td>
+                                                    <div class="filter-trigger-cont pull-right mobile-only"><input type="checkbox" class="bSwitch triggerSwitch" data-size="mini"></div>
+                                                </td>
+                                                <td>
+                                                    <a class="close-values mobile-only" href="javascript:void(0);">&times;</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <ol class="m-filter-item-list  disable-range table-range">
+                                        <?PHP
+                                        $minPrice = $_prodstable[0];
+                                        $maxPrice = $_prodstable[count($_prodstable) - 1];
+                                        $tick_l = '';
+                                        foreach ($_dtbl as $pc => $pcval) {
+                                            $tick_l .= '<span class="tick">' . (isset($lblVals[$pc]) ? $lblVals[$pc] : $pc) . '</span>';
+                                        }
+
+                                        echo '
+							<input class="dataurl" data-values=\'' . (json_encode($_dtblValues)) . '\' data-prefix="" data-suffix="%" data-split="d_carat=" type="hidden" value="" />
+							<div class="range-inputs clearfix">
+							<div class="range-input pull-left"><input type="text" class="form-control rangemin" value="' . $minTable . '%"/></div>
+							<div class="range-input pull-right"><input type="text" class="form-control rangemax" value="' . $maxTable . '%"/></div>
+							</div>
+							<div class="rangeslider" data-disabled="true" data-filter="d_table" data-min-value="' . $minTable . '" data-max-value="' . $maxTable . '" data-min="' . $minTable . '" data-max="' . $maxTable . '" data-range="true"></div>
+							';
+                                        ?>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div><!-- col-md-4  col-sm-6 col-xs-4 END -->
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row adv-filters">
+                <div class="col-md-12">
+                        <div class="clearfix"> <a id="Reset_filters" class="btn-no-border pull-left" href="javascript:void(0);"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/reset-icon-60.png" /> RESET FILTERS</a> <a class="btn-border-grey pull-right filter_slider advanced-filters" data-position="1" href="javascript:void(0);"><!--<i class="fa fa-long-arrow-left"></i> BASIC FILTERS--> 
+                            ADVANCED FILTERS <i class="fa fa-long-arrow-right"></i> </a> </div>
+                </div>
+            </div>
+
+            <div class="filter_trigger_div text-center"> <a class="filter_trigger" href="javascript:void(0);">View Filters <i class="fa fa-long-arrow-down"></i></a> </div>
+        </div>
+    </div>
+
+     <div class="container">
+        <div class="row">
+
+            <?php
+            /* $products = Mage::getModel('catalog/category')->load(3)
+              ->getProductCollection()->setPageSize(10)
+              ->addStoreFilter(Mage::app()->getStore()->getId())
+              ->addAttributeToSelect('*'); */
+
+// echo $products->count();die;
+            /* 	$_productCollection = Mage::getModel('catalog/category')->load(3)
+              ->getProductCollection()->setPageSize(10)
+              ->addAttributeToSelect('*') // add all attributes - optional
+              ->addAttributeToFilter('status', 1) // enabled
+              ->addAttributeToFilter('visibility', 4) //visibility in catalog,search
+              ->setOrder('price', 'ASC'); //sets the order by price
+              if($this->getRequest()->getParam('shape')){
+              $_productCollection->addAttributeToFilter('diamond_shape',$_GET['shape']);
+              } */
+
+//$this->getLoadedProductCollection();
+            /*  $_productCollection = Mage::getModel('trd_importxls/importxls')
+              ->getCollection()
+              ->setPageSize(100)
+              ->setCurPage(1)
+              ->setOrder('diamonds_price', 'ASC'); */
+
+            $_helper = $this->helper('catalog/output');
+
+            $clr = array();
+
+            $clr['AS'] = 'asscher';
+            $clr['CU'] = 'cushion';
+            $clr['EC'] = 'emerald';
+            $clr['HS'] = 'heart';
+            $clr['MQ'] = 'marquise';
+            $clr['OV'] = 'oval';
+            $clr['PR'] = 'pear';
+            $clr['PS'] = 'princess';
+            $clr['RA'] = 'radiant';
+            $clr['RD'] = 'round';
+            ?>
+
+            <?php if (!$_productCollection->count()): ?>
+                			    <div class="category-products">
+
+				<div class="clearfix pv30 mystylefont row compare-results">
+				<div class="col-xs-7">
+				<a class="fcdark compareItems" href="javascript:void(0);">Compare your Diamonds <span class="cmp_count">(0)</span> <i class="fa fa-long-arrow-right pl30"></i></a>
+				<a href="javascript:void(0);" style="display:none;" class="fcdark backTosearch mystylefont"> <i class="fa fa-long-arrow-left pr30"></i> Back to Search</a> 
+				</div>
+				<div class="col-xs-5 text-right"><span class="total_results odometer">0</span> results found </div>
+				</div>
+				
+				<div class="cat-results page-diamonds">
+                        <div class="items-table-container" style="overflow: hidden;">
+                            <div class="loader-opacity-div-1 loader-diamonds-results"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/mtloadingdiamonds.gif" /></div>
+
+                            <div class="item-list-all">
+
+                                <div class="item-list-table table-offset">
+
+                                    <table class="diamonds-table diamonds-table-header table-fixed text-center" width="100%" cellspacing="0" cellpadding="0"  >
+                                        <tr>
+                                            <td>Compare</td>
+                                            <td class="table-header shape" data-sort="shape" >Shape</td>
+                                            <td class="table-header carat" data-sort="carat" >Carat</td>
+                                            <td class="table-header color" data-sort="color" >Color</td>
+                                            <td class="table-header clarity" data-sort="clarity" >Clarity</td>
+
+                                            <td class="table-header table-header-fluorescence" data-sort="fluorescence"><span class="short">FL</span><span class="long">Fluorescence</span></td>
+                                            <td class="table-header table-header-depth" data-sort="depth" >Depth</td>
+                                            <td class="table-header table-header-_table" data-sort="table_field" >Table</td>
+
+                                            <td class="table-header cut" data-sort="cut" >Cut</td>
+                                            <td class="table-header polish" data-sort="polish" >Polish</td>
+                                            <td class="table-header symmetry" data-sort="symmetry" >
+                                                <span class="short">SM</span>
+                                                <span class="long">Symmetry</span>
+                                            </td>
+                                            <td class="table-header price" data-sort="diamonds_price" >Price</td>
+                                            
+                                        </tr>
+                                    </table>
+
+                                    <div class="content content-diamonds" style="height: 503px; overflow: hidden;">
+										<p class="note-msg newdaimonds" id="newdaimonds"><?php echo $this->__('There are no products matching the selection.') ?></p>							
+                                        <table class="diamonds-table diamonds-table-content table-hover table-fixed text-center table-bordered my-custom-list-table " width="100%">
+                                            <tbody>
+											
+                                            </tbody>
+                                        </table>
+										
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-compare-list">
+                                <div class="loader-opacity-div"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/loader.gif" /></div>
+                                <div class="mystylefont"> Compare your diamonds <span class="cmp_count">(0)</span> </div>
+                                <table id="compareTable" class="table-hover text-center table-bordered my-custom-list-table" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Remove</th>
+                                            <th class="text-center">Shape</th>
+                                            <th class="text-center">Carat</th>
+                                            <th class="text-center">Cut</th>
+                                            <th class="text-center">Color</th>
+                                            <th class="text-center">Clarity</th>
+                                            <th class="text-center">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="item-info-block" style="height:549px; overflow: hidden;">
+
+                            <div class="item-block-wbtm sidebar-top-buttons">
+                                <table width="100%" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center" style="border-right: 1px solid rgba(221, 229, 237, 0.4);">
+                                            <a class="fcdark closeItemInfo" href="javascript:void(0);">
+                                                <i class="fa fa-long-arrow-left "></i> CLOSE DETAILS </a>
+                                        </td>
+                                        <td align="center">
+                                            <a class="fcdark more-item-info" href="javascript:void(0);"> MORE DETAILS 
+                                                <i class="fa fa-long-arrow-right "></i></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="diamonds-sidebar" style="height:501px;">		    	
+                                <div class="container-1" style="height: 1000px;">
+                                    <div class="loader-opacity-div"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/loader.gif" /></div>
+                                    <div class="item-info-ajax-container"> </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>               
+				
+				</div>
+            <?php else: ?>
+                <div class="category-products">
+
+                    <div class="clearfix pv30 mystylefont row compare-results">
+
+                        <div class="col-xs-7">
+
+                            <a class="fcdark compareItems" href="javascript:void(0);">Compare your Diamonds <span class="cmp_count">(0)</span> <i class="fa fa-long-arrow-right pl30"></i></a>
+                            <a href="javascript:void(0);" style="display:none;" class="fcdark backTosearch mystylefont"> <i class="fa fa-long-arrow-left pr30"></i> Back to Search</a> 
+
+                        </div>
+
+                        <div class="col-xs-5 text-right"><span class="total_results odometer"><?PHP echo $_productCollection->getSize() - 1; ?></span> results found </div>
+                    </div>
+
+
+                    <div class="cat-results page-diamonds">
+                        <div class="items-table-container" style="overflow: hidden;">
+                            <div class="loader-opacity-div-1 loader-diamonds-results"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/mtloadingdiamonds.gif" /></div>
+
+                            <div class="item-list-all">
+
+                                <div class="item-list-table table-offset">
+
+                                    <table class="diamonds-table diamonds-table-header table-fixed text-center" width="100%" cellspacing="0" cellpadding="0"  >
+                                        <tr>
+                                            <td>Compare</td>
+                                            <td class="table-header shape" data-sort="shape" >Shape</td>
+                                            <td class="table-header carat" data-sort="carat" >Carat</td>
+                                            <td class="table-header color" data-sort="color" >Color</td>
+                                            <td class="table-header clarity" data-sort="clarity" >Clarity</td>
+
+                                            <td class="table-header table-header-fluorescence" data-sort="fluorescence"><span class="short">FL</span><span class="long">Fluorescence</span></td>
+                                            <td class="table-header table-header-depth" data-sort="depth" >Depth</td>
+                                            <td class="table-header table-header-_table" data-sort="table_field" >Table</td>
+
+                                            <td class="table-header cut" data-sort="cut" >Cut</td>
+                                            <td class="table-header polish" data-sort="polish" >Polish</td>
+                                            <td class="table-header symmetry" data-sort="symmetry" >
+                                                <span class="short">SM</span>
+                                                <span class="long">Symmetry</span>
+                                            </td>
+                                            <td class="table-header price" data-sort="diamonds_price" >Price</td>
+                                            
+                                        </tr>
+                                    </table>
+
+                                    <div class="content content-diamonds" style="height: 503px; overflow: hidden;">
+										<!--div class="formob_fixed">
+                                        <div data-sort="diamonds_price" class="table-header price">Price</div>
+										<?php
+										$_evennew = 0;
+										foreach ($_productCollection as $_product)
+										{
+										?>
+										<div class="cell-price <?PHP echo ($_evennew % 2 == 0 ? 'grey-bg' : '') ?>">
+										<?php
+										echo Mage::helper('core')->currency($_product->getPrice());
+										?>
+										<i class="fa fa-arrow-right pl30"></i>
+										</div>
+										<?php 
+										$_evennew++;
+										}
+										?>
+										</div-->
+										
+                               <table class="diamonds-table diamonds-table-content table-hover table-fixed text-center table-bordered my-custom-list-table " width="100%">
+                                            <tbody>
+                                                <?php
+                                                $_iterator = 0;
+                                                $_even = 0;
+                                                $_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+                                                ?>
+                                                <?php
+                                                foreach ($_productCollection as $_product):
+
+                                                    $dclarity = $_product->getDiamondClarity();
+                                                    $dcut = $_product->getDiamondCut();
+                                                    $dpolish = $_product->getDiamondPolish();
+                                                    $dsym = $_product->getDiamondSymmetry();
+
+                                                    /*  if ($_currentCurrencyCode == 'SGD') {
+                                                      $convertedPrice = $_product->getDiamondsPrice();
+                                                      } else if ($_currentCurrencyCode == 'USD') {
+                                                      $convertedPrice = Mage::helper('directory')->currencyConvert($_product->getDiamondsPrice(), 'SGD', 'USD');
+                                                      } */
+                                                    ?>
+
+                                                    <tr data-id="<?PHP echo $_product->getId(); //echo $_product->getImportxlsId();             ?>" class="item_ajax_get_details <?PHP echo ($_even % 2 == 0 ? 'grey-bg' : '') ?>" >
+                                                        <td class="cell-compare"><input class="compare_item" type="checkbox" name="chk[]" value="" /></td>
+                                                        <?php /* echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(30); */ ?>
+                                                        <td class="cell-shape text-center list-img-label text-uppercase"><img src="<?PHP echo $this->getSkinUrl('packer/images/diamonds/' . $clr[$_product->getDiamondShape()] . '.png'); ?>" width="auto" height="20" alt="<?php //echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true)              ?>" /> <br> <?PHP echo $clr[$_product->getDiamondShape()]; ?></td>
+                                                        <td class="cell-carat"><?PHP echo round($_product->getDiamondCarat(), 2); ?></td>
+                                                        <td class="cell-color"><?PHP echo $_product->getDiamondColor(); ?></td>
+                                                        <td class="cell-clarity"><?PHP echo (isset($lblVals[$dclarity]) ? $lblVals[$dclarity] : $dclarity); ?></td>
+
+
+                                                        <td class="cell-fluorescence"><?PHP echo $_product->getDiamondFluorescence(); ?></td>
+                                                        <td class="cell-depth"><?PHP echo $_product->getDiamondDepth(); ?></td>
+                                                        <td class="cell-_table"><?PHP echo $_product->getDiamondTable(); ?></td>
+
+
+                                                        <td class="cell-cut"><?PHP echo (isset($lblVals[$dcut]) ? $lblVals[$dcut] : $dcut); ?></td>
+                                                        <td class="cell-polish"><?PHP echo (isset($lblVals[$dpolish]) ? $lblVals[$dpolish] : $dpolish); ?></td>
+                                                        <td class="cell-symm"><?PHP echo (isset($lblVals[$dsym]) ? $lblVals[$dsym] : $dsym); ?></td> 
+                                                        <td class="cell-price"><?php
+                                                            //echo $_product->getPrice() .' >> ';
+                                                            echo Mage::helper('core')->currency($_product->getPrice());
+//echo Mage::getModel('directory/currency')->format($_product->getPrice(),array('display'=Zend_Currency::NO_SYMBOL), false);
+                                                            //echo $_currentCurrencyCode $; 
+                                                            ?>
+															<?PHP //echo sprintf('%0.2f', $convertedPrice);     ?> <i class="fa fa-arrow-right pl30"></i></td>
+                                                    </tr>
+
+                                                    <?php
+                                                    $_even++;
+                                                endforeach;
+                                                ?>
+                                            </tbody>
+                                        </table>
+										
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-compare-list">
+                                <div class="loader-opacity-div"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/loader.gif" /></div>
+                                <div class="mystylefont"> Compare your diamonds <span class="cmp_count">(0)</span> </div>
+                                <table id="compareTable" class="table-hover text-center table-bordered my-custom-list-table" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Remove</th>
+                                            <th class="text-center">Shape</th>
+                                            <th class="text-center">Carat</th>
+                                            <th class="text-center">Cut</th>
+                                            <th class="text-center">Color</th>
+                                            <th class="text-center">Clarity</th>
+                                            <th class="text-center">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="item-info-block" style="height:549px; overflow: hidden;">
+
+                            <div class="item-block-wbtm sidebar-top-buttons">
+                                <table width="100%" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center" style="border-right: 1px solid rgba(221, 229, 237, 0.4);">
+                                            <a class="fcdark closeItemInfo" href="javascript:void(0);">
+                                                <i class="fa fa-long-arrow-left "></i> CLOSE DETAILS </a>
+                                        </td>
+                                        <td align="center">
+                                            <a class="fcdark more-item-info" href="javascript:void(0);"> MORE DETAILS 
+                                                <i class="fa fa-long-arrow-right "></i></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="diamonds-sidebar" style="height:501px;">		    	
+                                <div class="container-1" style="height: 1000px;">
+                                    <div class="loader-opacity-div"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/loader.gif" /></div>
+                                    <div class="item-info-ajax-container"> </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script src="js/app/step1.js"></script>
+<script>
+    // Product details range information
+    var carat_from = <?php echo $minCarat; ?>;
+    var carat_to = <?php echo $maxCarat; ?>;
+
+    var depth_min = <?php echo $minDepth; ?>;
+    var depth_max = <?php echo $maxDepth; ?>;
+
+    var table_min = <?php echo $minTable; ?>;
+    var table_max = <?php echo $maxTable; ?>;
+	
+    var diamond_cut_sing = '<?php echo $selectedDiamondCut; ?>';
+
+    var price_from = <?php echo $min_price_diamonds; ?>;
+    price_from = price_from.toFixed(2);
+    var price_to = <?php echo $max_price_diamonds; ?>;
+    price_to = price_to.toFixed(2);
+
+
+    var BASE_URL = '<?php echo Mage::getBaseUrl(); ?>';
+    var categoryId = <?PHP echo Mage::registry('current_category')->getId(); ?>;
+    var arrow,spinner;
+
+    goToStepUrl = '<?php echo Mage::getUrl('diamonds/diamond/gotostep'); ?>';
+
+
+
+    function requestStep2(currentUrl, diamond_id, onlyUrl) {
+        jQuery.post(goToStepUrl, {step: '2', url: currentUrl, diamond_id: diamond_id}, function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            if (response.status) {
+                window.location.href = onlyUrl;
+                renderSidebarContent();
+            } else {
+                alert('Error! Please try later');
+            }
+        });
+    }
+
+    var flag = 0;
+
+
+    jQuery(document).ready(function ($) {
+	
+        var upateCartUrl = '<?php echo Mage::getUrl('diamonds/diamond/updatecart'); ?>';
+        // Update cart if changed currency
+<?php
+$cartCount = Mage::helper('checkout/cart')->getSummaryCount();
+?>
+
+<?php if ($_currentCurrencyCode == 'USD' && $cartCount > 0): ?>
+
+            jQuery.post(upateCartUrl, {}, function (cartData) {
+                cartData = JSON.parse(cartData);
+                renderCart(cartData);
+            });
+
+<?php endif; ?>
+
+        jQuery(document).on('click', '.add-diamond-to-cart', function (e) {
+
+            arrow = jQuery(this).find('i');
+            spinner = jQuery(this).find('.spinner-container');
+
+            function hideLoader() {
+                arrow.show();
+                spinner.hide();
+            }
+			
+	    function showLoader() {
+                arrow.hide();
+                spinner.fadeIn();
+            }
+			
+	    //showLoader();
+			
+/*            setTimeout(function () {                    
+                    swal("Error!", "Sorry! This function is temporary unavailable", "error");
+                }, 500);		
+		    setTimeout(function () {                    
+                    jQuery(".sweet-overlay").css("display", "none");
+                    jQuery(".sweet-alert").css("display", "none");
+		    hideLoader();
+                }, 2000);		
+            return false;*/
+           
+            showLoader();
+
+            var itemId = jQuery(e.target).attr('did');
+            var addToCartUrl = '<?php echo Mage::getUrl('diamonds/diamond/addtocart'); ?>';
+
+
+            jQuery.post(addToCartUrl, {pid: itemId}, function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+
+                if (response.status) {
+
+                    jQuery('#main-header-sticky-wrapper #counting1').html(response.qty);
+                    jQuery('#mobile-sticky-sticky-wrapper #counting1').html(response.qty);
+					
+                    var productName = jQuery('.item-name').text();
+                    var productImg = jQuery('.details-img-holder img:first-child').attr('src');
+                    showSweetCart({
+                        url: productImg,
+                        name: productName,
+                        message: ' was added to shopping cart',
+                        btnClose: true,
+                    });
+
+                    jQuery.post(upateCartUrl, {}, function (cartData) {
+
+                        cartData = JSON.parse(cartData);
+                        console.log(cartData);
+                        renderCart(cartData);
+                        var purchasedObj;
+                        jQuery.each(cartData.diamonds, function (index, item) {
+                            if (index != 'subtotal') {
+                                purchasedObj = item;
+                            }
+                        });
+
+                        showSweetCart({
+                            url: purchasedObj.image_url,
+                            name: purchasedObj.product_name,
+                            message: ' was added to shopping cart',
+                            btnCart: true,
+                            btnClose: true,
+                        });
+
+                    });
+
+                } else {
+                    swal("Error!", response.message, "error");
+					setTimeout(function () {                    
+                    jQuery(".sweet-overlay").css("display", "none");
+                    jQuery(".sweet-alert").css("display", "none");
+		    hideLoader();
+                }, 2000);
+                }
+            }).done(function () {
+                setTimeout(function () {
+                    hideLoader();
+                }, 1700);
+            });
+
+        });
+
+
+        $(document).on('click', '.go-to-step2', function (e) {
+            e.preventDefault();
+
+            jQuery('.loader-sidebar').addClass('loader-show');
+
+            var productName = $(this).parent().parent().find('.item-name').text();
+            var productImg = $(this).parent().parent().find('.details-img-holder img:first-child').attr('src');
+            var productPrice = $(this).parent().parent().find('.item-price h2').text();
+            var productPriceVal = $(this).parent().parent().find('.item-price h2').attr('data-price');
+            var diamondUrl = $('.more-item-info').attr('href');
+            var goToStepUrl = '<?php echo Mage::getUrl('diamonds/diamond/gotostep'); ?>';
+            var currentUrl = window.location.href;
+            //var onlyUrl = window.location.href.replace(window.location.search, '');
+            var onlyUrl = '<?php echo Mage::getBaseUrl() ?>engagement-rings.html';
+            onlyUrl += '?step=2';
+            //alert(onlyUrl);
+            var diamond_id = $(this).attr('diamond');
+
+            showSweetCart({
+                url: productImg,
+                name: productName,
+                message: ' was added to your configuration',
+                // btnClose: 		true,
+                btnToStep2: true,
+                currentUrl: currentUrl,
+                diamond_id: diamond_id,
+                onlyUrl: onlyUrl
+            });
+
+            setTimeout(function () {
+                if (!flag) {
+                    requestStep2(currentUrl, diamond_id, onlyUrl);
+                }
+            }, 5000);
+
+        });
+
+
+    });
+	
+	function changecut(showclass)
+    {
+        jQuery('#Diamond_Signature_Ideal').hide();
+		jQuery('#Diamond_Excellent').hide();
+		jQuery('#Diamond_Very_Good').hide();
+		jQuery('#Diamond_Good').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+	
+	function changeclarity(showclass)
+    {
+		jQuery('#Diamond_Flawless_Internally_flawless').hide();
+		jQuery('#Diamond_Very_Very_Slight_Included').hide();
+		jQuery('#Diamond_Very_Slight_Included').hide();
+		jQuery('#Diamond_Slightly_Included').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+	
+	function changelistcut(showclass)
+    {
+        jQuery('#List_Diamond_Signature_Ideal').hide();
+		jQuery('#List_Diamond_Excellent').hide();
+		jQuery('#List_Diamond_Very_Good').hide();
+		jQuery('#List_Diamond_Good').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+	
+	function changelistclarity(showclass)
+    {
+		jQuery('#List_Diamond_Flawless_Internally_flawless').hide();
+		jQuery('#List_Diamond_Very_Very_Slight_Included').hide();
+		jQuery('#List_Diamond_Very_Slight_Included').hide();
+		jQuery('#List_Diamond_Slightly_Included').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+
+	function changelistcolor(showclass)
+    {
+        jQuery('#List_Diamond_Color_Df').hide();
+		jQuery('#List_Diamond_Color_Gi').hide();
+		jQuery('#List_Diamond_Color_Jk').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+	
+	function changecolor(showclass)
+    {
+        jQuery('#Diamond_Color_Df').hide();
+		jQuery('#Diamond_Color_Gi').hide();
+		jQuery('#Diamond_Color_Jk').hide();
+		
+		jQuery('#'+showclass).show();
+    }
+	
+    function renderCart(cartData) {
+        var $cartContent = jQuery('.cart-content.mCustomScrollbar._mCS_2').find('.mCSB_container');
+
+        var htmlUl = '';
+        var htmlButtons = '<div class="cart-checkout"><a href="/checkout/cart/" class="btn-button view-cart"> <span>View cart</span> </a> <a href="/checkout/onepage/" class="btn-button "><span>Checkout</span></a></div>';
+        var htmlSubtotal = '<p class="subtotal"><span class="label">Total:</span> <span class="price">' + cartData.subtotal + '</span></p>';
+        $cartContent.html('');
+
+        var renderCartCategory = function (elements, categoryName) {
+            var htmlUl = '<div id="minicart-error-message" ></div><div id="minicart-success-message"></div><span class="mini-cart-product-type">' + categoryName + '</span>';
+            htmlUl += '<ul class="clearfix">';
+            jQuery.each(elements, function (index, item) {
+                if (index != 'subtotal') {
+                    var li = '<li class="item">';
+                    li += '<a class="product-image" href="' + item.product_url + '" >' + item.image_url + '</a>';
+                    li += '<div class="product-details row-fluid show-grid">' + item.product_otherdetail +
+                            '<div class="items clearfix"><span class="price">' + item.price + '</span></div>' +
+                            '<div class="access clearfix"><a href="' + item.delete_url + '" title="Remove" class="btn-remove"><i class="fa fa-trash"></i></a></div>' +
+                            '</div>';
+                    li += '</li>';
+                    htmlUl += li;
+                }
+            });
+            htmlUl += '</ul>';
+            $cartContent.append(htmlUl);
+        };
+
+        if (cartData.diamonds) {
+            renderCartCategory(cartData.diamonds, 'Diamond');
+        }
+
+        if (cartData.rings) {
+            renderCartCategory(cartData.rings, 'Settings');
+        }
+
+        if (cartData.other_products) {
+            renderCartCategory(cartData.other_products, 'Other Products');
+        }
+
+        $cartContent.append(htmlSubtotal);
+
+        if (!jQuery('.cart-wrapper .cart-checkout').length) {
+            jQuery('.cart-wrapper').append(htmlButtons);
+        }
+
+        jQuery(".header-maincart .cart-content").mCustomScrollbar('destroy');
+        jQuery(".header-maincart .cart-content").mCustomScrollbar({
+            scrollInertia: 150,
+            theme: "dark",
+            scrollButtons: {
+                enable: true
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+	var width = jQuery(window).width();
+    	if (width < 921){
+			left1 = width - 135; 
+			jQuery(".diamonds-table .table-header.price").css("left", left1);
+			jQuery(".item_ajax_get_details > td.cell-price").css("left", left1);
+		}
+		
+		
+	jQuery(window).resize(function() {
+	var width = jQuery(window).width();
+    	if (width < 921) {
+			left1 = width - 135; 
+			jQuery(".diamonds-table .table-header.price").css("left", left1);
+			jQuery(".item_ajax_get_details > td.cell-price").css("left", left1);
+		}
+	});
+	
+	jQuery('.item-list-all').scroll(function(){
+		var itemwidth = jQuery('.item-list-all').width();
+		var itemrtwidth = jQuery('.item_ajax_get_details').width()-50;
+		console.log(itemrtwidth+ " item rt width");
+		console.log(jQuery(".item-list-all").scrollLeft() + " px");
+		console.log(left1+ " leftpx");
+		console.log(itemwidth+ " itemwidth");
+		if (itemwidth < 921) {
+			leftnew = left1 + jQuery(".item-list-all").scrollLeft(); 
+			if(itemrtwidth > leftnew)
+			{
+			jQuery(".diamonds-table .table-header.price").css("left", leftnew);
+			jQuery(".item_ajax_get_details > td.cell-price").css("left", leftnew);
+			}
+		}
+	});
+	
+	jQuery('img').bind('contextmenu', function(e){
+		return false;
+	}); 
+
+});
+
+</script>

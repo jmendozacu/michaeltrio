@@ -1,0 +1,168 @@
+
+.jcarousel-skin-tango .jcarousel-container {
+    /*    background: none repeat scroll 0 0 #F0F6F9;
+        border: 1px solid #346F97;
+        border-radius: 10px 10px 10px 10px;*/
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl {
+    direction: rtl;
+}
+.jcarousel-skin-tango .jcarousel-container-horizontal {
+    padding: 20px 40px;
+    width: 990px;
+}
+.jcarousel-skin-tango .jcarousel-container-vertical {
+    height: 400px;
+    padding:40px 0;
+    width: 70px;
+}
+.jcarousel-skin-tango .jcarousel-clip {
+    overflow: hidden;
+}
+.jcarousel-skin-tango .jcarousel-clip-horizontal {
+    height: auto;
+    width: 100%;
+}
+.jcarousel-skin-tango .jcarousel-clip-vertical {
+    height: 330px;
+    width: 102px;
+}
+.jcarousel-skin-tango .jcarousel-item {
+    /*    height: 75px;
+        width: 75px;*/
+    height: auto !important;
+}
+.jcarousel-skin-tango .jcarousel-item-horizontal {
+    margin-left: 0;
+    margin-right: 10px;
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-item-horizontal {
+    margin-left: 10px;
+    margin-right: 0;   
+}
+.jcarousel-skin-tango .jcarousel-item-vertical {
+    margin-bottom: 2px;
+}
+.jcarousel-skin-tango .jcarousel-item-placeholder {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #000000;
+}
+.jcarousel-skin-tango .jcarousel-next-horizontal {
+    background: url("next-horizontal.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 32px;
+    position: absolute;
+    right: 5px;
+/*    top: 59px;
+*/    width: 32px;
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-next-horizontal {
+    background-image: url("prev-horizontal.png");
+    left: 5px;
+    right: auto;
+}
+.jcarousel-skin-tango .jcarousel-next-horizontal:hover, .jcarousel-skin-tango .jcarousel-next-horizontal:focus {
+    background-position: -32px 0;
+}
+.jcarousel-skin-tango .jcarousel-next-horizontal:active {
+    background-position: -64px 0;
+}
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal, .jcarousel-skin-tango .jcarousel-next-disabled-horizontal:hover, .jcarousel-skin-tango .jcarousel-next-disabled-horizontal:focus, .jcarousel-skin-tango .jcarousel-next-disabled-horizontal:active {
+    background-position: -96px 0;
+    cursor: default;
+}
+.jcarousel-skin-tango .jcarousel-prev-horizontal {
+    background: url("prev-horizontal.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 32px;
+    left: 5px;
+    position: absolute;
+    top: 59px;
+    width: 32px;
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-prev-horizontal {
+    background-image: url("next-horizontal.png");
+    left: auto;
+    right: 5px;
+}
+.jcarousel-skin-tango .jcarousel-prev-horizontal:hover, .jcarousel-skin-tango .jcarousel-prev-horizontal:focus {
+    background-position: -32px 0;
+}
+.jcarousel-skin-tango .jcarousel-prev-horizontal:active {
+    background-position: -64px 0;
+}
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal, .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:hover, .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:focus, .jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:active {
+    background-position: -96px 0;
+    cursor: default;
+}
+.jcarousel-skin-tango .jcarousel-next-vertical {
+    background: url("next-vertical.png") no-repeat 0 -90px;
+    bottom: 5px;
+    cursor: pointer;
+    height: 32px;
+    left: 35px;
+    position: absolute;
+    width: 32px;
+}
+.jcarousel-skin-tango .jcarousel-next-vertical:hover, .jcarousel-skin-tango .jcarousel-next-vertical:focus {
+    background-position: 0 -26px;
+}
+.jcarousel-skin-tango .jcarousel-next-vertical:active {
+    background-position: 0 -26px;
+}
+.jcarousel-skin-tango .jcarousel-next-disabled-vertical, .jcarousel-skin-tango .jcarousel-next-disabled-vertical:hover, .jcarousel-skin-tango .jcarousel-next-disabled-vertical:focus, .jcarousel-skin-tango .jcarousel-next-disabled-vertical:active {
+    background-position: 0 -90px;
+    cursor: default;
+}
+.jcarousel-skin-tango .jcarousel-prev-vertical {
+    background: url("prev-vertical.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 32px;
+    left: 35px;
+    position: absolute;
+    top: 5px;
+    width: 32px;
+}
+.jcarousel-skin-tango .jcarousel-prev-vertical:hover, .jcarousel-skin-tango .jcarousel-prev-vertical:focus {
+    background-position: 0 -32px;
+}
+.jcarousel-skin-tango .jcarousel-prev-vertical:active {
+    background-position: 0 -64px;
+}
+.jcarousel-skin-tango .jcarousel-prev-disabled-vertical, .jcarousel-skin-tango .jcarousel-prev-disabled-vertical:hover, .jcarousel-skin-tango .jcarousel-prev-disabled-vertical:focus, .jcarousel-skin-tango .jcarousel-prev-disabled-vertical:active {
+    background-position: 0 -96px;
+    cursor: default;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ width:667px;}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ width:277px; margin-left:30px;}
+}
+@media only screen and (max-width: 400px) {
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ width:180px; margin-left:65px; padding:20px 86px;}
+
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ padding:20px 35px;}
+    ul.detail_img_menu li a{ width:62px;}
+    .jcarousel-skin-tango .jcarousel-next-horizontal{ right:11px;}
+    .product_im{ width:120px;}
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ margin-left:44px;}
+    .dateil_img_left .jcarousel-skin-tango .jcarousel-item-horizontal {  margin-left: 23px; margin-right: 10px;}
+    .dateil_img_left .jcarousel-skin-tango .jcarousel-clip-horizontal{ width:80%;}
+    .jcarousel-skin-tango .jcarousel-next-horizontal{ top:48px;}
+    .jcarousel-skin-tango .jcarousel-prev-horizontal{ top:48px;}
+}
+
+@media all and (min-width:240px) and (max-width:320px) {
+    .jcarousel-skin-tango .jcarousel-container-horizontal{ width:163px; margin-left:22%; padding:28px; }
+    .jcarousel-skin-tango .jcarousel-clip-horizontal{ width:77%;}
+    .dateil_img_left .jcarousel-skin-tango .jcarousel-clip-horizontal{ width:93%;}
+    .product_im{ width:118px;}
+    .dateil_img_left .jcarousel-skin-tango .jcarousel-item-horizontal {  margin-left: 23px; margin-right: 10px;}
+    .dateil_img_left .jcarousel-skin-tango .jcarousel-container-horizontal{  width:163px; margin-left:41%; padding:28px; }
+    ul.detail_img_menu li a{ width:62px;}
+
+    .jcarousel-skin-tango .jcarousel-next-horizontal{ top:48px;}
+    .jcarousel-skin-tango .jcarousel-prev-horizontal{ top:48px;}
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <modules>
+        <Searchtechnow_Testimonial>
+            <active>true</active>
+            <codePool>local</codePool>
+			<version>0.1.0</version>
+        </Searchtechnow_Testimonial>
+    </modules>
+</config>

@@ -1,0 +1,71 @@
+<div class="col-main custom-main testimonial_section">
+
+    <p class="category-image">
+		<img class="img-responsive" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/slider.jpg" alt="Testimonial" title="Testimonial">
+    </p>
+	<?php
+	$toRepArray = array('[!COUNT_RATINGS!]');
+	$messagebefpremail = $this->getLayout()->createBlock('cms/block')->setBlockId('testimonial')->toHtml();
+	$fromRepArray = array($this->getTotalTestimonial());
+	
+	echo str_replace($toRepArray, $fromRepArray, $messagebefpremail);
+	?>
+
+    <?php
+    foreach ($this->getTestimonialList() as $item):
+
+
+        if ($item['logopic'] != '' && file_exists(Mage::getBaseDir('media') . '/' . str_replace(' ', '_', $item['logopic']))) {
+            $testimonialimg = str_replace(' ', '_', $item['logopic']);
+        } else {
+            $testimonialimg = 'testimonial/no-image.png';
+        }
+
+        $m1 = Mage::getModel('testimonial/testimonial')->imgResizeCustom(200, 200, $testimonialimg);
+		
+        ?>
+
+        <div class="dtl_box clearfix">
+            <div class="box2 clearfix">
+                <div class="pull_left img1">
+                    <img src="<?php echo $m1; ?>" alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>">																					
+                </div>
+                <div class="pull_right cont_dtl">
+                    <div class="box4"> 
+                        Date of post <?php echo date('jS F Y',strtotime($item['date_of_testimonial'])); ?>
+                    </div>
+                    <p>
+                        <?php echo $item['content']; ?>
+                    </p>
+                    <div class="box5">
+                        <label><?php echo $item['author']; ?></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+
+    <?php if ($this->getLastPageNum() > 1): ?>
+        <div class="contentpaging">
+            <div class="paginationlist">
+                <?php if (!$this->isFirstPage()): ?>
+                    <span class="prev_first"><a href="<?php echo $this->getPreviousPageUrl() ?>">
+					<img class="img-responsive" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/prev_img.png" ></a></span>
+                <?php endif; ?>
+                <?php foreach ($this->getPages() as $_page): ?>
+                    <?php if ($this->isPageCurrent($_page)): ?>
+                        <span class="current"><?php echo $_page ?></span>
+                    <?php else: ?>
+                        <span><a href="<?php echo $this->getPageUrl($_page) ?>"><?php echo $_page ?></a></span>
+                    <?php endif ?>
+                <?php endforeach; ?>
+                <?php if (!$this->isLastPage()): ?>
+                    <span class="last_next"><a href="<?php echo $this->getNextPageUrl() ?>">
+					<img class="img-responsive" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/next_img.png" ></a></span>
+                        <?php endif ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+

@@ -1,0 +1,82 @@
+<config>
+    <tabs>
+        <codewix_tab translate="label" module="ipbaseddevmode">
+            <label>Codewix</label>
+            <sort_order>0</sort_order>
+        </codewix_tab>
+    </tabs>
+    <sections>
+        <devmode translate="label" module="ipbaseddevmode">
+            <label>Developer Mode</label>
+            <tab>codewix_tab</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Choose Yes/No</comment>
+                            <default>1</default>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <ip>
+                            <label>Allowed Ip Addresses</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>
+                                Separate by comma in case of multiple values and leave it empty if you want to
+                                allow method for all ip addresses
+                            </comment>
+                            <default>1</default>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ip>
+                        <useparam>
+                            <label>Use Url Param</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>
+                                If this is set to 'Yes' then Developer mode will not be enabled automatically, you have to
+                                use value of next setting to trigger developer mode ON.
+                            </comment>
+                            <default>1</default>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </useparam>
+                        <param>
+                            <label>Url Param</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>
+                                Url param to be used to enable dev mode on front.For example if you enter 'dev' here the on
+                                frontend it should be used as '?dev=true' after current page url.
+                            </comment>
+                            <default>1</default>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </param>
+                    </fields>
+                </general>
+            </groups>
+        </devmode>
+    </sections>
+</config>

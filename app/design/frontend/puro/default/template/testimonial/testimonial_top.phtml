@@ -1,0 +1,83 @@
+<?php
+$products = $this->getTestimonialmenuProducts();
+if(count($products) > 0){ ?>
+
+<div class="blog item>" id="bloghomeslide" style="display: block;">
+  <?php 
+  
+  foreach($products as $product){
+            $i = 0;
+			
+			if ($product['logopic'] != '' && file_exists(Mage::getBaseDir('media') . '/' . str_replace(' ', '_', $product['logopic']))) {
+            $testimonialimg = str_replace(' ', '_', $product['logopic']);
+        } else {
+            $testimonialimg = 'testimonial/no-image.png';
+        }
+
+        $m1 = Mage::getModel('testimonial/testimonial')->imgResizeCustom(300, 300, $testimonialimg);
+    ?>
+
+    <div class="blog-item-wrapper">
+                        <a target="_blank" href="<?php echo Mage::getBaseUrl(); ?>testimonial">
+						<img class="img-responsive testimonal_css" src="<?php echo $m1; ?>" style="display: block;">
+						</a>
+                        <div class="main_content">
+                            <h3>
+                                <a target="_blank" href="<?php echo Mage::getBaseUrl(); ?>testimonial">
+									<?php echo Mage::helper('core/string')->truncate($product->getTitle(), 160); ?>
+                                </a>
+                            </h3>
+                        </div>
+      </div>
+  <?php $i++; } ?>
+</div>
+    <script type="text/javascript">
+       
+	   jQuery(document).ready(function ($) {
+	   <?php
+	   if(count($products)=='1')
+	   {
+	   ?>
+        jQuery("#bloghomeslide").owlCarousel({
+                items: 1,
+                center: true,
+                loop: true,
+                autoPlay: true,
+                autoPlayTimeout: 1000,
+                autoplayHoverPause: true,
+                navContainer: false,
+                dots: false,
+        onInitialize: function (event) {
+        if (jQuery('#bloghomeslide .owl-carousel .item').length <= 1) {
+           this.settings.loop = false;
+        }
+        }
+        });
+		<?php 
+		}
+		else
+		{
+		?>
+		        jQuery("#bloghomeslide").owlCarousel({
+                items: 1,
+                center: true,
+                loop: true,
+                autoPlay: true,
+                autoPlayTimeout: 1000,
+                autoplayHoverPause: true,
+                navContainer: false,
+                dots: false
+        });
+		<?php
+		}
+		?>
+        });
+   
+    </script>
+<?php } ?>
+<style>
+#bloghomeslide .img-responsive.testimonal_css {
+  margin: 0 auto;  
+  text-align: center;
+}
+</style>

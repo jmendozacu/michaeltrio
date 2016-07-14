@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <modules>
+        <Searchtechnow_Stnpromotion>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Searchtechnow_Stnpromotion>
+    </modules>
+</config>

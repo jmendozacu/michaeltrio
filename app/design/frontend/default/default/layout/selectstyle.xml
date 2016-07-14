@@ -1,0 +1,11 @@
+<?xml version ="1.0" ?>
+	<layout version="0.1.0">
+	<styleselect_index_index>
+		<reference name="root">
+			<acttion method="setTemplate"><template>page/1column.phtml</template></acttion>
+		</reference>
+		<reference name="content">
+			<block type="styleselect/styleselect" name="styleselect" template="styleselect/styleselect.phtml" />
+		</reference>
+	</styleselect_index_index>
+	</layout>

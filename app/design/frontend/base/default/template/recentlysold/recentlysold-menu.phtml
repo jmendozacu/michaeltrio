@@ -1,0 +1,99 @@
+<?php /*?><h2 class="recently-title" style="margin-top:20px;">
+<?php echo $this->__('Recently Purchased'); ?></h2><?php */?>
+<span class="recentlysold-menu-title"><?php echo $this->__('Recently Purchased'); ?></span>
+<?php
+$products = $this->getRecentlysoldMenuProducts();
+if(count($products) > 0){ ?>
+<div id="recentlysold-menu">
+  <?php foreach($products as $product){
+		$dshp = strtolower(Mage::getResourceModel('catalog/product')->getAttributeRawValue($product->getId(), 'diamond_shape', Mage::app()->getStore()));
+		if($dshp != '' && $dshp != NULL){
+			$m1 = $dshp.'_t.jpg';
+			$m1 = Mage::getModel('recentlysold/recentlysold')->imgResizeCustm(100,100,$m1);
+		} else {
+			$m1 = $this->helper('catalog/image')->init($product, 'image')->resize(100, 100);
+		}
+            $i = 0; ?>
+  <a class="recently-purchased" data-pid="<?php echo $product->getId(); ?>" title="<?php echo $product->getName(); ?>"> <img class="img-responsive" src="<?php echo $m1; //$this->helper('catalog/image')->init($product, 'image')->resize(100, 100) ?>" alt="<?php echo $product->getName(); ?>"/> </a>
+  <?php $i++; } ?>
+</div>
+<?php } ?>
+
+<style>
+span.recentlysold-menu-title {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding-bottom: 15px;
+  padding-left: 0;
+  text-transform: uppercase;
+  width: 100%;
+  margin: 20px auto;
+  line-height:1;
+}
+.modal-footer {
+  border: medium none;
+}
+.modal-content .col-sm-12 {
+  clear: both;
+}
+#recentlysold-menu > a.recently-purchased {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+  border: 1px solid #dcdcdc !important;
+  display: block;
+  float: left !important;
+  margin: 0 5px !important;
+  padding: 0 !important;
+  width: 95px !important;
+}
+a.recently-purchased {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+  border: 1px solid #dcdcdc !important;
+  display: block;
+  float: left !important;
+  margin: 0 5px !important;
+  padding: 0 !important;
+  width: 100px !important;
+  cursor:pointer;
+}
+#recentlysold-menu .owl-wrapper{
+  margin:0;	
+}
+.modal-dialog .col-md-6 > img {
+  width: 100%;
+}
+#recentlysold-menu.owl-carousel .owl-wrapper-outer {
+  height: auto;
+}
+a.recently-purchased .img-responsive {
+  padding: 0 !important;
+}
+.modal-backdrop{
+	z-index:9999;	
+}
+.modal-dialog{
+	padding-top:90px;	
+}
+.modal{
+	z-index:999999;	
+}
+.modal-dialog {
+  left: 50%;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  right: auto;
+  width: 90%;
+  max-width: 1000px;
+}
+#myModal .thumb-link{
+	display: inline-block; 
+	margin:5px;
+	border: 1px solid #ccc;
+}
+#myModal img#image-main{
+	border: 1px solid #ccc;
+}
+</style>
+

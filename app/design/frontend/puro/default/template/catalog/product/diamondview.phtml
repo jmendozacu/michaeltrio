@@ -1,0 +1,422 @@
+<?php
+    $diamondId = Mage::getSingleton('core/session')->getLastViewedDiamondId();
+    $_product = Mage::getModel('trd_importxls/importxls')->load($diamondId);
+    $params = Mage::app()->getRequest()->getParams();
+
+    $shapes_arr = array();
+	$shapes_arr['AS'] = 'Asscher';
+	$shapes_arr['CU'] = 'Cushion';
+	$shapes_arr['EC'] = 'Emerald';
+	$shapes_arr['HS'] = 'Heart';
+	$shapes_arr['MQ'] = 'Marquise';
+	$shapes_arr['OV'] = 'Oval';
+	$shapes_arr['PR'] = 'Pear';
+	$shapes_arr['PS'] = 'Princess';
+	$shapes_arr['RA'] = 'Radiant';
+	$shapes_arr['RD'] = 'Round';
+
+	$polish_arr = array();
+	$polish_arr['EX'] = 'Excellent';
+	$polish_arr['VG'] = 'Very Good';
+	$polish_arr['GD'] = 'Good';
+	$polish_arr['H&A'] = 'Signature Ideal';
+	$polish_arr['Signature Ideal'] = 'Signature Ideal';
+
+	$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+	$_product_price = $_product->getDiamondsPrice();
+    if($_currentCurrencyCode == 'USD'){
+        $_product_price = Mage::helper('directory')->currencyConvert($_product->getDiamondsPrice(), 'SGD', 'USD');
+    }
+?>
+
+<?php //print_r($_product); ?>
+
+<?php if ($params['sidebar']): ?>
+    <h2>Welcome from Sidebar</h2>
+<?php endif; ?>
+
+<div class="product-view">
+    <div class="product-essential show-grid">
+        <form action="" method="post" id="product_addtocart_form">
+            <div class="no-display col-lg-12">
+                <input type="hidden" name="product" value="2619">
+                <input type="hidden" name="related_product" id="related-products-field" value="">
+            </div>
+                        <div class="product-img-box col-md-6 col-sm-6">
+                <div class="product-img-list">
+                    
+    <div class="more-views-verticle">
+        <a class="more-views-prev more-views-nav" href="javascript:void(0)" id="carousel-up" style="display: none;">
+            <i class="fa fa-caret-square-o-up"></i>
+        </a>
+
+        <div class="media-list" style="height: 230px;">
+            <div id="more-slides" class="verticl-carousel product-image-thumbs">
+                <a class="thumb-link" href="#" title="" data-image-index="0">
+                    <img class="img-responsive" src="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_t.jpg" alt="">
+                </a>
+
+                <a class="thumb-link" href="#" title="" data-image-index="1">
+                    <img class="img-responsive" src="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_s.jpg" alt="">
+                </a>
+            </div>
+        </div>
+
+        <a class="more-views-next more-views-nav" href="javascript:void(0)" id="carousel-down" style="display: none;">
+            <i class="fa fa-caret-square-o-down"></i>
+        </a>
+            <script type="text/javascript">
+                jQuery(function ($) {
+                    var carCount = $('.product-img-box .verticl-carousel').find('a').length;
+                    if (carCount <= 3) {
+                        $('.product-img-box .more-views-nav').hide();
+                    }
+                    $(".product-img-box #carousel-up").on("click", function () {
+                        if (!$(".product-img-box .verticl-carousel").is(':animated')) {
+                            var bottom = $(".product-img-box .verticl-carousel > a:last-child");
+                            var clone = $(".product-img-box .verticl-carousel > a:last-child").clone();
+                            clone.prependTo(".product-img-box .verticl-carousel");
+                            $(".product-img-box .verticl-carousel").animate({
+                                "top": "-=85"
+                            }, 0).stop().animate({
+                                "top": '+=85'
+                            }, 250, function () {
+                                bottom.remove();
+                            });
+                            ProductMediaManager.init();
+                        }
+                    });
+                    $(".product-img-box #carousel-down").on("click", function () {
+                        if (!$(".product-img-box .verticl-carousel").is(':animated')) {
+                            var top = $(".product-img-box .verticl-carousel > a:first-child");
+                            var clone = $(".product-img-box .verticl-carousel > a:first-child").clone();
+                            clone.appendTo(".product-img-box .verticl-carousel");
+                            $(".product-img-box .verticl-carousel").animate({
+                                "top": '-=85'
+                            }, 250, function () {
+                                top.remove();
+                                $(".product-img-box .verticl-carousel").animate({
+                                    "top": "+=85"
+                                }, 0);
+                            });
+                            ProductMediaManager.init();
+                        }
+                    });
+                });
+            </script>
+            </div>
+	
+
+	<div class="product-image product-image-zoom">
+	    <div class="product-image-gallery">
+	        <img id="image-main" class="gallery-image visible" src="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_t.jpg" alt="Product 2" title="Product 2">
+	        <img id="image-0" class="gallery-image" src="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_t.jpg" data-zoom-image="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_t.jpg">
+	        <img id="image-1" class="gallery-image" src="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_s.jpg" data-zoom-image="/media/wysiwyg/icotheme/diamonds_pics/<?php echo strtolower($_product->getShape() ); ?>_s.jpg">
+	    </div>
+	</div>
+
+
+
+                </div>
+            </div>
+            <div class="product-shop col-md-6 col-sm-6">
+                <div class="product-shop-wrapper">
+                    <div class="product-prev-next nav-wrapper pull-right">
+                        <a class="product-next" title="Next Product" href="http://michaeltrio.qoobx.com/msr0003.html"><i class="fa fa-angle-right"></i></a><a class="product-prev" title="Previous Product" href="http://michaeltrio.qoobx.com/ring-test.html"><i class="fa fa-angle-left"></i></a>                    </div>
+                    <div class="product-name top-product-detail">
+                        <h2><?php echo $_product->getDiamondsName(); ?></h2>
+                    </div>
+                    <div class="middle-product-detail">
+                        
+                        <div class="product-type-data">
+
+                        	<br>
+                                                        
+						    <div class="price-box">
+								<span class="regular-price" id="product-price-2619">
+					            	<span class="price"><?php echo $_currentCurrencyCode . ' ' . number_format( $_product_price , 2 ); ?></span>
+					            </span>
+					                        
+					        </div>
+
+    						
+							PRICE BEFORE GST:	 <?php echo $_currentCurrencyCode . ' ' . number_format( $_product_price , 2 ); ?>
+							<br>
+							GST AMOUNT:	SGD $10,284.24
+							<br>
+							GST is applicable only for shipping within Singapore
+                            
+                            
+                        </div>
+                        
+                        <div class="short-description-detail">
+                            <div class="short-description">
+                                <h2>Quick Overview</h2>    
+                            </div>
+						</div>
+                    </div>
+
+                    <!-- <div class="section section-color">
+                        <div class="color-select"> 
+                            <table>
+                                <tbody><tr>
+                                    <td><p>Color:</p></td>
+                                    <td><a href="javascript:;"> <span class="active">  <img src="http://michaeltrio.qoobx.com/media/wysiwyg/MT_Bronze.png"></span> </a> </td>
+                                    <td> <a href="javascript:;">  <span> <img src="http://michaeltrio.qoobx.com/media/wysiwyg/MT_Gold.png"> </span> </a>  </td>
+                                    <td> <span> <a href="javascript:;"> <img src="http://michaeltrio.qoobx.com/media/wysiwyg/MT_Silver.png"> </a> </span> </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="section section-metals">
+                        <div class="metals-select"> 
+                            <table>
+                                <tbody><tr>
+                                    <td><p>Metals:</p></td>
+                                    <td><span class="s1 active">18k</span> </td>
+                                    <td><span class="s2">Platinum</span> </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="section section-ring-size">
+                        <table width="100%">
+                            <tbody><tr>
+
+                                <td>
+                                    <div class="ring-size-select"> 
+                                        <p>Ring size:</p>
+                                        <br>
+                                        <div class="offset" style="margin-top: -27px;">
+                                           	<select class="selectpicker bs-select-hidden" name="ringsize" id="ringsize">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+
+                                        </div>
+                                                    
+                                    </div>            
+                                </td>
+
+                                <td class="engraving">
+                                    <h6>Engraving:</h6>
+                                    <span class="open-engraving-popup open-popup" data-target="engraving-popup">Yes</span>
+                                    <span class="active">No</span>
+                                </td>
+
+                            </tr>
+                        </tbody></table>
+                        
+                    </div> -->
+
+                                            <div class="actions-wrapper">
+                                                                <div class="add-to-cart">
+                   
+                <div class="actions">
+		            <div class="action-list addtocart">
+		                <span class="button-wrapper">
+		                    <div class="fs" aria-hidden="true" data-icon=""></div>
+		                    <button type="button" title="Add to Ring" class="btn-cart" onclick="productAddToCartForm.submit(this)">
+		                        <span>
+		                            <span>Add to Cart</span>
+		                        </span>
+		                    </button>
+		                </span>
+		            </div>
+		            <div class="action-list wishlist">
+		                <ul class="add-to-links">
+		                                            <li class="first wishlist">
+		                            <a href="http://michaeltrio.qoobx.com/wishlist/index/add/product/2619/form_key/OJ11BArg36dhT60B/" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><i class="fa fa-heart-o"></i>Wishlist</a>
+		                        </li>
+		                                    </ul>
+		            </div>
+		            <div class="action-list compare">
+		                <ul class="add-to-links">
+							<li class="conpare"><a href="http://michaeltrio.qoobx.com/catalog/product_compare/add/product/2619/uenc/aHR0cDovL21pY2hhZWx0cmlvLnFvb2J4LmNvbS9yaW5nLXRlc3QtMjYxOS5odG1s/form_key/OJ11BArg36dhT60B/" class="link-compare"><i class="fa fa-pie-chart"></i>Compare</a></li>
+                        </ul>
+            		</div>
+        		</div>
+            </div>
+		
+		</div>
+                                            
+                    
+	</div>
+</div>
+</form>
+        
+        <script type="text/javascript">
+            //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function (button, url) {
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                        form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function (button, url) {
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+            //]]>
+        </script>
+    </div>
+    <div class="product-collateral">
+        
+        <div class="product-collateral">
+            <ul id="product-tab" class="nav nav-tabs" role="tablist">
+                <li class="first active">
+                    <a href="#tab1" role="tab" data-toggle="tab">Diamond details</a>
+                </li>
+                <li class="">
+                    <a href="#tab2" role="tab" data-toggle="tab">Diamond Grading Report</a>
+                </li>
+                <li class="">
+                    <a href="#tab3" role="tab" data-toggle="tab">Shipping Information</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                
+                <div class="tab-pane in first active" id="tab1">
+                    <div class="product-tabs-content-inner clearfix">
+                        
+                        <div class="_std">
+
+                        	<table class="table_set" style="width:636px;" border="0" cellspacing="0" cellpadding="0">
+			                  <tbody><tr>
+			                    <td width="20%">Stock Number:</td>
+			                    <td width="28%" align="right"><? echo $_product->getDiamondsModel(); ?></td>
+			                    <td width="4%" class="nobtmline">&nbsp;</td>
+			                    <td width="28%">Depth %:</td>
+			                    <td align="right"><?php echo number_format($_product->getDepth(), 2); ?></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Shape:</td>
+			                    <td align="right"><?php echo $shapes_arr[$_product->getShape()]; ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Table %:</td>
+			                    <td align="right"><?php echo number_format($_product->getTableField(), 2); ?></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Carat:</td>
+			                    <td align="right"><?php echo number_format($_product->getCarat(), 2); ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Polish:</td>
+			                    <td align="right"><?php echo $polish_arr[$_product->getPolish()]; ?></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Cut:</td>
+			                    <td align="right"><?php echo $polish_arr[$_product->getCut()]; ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Symmetry:</td>
+			                    <td align="right"><?php echo $polish_arr[$_product->getSymmetry()]; ?></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Color:</td>
+			                    <td align="right"><? echo $_product->getColor(); ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Culet:</td>
+			                    <td align="right"></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Clarity:</td>
+			                    <td align="right"><? echo $_product->getClarity(); ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Fluorescence:</td>
+			                    <td align="right"><? echo $_product->getFluorescence(); ?></td>
+			                  </tr>
+			                  <tr>
+			                    <td>Price:</td>
+			                    <td align="right"><?php echo $_currentCurrencyCode . ' ' . number_format( $_product_price , 2 ); ?></td>
+			                    <td class="nobtmline">&nbsp;</td>
+			                    <td>Measurement:</td>
+			                    <td align="right">
+			                    	<?php echo sprintf('%0.2f', $_product->getMeasurement_1()).' x '. sprintf('%0.2f', $_product->getMeasurement_2()).' x '. sprintf('%0.2f', $_product->getMeasurement_3()); ?> 
+			                    </td>
+			                  </tr>
+			                </tbody></table>    
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab2">
+                    
+                    <div class="product-tabs-content-inner clearfix">
+                    	 	
+						A Diamond Grading Report documents the specific characteristics of a diamond. These reports are issued by the Gemological Institute of America (GIA), which is among the most respected organizations in the diamond industry.
+						<br>
+						<br>
+						Learn the definitions of the terms used in a diamond certificate.
+						<br>
+						<br>
+						View Report
+                    </div>
+
+                </div>
+
+                <div class="tab-pane" id="tab3">
+
+                    Order by: 4PM EDT tomorrow
+                    <br>
+					Ship date: Sunday, December 13
+					<br>
+					Free shipping via: FedEx Priority International®
+
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
+
+            </div>
+    </div>
+
+
+<script type="text/javascript">
+	diamondName = '<?php echo $_product->getDiamondsName(); ?>';
+</script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(); ?>js/app/diamondview.js"></script>

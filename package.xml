@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+    <name>Vuleticd_AdminGridCategoryFilter</name>
+    <version>0.0.0.1</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">Open Software License (OSL)</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Admin Product Grid Category Filter</summary>
+    <description>Admin Product Grid Category Filter module will add category filter to Magento admin product grid, enabling merchants to search for products assigned only to selected category.&#xD;
+&#xD;
+The module uses Magento events, no core files are rewritten. Database is not touched at all. Module does not have any extra options.&#xD;
+&#xD;
+Tested on Magento CE 1.7.0.2 version</description>
+    <notes>Initial module version </notes>
+    <authors><author><name>Dragan Vuletic</name><user>pajko</user><email>vuleticd@gmail.com</email></author></authors>
+    <date>2012-12-24</date>
+    <time>20:31:40</time>
+    <contents><target name="magecommunity"><dir name="Vuleticd"><dir name="AdminGridCategoryFilter"><dir name="Block"><dir name="Catalog"><dir name="Product"><dir name="Grid"><dir name="Render"><file name="Category.php" hash="fb16616c3ff7616b957a818bcafff1e8"/></dir></dir></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="01a1bdc193c92f99ac940dca76eab38e"/></dir><dir name="Model"><file name="Observer.php" hash="29d44f9cbffe133b4ca8d786c1706eb1"/><dir name="System"><dir name="Config"><dir name="Source"><file name="Category.php" hash="9e1a283efb0836400c739bdfb3638e27"/></dir></dir></dir></dir><dir name="etc"><file name="config.xml" hash="935f1c4cec6165dbc19d01a89cb1d4bf"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Vuleticd_AdminGridCategoryFilter.xml" hash="8a4ffb78d48619ce3764dbbda83ba42e"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php><package><name>Mage_Core_Adminhtml</name><channel>community</channel><min>1.7.0.1</min><max></max></package></required></dependencies>
+</package>

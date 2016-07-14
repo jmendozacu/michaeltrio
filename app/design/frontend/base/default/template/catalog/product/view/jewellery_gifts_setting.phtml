@@ -1,0 +1,218 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_Product_View_Description
+ */
+?>
+
+<?php $ids = $this->getProduct()->getCategoryIds(); ?>
+<?php
+$_resource = Mage::getResourceSingleton('catalog/product');
+$pid = $this->getProduct()->getId();
+$style_shape_id = $_resource->getAttributeRawValue($pid, 'style', Mage::app()->getStore());
+$ringproduct = Mage::getModel('catalog/product');
+$ringproduct->load($pid);
+?>
+
+<div class="product-tabs-content-inner clearfix">
+    <div class="_std">	
+<style>
+.setting_tabcss tr td:first-child{min-width:300px;}
+.setting_tabcss tr td:last-child{padding:0px 10px;}
+</style>
+        <table class="setting_tabcss" style="width:auto !important;">
+            <?php
+            //echo $this->getProduct()->getStyle();
+            $metals = explode(",", $ringproduct->getMetals());
+			$ClaspTypes = explode(",", $ringproduct->getClaspType());
+			$ChainTypes = explode(",", $ringproduct->getChainType());
+
+            $dataSettingValues = array(126 => '14K', 127 => '18K', 128 => 'Platinum');
+			$ClaspTypeValues = array(160 => 'Spring Ring');
+			$ChainTypeValues = array(161 => 'Cable Chain');
+
+            $metalsAry = array();
+            $ClaspTypeArray = array(); 
+			$ChainTypeArray = array();
+			
+			
+            foreach ($metals as $val) {
+			    if($val!='')
+				{
+                $metalsAry[] = $dataSettingValues[$val];
+				}
+            }
+			if(!empty($ClaspTypes))
+			{
+			foreach ($ClaspTypes as $val) {
+				if($val!='')
+				{
+                $ClaspTypeArray[] = $ClaspTypeValues[$val];
+				}
+            }
+			}
+			if(!empty($ChainTypes))
+			{
+			foreach ($ChainTypes as $val) {
+				if($val!='')
+				{
+                $ChainTypeArray[] = $ChainTypeValues[$val];
+				}
+            }
+            }
+			if(!empty($metalsAry))
+			{
+            echo $ringAttrbute = '<tr><td><h6>Metal :</h6></td><td><span>' . implode(",", $metalsAry) . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1Gemstone() != '') {
+                echo '<tr><td><h6>Diamond :</h6></td>
+				<td><span>  ' . $ringproduct->getSst1Gemstone() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1Shape() != '') {
+                echo '<tr><td><h6>Diamond Shape : </h6></td>
+				<td><span>  ' . $ringproduct->getSst1Shape() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1NumberDiamonds() != '') {
+                echo '<tr><td><h6>Number of Diamonds :  </h6></td>
+			<td><span>' . $ringproduct->getSst1NumberDiamonds() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1WeightEstimated() != '') {
+                echo '<tr><td><h6>Total Carat Weight Estimated :  </h6></td><td><span>' . $ringproduct->getSst1WeightEstimated() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1AverageColor() != '') {
+                echo '<tr><td><h6>Average Color :  </h6></td>
+			<td><span> ' .
+                $ringproduct->getSst1AverageColor() . '</span></td></tr>';
+            }
+
+            if ($ringproduct->getSst1AverageClarity() != '') {
+                echo '<tr><td><h6>Average Clarity :  </h6></td>
+			<td><span> ' . $ringproduct->getSst1AverageClarity() . '</span></td></tr>';
+            }
+			
+            if (!empty($ClaspTypeArray)) {
+                echo '<tr><td><h6>Clasp Type :</h6></td><td><span>' . implode(",", $ClaspTypeArray) . '</span></td></tr>';
+            }			
+			
+			if (!empty($ChainTypeArray)) {
+                echo '<tr><td><h6>Chain Type :</h6></td><td><span>' . implode(",", $ChainTypeArray) . '</span></td></tr>';
+            }	
+            
+			if ($ringproduct->getChainLegnth() != '') {
+                echo '<tr><td><h6>Chain Legnth :  </h6></td>
+			<td><span> ' . $ringproduct->getChainLegnth() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getLegnthOfProduct() != '') {
+                echo '<tr><td><h6>Legnth Of Product :  </h6></td>
+			<td><span> ' . $ringproduct->getLegnthOfProduct() . '</span></td></tr>';
+            }
+			
+			if ($ringproduct->getWidthOfProduct() != '') {
+                echo '<tr><td><h6>Width Of Product :  </h6></td>
+			<td><span> ' . $ringproduct->getWidthOfProduct() . '</span></td></tr>';
+            }
+
+            /* if ($ringproduct->getAsscher() == 98) {
+              echo '<tr><td><h6>Asscher :  </h6></td>	<td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Asscher :  </h6></td>	<td><span> Yes </span></td></tr>';
+              }
+
+
+
+              if ($ringproduct->getCushion() == 100) {
+              echo '<tr><td><h6>Cushion :  </h6></td>	<td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Cushion :  </h6></td>	<td><span> Yes </span></td></tr>';
+              }
+
+
+
+              if ($ringproduct->getEmerald() == 102) {
+              echo '<tr><td><h6>Emerald :  </h6></td>	<td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Emerald :  </h6></td>	<td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getHeart() == 104) {
+              echo '<tr><td><h6>Heart :  </h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Heart :  </h6></td>	<td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getMarquise() == 106) {
+              echo '<tr><td><h6>Marquise :  </h6></td>
+              <td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Marquise :  </h6></td>
+              <td><span> Yes </span></td></tr>';
+              }
+
+
+              if ($ringproduct->getOval() == 108) {
+              echo '<tr><td><h6>Oval :  </h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Oval : </h6></td><td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getPear() == 110) {
+              echo '<tr><td><h6>Pear :</h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Pear :  </h6></td><td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getPrincess() == 112) {
+              echo '<tr><td><h6>Princess :  </h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Princess :  </h6></td><td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getRadiant() == 114) {
+              echo '<tr><td><h6>Radiant :  </h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Radiant :</h6></td><td><span> Yes </span></td></tr>';
+              }
+
+              if ($ringproduct->getRound() == 116) {
+              echo '<tr><td><h6>Round :  </h6></td><td><span> No </span></td></tr>';
+              } else {
+              echo '<tr><td><h6>Round :  </h6></td><td><span> Yes </span></td></tr>';
+              } */
+            //echo $ringAttrbute;
+            ?>            
+
+        </table>
+    </div>
+</div>
+

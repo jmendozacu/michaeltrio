@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trd_Importxls>
+            <version>0.1.1</version>
+        </Trd_Importxls>
+    </modules>
+    <global>
+        <models>
+            <trd_importxls>
+                <class>Trd_Importxls_Model</class>
+                <resourceModel>trd_importxls_resource</resourceModel>
+            </trd_importxls>
+            <trd_importxls_resource>
+                <class>Trd_Importxls_Model_Resource</class>
+                <entities>
+                    <importxls>
+                        <table>importxls</table>
+                    </importxls>
+                </entities>
+            </trd_importxls_resource>
+        </models>
+        <blocks>
+            <trd_importxls>
+                <class>Trd_Importxls_Block</class>
+            </trd_importxls>
+        </blocks>
+        <helpers>
+            <trd_importxls>
+                <class>Trd_Importxls_Helper</class>
+            </trd_importxls>
+        </helpers>
+        <resources>
+            <trd_importxls_setup>
+                <setup>
+                    <module>Trd_Importxls</module>
+                </setup>
+            </trd_importxls_setup>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <importxls>
+                <use>admin</use>
+                <args>
+                    <module>Trd_Importxls</module>
+                    <frontName>importxls</frontName>
+                </args>
+            </importxls>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <importxls translate="title" module="trd_importxls">
+                <title>Diamonds</title>
+                <sort_order>15</sort_order>
+
+                <children>
+
+                    <importxls_adminform translate="title" module="trd_importxls">
+                        <title>Import XLSX</title>
+                        <action>importxls/manage</action>
+                    </importxls_adminform>
+
+                </children>
+
+                <children>
+
+                    <importxls_managedata translate="title" module="trd_importxls">
+                        <title>Manage Diamonds</title>
+                        <action>importxls/manage/datamanage</action>
+                    </importxls_managedata>
+
+                </children>
+
+            </importxls>
+        </menu>
+    </adminhtml>
+</config>

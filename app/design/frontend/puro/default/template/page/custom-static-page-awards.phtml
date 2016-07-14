@@ -1,0 +1,158 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<?php $theme = $this->helper('puro');?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<meta name="google-site-verification" content="04OmzluHgSHkKn6Jjz-jRNnA9OVPESQO_TDz_pz_jRk" />
+
+<?php echo $this->getChildHtml('head') ?>
+<!-- Start Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1200384866651855');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1200384866651855&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- Start Proclick call Code -->
+<script type="text/javascript">
+<!-- AVANSER Call Tracking [start] -->
+(function() {
+    var av = document.createElement('script');
+    av.type = 'text/javascript';
+    av.id = 'AVANSERjs';
+    av.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 
+        'adriano-sg.avanser.com/aa.js?t=' + (new Date().getTime());
+    var h = document.getElementsByTagName('head')[0];
+    h.parentNode.appendChild(av);
+})();
+<!-- AVANSER Call Tracking [stop] -->
+</script>
+<!-- End Proclick call tracking Code -->
+
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="<?php echo Mage::getBaseUrl(); ?>media/css/ie8.css" />
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(); ?>js/icotheme/jquery/plugins/bootstrap/html5shiv.js"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(); ?>js/icotheme/jquery/plugins/bootstrap/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 960051611;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/960051611/?value=0&amp;guid=ON&amp;script=0"/>
+</div> 
+</noscript>
+
+<?php
+    include_once($_SERVER['DOCUMENT_ROOT']."/analyticstracking.php");
+    ?>
+    <?php echo $this->getChildHtml('after_body_start') ?>
+    <?php echo $this->getChildHtml('header') ?>
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <!-- // OPEN MAIN CONTAINER // -->
+    <section class="main-container col1-layout">
+        <div class="main-breadcrumbs">
+            <div class="container">
+                <div class="row show-grid">
+                    <div class="col-lg-12">
+                        <?php echo $this->getChildHtml('breadcrumbs') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-wrapper">
+            <div class="main">
+                <div class="site-preface"><?php echo $this->getChildHtml('preface') ?></div>
+                <div class="container">
+                    <div class="row show-grid">
+                        <?php echo $this->getChildHtml('main_top') ?>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row show-grid">
+                        <div class="col-main">
+                            <?php echo $this->getChildHtml('global_messages'); ?>
+                            <img class="mw100 w100" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/banner_awards.jpg" alt="">
+                            <?php echo $this->getChildHtml('content'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="deal">
+                    <div class="row show-grid">
+                        <?php echo $this->getChildHtml('product_deal') ?>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row show-grid">
+                        <?php echo $this->getChildHtml('main_bottom') ?>
+                    </div>
+                </div>
+                <div class="site-postscript"><?php echo $this->getChildHtml('postscript') ?></div>
+            </div>
+        </div>
+    </section>
+    <!--// CLOSE MAIN CONTAINER //-->
+    <?php echo $this->getChildHtml('footer') ?>
+    <?php echo $this->getChildHtml('before_body_end') ?>
+    <?php echo $this->getAbsoluteFooter() ?>
+			<!--Start of Zopim Live Chat Script-->
+		<script type="text/javascript">
+		window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+		d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+		_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+		$.src="//v2.zopim.com/?2HxjEJDOLeIceXTxCSVoOyd7Ez4tLmzS";z.t=+new Date;$.
+		type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+		</script>
+		<!--End of Zopim Live Chat Script—>
+
+</body>
+</html>

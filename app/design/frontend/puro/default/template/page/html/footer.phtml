@@ -1,0 +1,181 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$theme = $this->helper('puro');
+?>
+<!-- // FOOTER // -->
+<style>
+a.recently-purchased .img-responsive
+{
+max-width:100% !important;
+}
+</style>
+<?php
+ if (Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') { ?>
+
+<div class="container foot_container_content">
+<div class="footer_seenus">
+		<h4>YOU MIGHT SEEN US FROM</h4>
+		<ul class="footer_logo">
+		<li>
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/singapore_tatler.png'; ?>" />
+		</li>
+		<li>
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/bridestory.png'; ?>" />
+		</li>
+		<li>
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/brides.png'; ?>" />
+		</li>
+		<li>
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/straits_times.png'; ?>" />
+		</li>
+		<li>
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/kiss92.png'; ?>" />
+		</li>
+		<li class="last_child">
+		<img src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/the_wedding_scoop.png'; ?>" />
+		</li>
+		</ul>
+</div>
+</div>
+<?php } ?>
+<footer class="footer-wrapper">
+    <div class="footer-top">
+        <div class="container">
+            <div class="footer-container">
+                <div class="row show-grid">
+                    <?php echo $this->getChildHtml('footer_top') ?>
+                </div>
+				<!--ul>
+				<?php
+				$children = Mage::getModel('catalog/category')->load('6')->getChildrenCategories();
+				foreach ($children as $category):
+				$category = Mage::getModel('catalog/category')->load($category->getId());
+				echo '<li><a href="' . $category->getUrl() . '">' . $category->getName() . '</a></li>';
+				endforeach;
+				?>
+				</ul-->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-container">
+                <div class="row show-grid">
+                    <?php echo $this->getChildHtml('footer_bottom') ?>
+                </div>
+                <div id="back-top" class="hidden-phone">
+                    <a href="#top">
+                        <div class="sticker-wrapper">
+                            <div class="sticker" title="<?php echo $this->__('Back to Top') ?>">
+                                <i class="fa fa-angle-up"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+			<address><?php echo $this->getCopyright() ?></address>
+				</div>
+                <div class="col-lg-4"><?php echo $this->getChildHtml('footer_social_link') ?></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<button type="button" id="myModalButton" style="display:none;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<script type="text/javascript">
+	jQuery(function ($) {
+		$('#recentlysold-menu').owlCarousel({
+			items: 5,
+			lazyLoad: true,
+			slideSpeed: 500,
+			autoplay:true,
+			autoWidth:true,
+			pagination: false,
+			navigation: false,	
+			itemsMobile: [479,3]
+		});
+		
+		$('a.recently-purchased').click(function(e){
+			e.preventDefault();
+			$('#myModal').remove();	
+			$('#myModalButton').before('<div class="popup-wrapper"><div class="loading" style="display: block;"></div></div>');
+			var pid =$(this).attr('data-pid');
+			$.ajax({
+			  method: "POST",
+			  url: "<?php echo $this->getUrl('recentlypurchased/index/ajaxloadproduct'); ?>",
+			  data: { pid: pid },
+			  dataType:"json"
+			})
+			  .done(function( result ) {
+				$('#myModalButton').prev('.popup-wrapper').remove();
+				var html = '<div id="myModal" class="modal fade" role="dialog"><div class="modal-dialog">';
+				html += '<div class="modal-content"><div class="modal-header">';
+				html += '<button type="button" class="close closepopup" data-dismiss="modal">&times;</button>';
+				html += '<h4 class="modal-title">RECENTLY PURCHASED RINGS</h4></div><div class="modal-body" id="recently-body">';
+				html += '<div class="col-md-6">'+result.mainimg+'</div>';
+				html += '<div class="col-md-6"><h4 class="modal-title">'+result.settingname+'</h4>';
+				html += '<hr/><h5>'+result.name+'</h5><div class="col-md-12"><div class="col-md-3" style="padding:0px;">';
+				html += result.setimg+'</div>';
+				html += '<div class="col-md-9"><p class="col-md-12">Set With :</p>';
+				//html += '<p class="col-md-6"><b>SKU : </b>'+result.sku+'</p>';
+				html += '<p class="col-md-6"><b>Colour : </b>'+result.color+'</p>';
+				html += '<p class="col-md-6"><b>Carat : </b>'+result.carat+'</p>';
+				html += '<p class="col-md-6"><b>Clarity : </b>'+result.clarity+'</p>';
+				html += '<p class="col-md-6"><b>Cut : </b>'+result.cut+'</p>';
+				html += '<p class="col-md-6"><b>Shape : </b>'+result.shape+'</p></div></div><hr/>';
+				html += '<div class="third_part"><div class="price" style="text-align:right;font-size:18px;">';
+				html += '<b>Subtotal:</b><span class="price">'+result.subtotal+'</span>';
+				html += '</div><div class="col-md-12" style="margin:15px 0; font-size: 14px;">';
+				html += 'All of our certified diamonds are backed by our <a href="'+result.lernurl+'" >';
+				html += 'Diamond Price Guarantee. <span class="cta">Learn More</span></a></div>';
+				//html += '<div class="drop-down-action-button "> <a href="#"> select this style </a> </div>';
+				html += '</div><p class="col-md-12">';
+				//html += '<button class="button submitstyle" title="Select Style" type="button" formtarget="_blank" data-target="'+result.selecturl+'">';
+				//html += '<span><span>Select this style</span></span></button>';
+				html += '<a href="'+result.selecturl+'" title="Select this style" target="_blank" class="select-diamond-step"><button name="" class="button btn-update sidebar-button"><span><span>Select this style</span></span></button></a>';
+				//html += ' href="'+result.selecturl+'">';
+				html += '</p><hr/></div><div class="col-sm-12">'+result.galery;
+				html += '</div></div></div></div></div>';
+				//console.log(html);
+				$('#myModalButton').after(html);
+				$('#myModalButton').click();
+			});
+		});
+	
+	});
+	
+	function changeimgrecent(imgpath)
+	{
+	  jQuery("#recently-body #image-main").attr("src", imgpath);
+	}
+</script>

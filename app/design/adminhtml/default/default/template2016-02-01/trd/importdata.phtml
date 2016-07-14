@@ -1,0 +1,218 @@
+<div class="import-data-block">
+    <h2 class="import-data-title">Import Data from XLSX</h2>
+    <div class="import-data-form">
+        <div class="row" style="padding-top:10px;">
+            <ul class="notification-box"></ul>
+            <div class="col-xs-2">
+                <button id="uploadBtn" class="btn btn-large btn-primary">Choose XLSX File</button>
+            </div>
+            <div class="col-xs-10" style="width: 500px; margin-top: 20px">
+                <div id="progressOuter" class="progress progress-striped active" style="display: none">
+                    <div id="progressBar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top:10px;">
+            <div class="col-xs-10">
+                <div id="msgBox">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/uploader/SimpleAjaxUploader.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    function escapeTags( str ) {
+        return String( str )
+            .replace( /&/g, '&amp;' )
+            .replace( /"/g, '&quot;' )
+            .replace( /'/g, '&#39;' )
+            .replace( /</g, '&lt;' )
+            .replace( />/g, '&gt;' );
+    }
+
+    window.onload = function() {
+
+        var btn = document.getElementById('uploadBtn'),
+            progressBar = document.getElementById('progressBar'),
+            progressOuter = document.getElementById('progressOuter'),
+            msgBox = document.getElementById('msgBox'),
+            notificationBox = document.getElementsByClassName('notification-box')[0];
+
+        var uploader = new ss.SimpleUpload({
+            button: btn,
+            url: '<?php echo Mage::getBaseUrl() ?>importxls/manage/upload/key/' + window.FORM_KEY + '/?isAjax=true',
+            name: 'uploadfile',
+            multipart: true,
+            hoverClass: 'hover',
+            allowedExtensions: ['xlsx'],
+            focusClass: 'focus',
+            responseType: 'json',
+            startXHR: function() {
+                progressOuter.style.display = 'block'; // make progress bar visible
+                notificationBox.innerHTML = '';
+                this.setProgressBar( progressBar );
+            },
+            onSubmit: function() {
+                msgBox.innerHTML = ''; // empty the message box
+                btn.innerHTML = 'Uploading...'; // change button text to "Uploading..."
+            },
+            onComplete: function( filename, response ) {
+                btn.innerHTML = 'Choose Another File';
+                progressOuter.style.display = 'none'; // hide progress bar when upload is completed
+
+                if (!response) {
+                    msgBox.innerHTML = 'Unable to upload file';
+                    return;
+                }
+
+                if ( response.success === true ) {
+                    msgBox.innerHTML = '<strong>' + escapeTags(filename) + '</strong>' + ' successfully uploaded.';
+                    notificationBox.appendChild(getLiItem(filename + ' successfully uploaded.'));
+                    notificationBox.appendChild(getLiItem('Starting import process...'));
+
+                    // Start import process
+                    var startImportProcessUrl = '<?php echo Mage::getBaseUrl() ?>importxls/manage/startimport/key/' + window.FORM_KEY + '/?isAjax=true';
+                    sendAjaxRequest(startImportProcessUrl, {filename: filename}, function (response) {
+                        response = JSON.parse(response.responseText);
+                        var productsCount = parseInt(response.count);
+
+                        if (response.success) {
+                            notificationBox.appendChild(getLiItem('Total products count: ' + productsCount));
+                            var insertItem = document.createElement('li');
+                            insertItem.innerHTML = 'Successfully imported products: <span id="imported-product-count">0</span> / ' + productsCount;
+                            notificationBox.appendChild(insertItem);
+
+                            var countImportedProductBox = document.getElementById('imported-product-count');
+
+                            var endImportProdNum = 0,
+                                failuredImport = 0,
+                                procent = 0,
+                                i = 0;
+
+                            var saveProductsChank = function () {
+                                var preparedData = [];
+
+                                for (i = endImportProdNum; i < endImportProdNum + 500; i++) {
+                                    var item = response.products[i];
+
+                                    if (item && item.length > 10) {
+                                        var itemData = {};
+                                        itemData['supplier'] = item[0];
+                                        itemData['cert_url'] = item[1];
+                                        //itemData['diamonds_name'] = item[2];
+                                        itemData['diamonds_model'] = item[2];
+                                        itemData['diamonds_price'] = item[3];
+                                        itemData['price_per_carat'] = item[4];
+                                        //itemData['quantity'] = item[6];
+                                        //itemData['description'] = item[7];
+                                        itemData['diamonds_weight'] = item[5];
+                                        itemData['shape'] = item[6];
+                                        itemData['carat'] = item[7];
+                                        itemData['color'] = item[8];
+                                        itemData['clarity'] = item[9];
+                                        itemData['cut'] = item[10];
+                                        itemData['report_no'] = item[11];
+                                        itemData['cert'] = item[12];
+                                        itemData['polish'] = item[13];
+                                        itemData['symmetry'] = item[14];
+                                        itemData['fluorescence'] = item[15];
+                                        itemData['depth'] = item[16];
+                                        itemData['table_field'] = item[17];
+                                        itemData['girdle'] = item[18] ? item[18] : ' ';
+                                        itemData['measurement_1'] = item[19];
+                                        itemData['measurement_2'] = item[20];
+                                        itemData['measurement_3'] = item[21];
+                                        //itemData['diamonds_image'] = item[25];
+                                        //itemData['image'] = item[26];
+
+                                        preparedData.push(itemData);
+                                    }
+                                }
+
+                                console.log('count: ',preparedData.length);
+                                var saveProductUrl = '<?php echo Mage::getBaseUrl() ?>importxls/manage/saveimported/key/' + window.FORM_KEY + '/?isAjax=true';
+                                var jsonString = JSON.stringify(preparedData);
+                                sendAjaxRequest(saveProductUrl, {json: jsonString}, function (response) {
+                                    response = JSON.parse(response.responseText);
+
+                                    if (response.success) {
+                                        procent = Math.round((endImportProdNum / productsCount) * 100);
+                                        if (procent == 0) {
+                                            procent = 1;
+                                        }
+                                        progressBar.style.width = procent + '%';
+                                        countImportedProductBox.innerHTML = endImportProdNum;
+
+                                        endImportProdNum += preparedData.length;
+
+                                        if (endImportProdNum < productsCount) {
+                                            saveProductsChank();
+                                        } else if (endImportProdNum >= productsCount) {
+                                            countImportedProductBox.innerHTML = productsCount;
+                                            var insertItem = document.createElement('li');
+                                            insertItem.innerHTML = 'Import completed.';
+                                            progressBar.style.width = '100%';
+                                            notificationBox.appendChild(insertItem);
+                                        }
+                                    } else {
+                                        failuredImport += 500;
+                                        var insertItemFailured = document.createElement('li');
+                                        insertItemFailured.innerHTML = '<strong style="color: red">Fail imports: ' + failuredImport + '</strong>';
+                                        notificationBox.appendChild(insertItemFailured);
+                                    }
+                                });
+                            };
+
+                            progressOuter.style.display = 'block';
+                            progressBar.style.width = '0%';
+                            saveProductsChank();
+                        } else {
+                            msgBox.innerHTML = '<b style="color:red">Invalid XLSX file !</b>';
+                            btn.innerHTML = 'Choose XLSX File';
+                            progressOuter.style.display = 'none';
+                            notificationBox.innerHTML = '';
+                        }
+                    });
+                } else {
+                    if (response.msg) {
+                        msgBox.innerHTML = escapeTags( response.msg );
+
+                    } else {
+                        msgBox.innerHTML = 'An error occurred and the upload failed.';
+                    }
+                }
+            },
+            onError: function() {
+                btn.innerHTML = 'Choose XLSX File';
+                progressOuter.style.display = 'none';
+                msgBox.innerHTML = 'Unable to upload file';
+                notificationBox.innerHTML = '';
+            }
+        });
+
+        function getLiItem(text) {
+            var insertItem = document.createElement('li');
+            insertItem.innerHTML = text;
+            return insertItem;
+        }
+
+        function sendAjaxRequest(url, data, callback){
+            data.form_key = window.FORM_KEY;
+            new Ajax.Request(url, {
+                method: 'POST',
+                parameters: data,
+                onComplete: function(transport) {
+
+                    callback(transport);
+
+                }
+            });
+        }
+    };
+</script>
+

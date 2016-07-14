@@ -1,0 +1,62 @@
+# Google Image Crawler Setup
+    User-agent: Googlebot-Image
+    Disallow:
+
+# Crawlers Setup
+    User-agent: *
+    Disallow: /admin/
+    Disallow: /index.php
+    Disallow: /404/
+    Disallow: /checkout/
+    Disallow: /customer/
+    Disallow: /customer/account/
+    Disallow: /customer/account/login/
+    Disallow: /recentlypurchased/index/ajaxloadproduct/
+    Disallow: /diamonds/ajax/removediamond/
+
+# General technical directories and files on a server
+    Disallow: /cgi-bin/
+    Disallow: /cleanup.php
+    Disallow: /apc.php
+    Disallow: /memcache.php
+    Disallow: /phpinfo.php
+
+# Session ID
+    Disallow: /*? SID =
+
+# Index the shared files Magento
+    Disallow: /api.php
+    Disallow: /cron.php
+    Disallow: /cron.sh
+    Disallow: /error_log
+    Disallow: /get.php
+    Disallow: /install.php
+    Disallow: /LICENSE.html
+    Disallow: /LICENSE.txt
+    Disallow: /LICENSE_AFL.txt
+    Disallow: /README.txt
+    Disallow: /RELEASE_NOTES.txt
+    Disallow: /STATUS.txt
+
+# General technical Magento directory
+    Disallow: /var/
+    Disallow: /skin/
+    Disallow: /shell/
+    Disallow: /productimport/
+    Disallow: /pkginfo/
+    Disallow: /lib/
+    Disallow: /js/
+    Disallow: /includes/
+    Disallow: /errors/
+    Disallow: /downloader/
+    Disallow: /app/
+    Allow: /app/catalog/
+
+# Development files and folders: CVS, svn directories and dump files
+    Disallow: /CVS
+    Disallow: /*.svn$
+    Disallow: /*.idea$
+    Disallow: /*.sql$
+    Disallow: /*.tgz$
+
+sitemap: http://www.michaeltrio.com/sitemap.xml

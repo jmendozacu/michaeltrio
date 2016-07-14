@@ -1,0 +1,146 @@
+<?php
+/**
+ * @copyright   Copyright (C)2015 IcoTheme.com. All Rights Reserved.
+ */
+?>
+<?php
+$blocks = $this->getBlocks();
+$id = $this->getConfig('id');
+$scroll = $this->getConfig('scroll');
+$title = $this->getConfig('widget_title');
+?>
+
+
+<div class="<?php echo $this->getConfig('classes') ?>" id="block-slide-home">
+    <?php if ($title): ?>
+        <h2><?php echo $title ?></h2>
+    <?php endif ?>
+
+    
+    <div class="video-holder">
+        <a class="mute-video" href="javascript:;">
+            <img data-baseurl="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/sound-on.png" alt="">
+        </a>
+        <video class="promo-video" id="promo-video" width="100%" height="100%" autoplay="autoplay" preload="auto"  >
+            <source src="media/wysiwyg/icotheme/slide/video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="slide-home <?php echo $scroll == 1 ? 'owl-carousel ' : '' ?>">
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                
+                <div class="slider-image"><img class="images-resposive" alt="slider 01" src="media/wysiwyg/icotheme/slide/slide1.jpg" /></div>
+
+                <div class="slider-text">
+                    <a class="url-holder" href="#"> &nbsp; </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide2.jpg" /></div>
+                
+                <div class="slider-text">
+                    <div class="slide-2">
+                        <a href="#"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide_2_caption.png" /> </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide3.jpg" /></div>
+                
+                <div class="slider-text">
+
+                    <div class="slide-3">
+                        <a href="#"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide_3_caption.jpg" /> </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image"><img class="images-resposive" alt="slider 04" src="media/wysiwyg/icotheme/slide/slide4.jpg" /></div>
+                
+                <div class="slider-text">
+
+                    <div class="slide-4">
+                        <a href="#"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide_4_caption.jpg" /> </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="slide-content">
+            <div class="slide-inner-content">
+                <div class="slider-image"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide5.jpg" /></div>
+                
+                <div class="slider-text">
+                        
+                    <h2> &nbsp; <br> &nbsp;  &nbsp; <br> &nbsp; <br> &nbsp; <br> &nbsp; <br> &nbsp; <br> 
+                    </h2>
+
+                    <div class="slide-5">
+                        <a href="#"><img class="images-resposive" alt="slider 02" src="media/wysiwyg/icotheme/slide/slide_5_caption.jpg" /> </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <?php //foreach ($blocks as $block): ?>
+            <?php //echo $block['content'] ?>
+        <?php //endforeach ?>
+    </div>
+    <script type="text/javascript">
+
+        jQuery(document).ready(function($){
+            widgetConfig.init('block-slide-home', {
+                carousel: <?php echo $this->getConfig('carousel') ?>
+            });
+
+            if( $(window).width() < 1025 ){
+                $('.video-holder').remove();
+            }
+
+            if( document.getElementById('promo-video') ){
+                //document.getElementById('promo-video').addEventListener('ended',myHandler,false);
+				
+                $('.owl-wrapper-outer').addClass('opacity-0');
+                $('.owl-pagination').addClass('opacity-0');
+				
+				
+                function myHandler(e) {
+                    document.getElementById('promo-video').hide();
+                    $('.owl-wrapper-outer').removeClass('opacity-0');
+                    $('.owl-pagination').removeClass('opacity-0');
+                    $('.mute-video').fadeOut(1000);
+                }    
+ 
+			  
+				jQuery("#promo-video").bind('ended', function(){
+				   document.getElementById('promo-video').hide();
+                    jQuery('.owl-wrapper-outer').removeClass('opacity-0');
+                    jQuery('.owl-pagination').removeClass('opacity-0');
+                    jQuery('.mute-video').fadeOut(1000);
+				}); 
+
+            }
+
+        });
+    </script>
+</div>

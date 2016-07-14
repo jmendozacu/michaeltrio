@@ -1,0 +1,1477 @@
+<?php
+/**
+ * @copyright    Copyright (C) 2015 IcoTheme.com. All Rights Reserved.
+ */
+?>
+<!-- navigation BOF -->
+<?php
+$megaeffect = Mage::getStoreConfig('ultramegamenu/display_options/effect');
+$_menu = $this->renderCategoriesMenuHtml(FALSE, FALSE, 0, 'level-top', 'menu-wrap-sub');
+$routeName = Mage::app()->getRequest()->getRouteName();
+$identifier = Mage::getSingleton('cms/page')->getIdentifier();
+?>
+
+<!-- navigation BOF -->
+
+<style>
+    .nav-1 .itemgrid .item.first,
+    .nav-1 .itemgrid .item.nav-1-3{
+        margin-right: 0px !important;   
+    }
+
+    .top-navigation ul.level0 li{
+        /*margin-right: 0px !important;*/
+        /*background-color: red;  */
+    }
+   .newsmain{
+        width: 77% !important;
+    }
+    .newsmain .item {
+        width: 32% !important;
+    }
+	.jewellerygifts .itemgrid-4col .item:nth-child(4n+1) {
+    clear: unset !important;
+    }
+	.jewellerygifts .itemgrid-4col .item {
+    width: 18% !important;
+    }
+</style>
+
+<div class="navbar visible-tablet">
+    <div class="navbar">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="" class="navbar-brand">Navigation</a>
+        </div>
+        <nav class="collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav-accordion nav-mobile-accordion">
+                <li><a href="<?php echo Mage::getBaseUrl(); ?>">HOME</a></li>
+                <li class="level0 nav-6 level-top first parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>DIAMONDS</span>
+                    </a>    
+                    <ul class="level0">
+                        <li class="level1 item nav-6-1 first parent">
+                            <a class="go-to-step-one" diamond="RD" href="<?php echo Mage::getBaseUrl(); ?>diamond.php">
+                                <span>Search For Diamonds</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-1 first">
+                                    <a class="go-to-step-one-diamond" diamond="RD" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=RD">
+                                        <span>Round</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-one-diamond" diamond="PS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=PS">
+                                        <span>Princess</span>   
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-3">
+                                    <a class="go-to-step-one-diamond" diamond="EC" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=EC">
+                                        <span>Emerald</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-4">
+                                    <a class="go-to-step-one-diamond" diamond="AS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=AS">
+                                        <span>Asscher</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-5 last">
+                                    <a class="go-to-step-one-diamond" diamond="CU" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=CU">
+                                        <span>Cushion</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-2-6 first">
+                                    <a class="go-to-step-one-diamond" diamond="RA" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=RA">
+                                        <span>Radiant</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-2-7">
+                                    <a class="go-to-step-one-diamond" diamond="PR" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=PR">
+                                        <span>Pear</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-2-8">
+                                    <a class="go-to-step-one-diamond" diamond="OV" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=OV">
+                                        <span>Oval</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-2-9">
+                                    <a class="go-to-step-one-diamond" diamond="MQ" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=MQ">
+                                        <span>Marquise</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-2-10 last">
+                                    <a class="go-to-step-one-diamond" diamond="HS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=HS">
+                                        <span>Heart</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="level1 item nav-6-3 parent">
+						    <a class="go-to-step-one-fancy-diamond" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php" >
+                                <span>Fancy Color Diamonds</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-1 first">
+                                    <a class="go-to-step-one-fancy-diamond" fancy_diamond="yellow" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php">
+                                                <span>  Yellow</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+				<a class="go-to-step-one-fancy-diamond" fancy_diamond="pink" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php">
+					<span>  Pink</span>
+				</a>
+                                </li>
+                                
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="level0 nav-7 level-top parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>ENGAGEMENT RINGS</span>
+                    </a>
+                    <ul class="level0">
+                        <li class="level1 item nav-6-1 first parent">                            
+							<a href="javascript:void(0);" class="level-top">
+							<span>Create Your Own Engagement Ring</span>
+							</a>                          
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-1 first">
+                                    <a class="go-to-step-one" diamond="RD" href="<?php echo Mage::getBaseUrl() ?>diamond.php">
+                                        <span>Start with a Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two" href="<?php echo Mage::getBaseUrl() ?>engagement.php?step=2">
+                                        <span>Start with a Setting</span>
+                                    </a>
+                                </li>
+								<li class="level2 nav-6-1-2">
+<?php echo Mage::getSingleton('core/layout')->createBlock('recentlypurchased/recentlypurchased')->setTemplate('recentlypurchased/recentlypurchased-mobmenu.phtml')->toHtml(); ?>
+                                </li>																
+                            </ul>
+                        </li>
+
+                        <li class="level1 item nav-6-3 parent">
+							<a href="javascript:void(0);" class="level-top">
+							<span>Choose Setting</span>
+							</a>  
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-1 first">
+                                    <a class="go-to-step-two-setting" setting="Solitare" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Solitare">
+                                        <span>Solitaire</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two-setting" setting="Pave" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Pave">
+                                        <span>Pavé</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two-setting" setting="Channel-set" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Channel-set">
+                                        <span>Channel set</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two-setting" setting="Side-stone" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Side-Stone">
+                                        <span>Side stone</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two-setting" setting="Vintage" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Vintage">
+                                        <span>Vintage</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a class="go-to-step-two-setting" setting="Halo" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Halo">
+                                        <span>Halo</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="level0 nav-8 level-top parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>WEDDING</span>
+                    </a>
+                    <ul class="level0">
+                        <li class="level1 item nav-8-1 first parent">
+                            <a href="javascript:void(0);">
+                                <span>Women</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-8-1-1 first">
+                                    <a class="go-to-step-three-wedding" wedding="women/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=classic">
+                                        <span>Classic</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-1-2">
+                                    <a class="go-to-step-three-wedding" wedding="women/stackable" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=stackable">
+                                        <span>Stackable</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-1-3">
+                                    <a class="go-to-step-three-wedding" wedding="women/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=diamond">
+                                        <span>Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-1-4">
+                                    <a class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                        <span>Eternity</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-1-5 last">
+                                    <a class="go-to-step-three-wedding" wedding="women/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=alternative-metal-rings">
+                                        <span>Alternative Metal Rings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="level1 item nav-8-2 parent">
+                            <a href="javascript:void(0);">
+                                <span>Men</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-8-2-6 first">
+                                    <a class="go-to-step-three-wedding" wedding="men/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=classic">
+                                        <span>Classic</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-2-7">
+                                    <a class="go-to-step-three-wedding" wedding="men/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=diamond">
+                                        <span>Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-2-8 last">
+                                    <a class="go-to-step-three-wedding" wedding="men/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=alternative-metal-rings">
+                                        <span>Alternative Metal Rings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="level1 item nav-8-3 last parent">
+                            <a href="javascript:void(0);">
+                                <span>Couple</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-8-3-9 first">
+                                    <a class="go-to-step-three-wedding" wedding="couple/cross-wave" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=cross-wave">
+                                        <span>Cross / Wave</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-3-10">
+                                    <a class="go-to-step-three-wedding" wedding="couple/premium-celebrity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=premium-celebrity">
+                                        <span>Premium / Celebrity</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-3-11">
+                                    <a class="go-to-step-three-wedding" wedding="couple/fancy" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=fancy">
+                                        <span>Fancy</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-8-3-12 last">
+                                    <a class="go-to-step-three-wedding" wedding="couple/alternative" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=alternative">
+                                        <span>Alternative</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="level0 nav-9 level-top parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>JEWELLERY &amp; GIFTS</span>
+                    </a>
+                    <ul class="level0">
+			<li class="level1 item nav-9-1 first parent">
+                            <a href="javascript:void(0);">
+                                <span>Ring</span>
+                            </a>
+                            <ul class="level1">
+                                        <li class="level2 nav-4-1-1 first">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=diamond">
+                                                <span>Diamond</span>
+										</a>
+                                        </li>
+                                        <li class="level2 nav-4-1-2">
+<a class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                                <span>Eternity</span>
+                                        </a>
+                                        </li>
+                                        <li class="level2 nav-4-1-3">
+											<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=gemstone">
+											<span>Gemstone</span>
+											</a>
+                                        </li>
+										<li class="level2 nav-4-1-3">  
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=pearl">                                          
+                                                <span>Pearl</span>
+										</a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=gold">
+                                                <span>Gold</span>
+												</a>
+                                        </li>
+                            </ul>
+                        </li>
+						
+                        <li class="level1 item nav-9-1 parent">
+                            <a href="javascript:void(0);">
+                                <span>Necklace</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-9-1-1 first">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=diamond">
+                                        <span>Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-1-2">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=gemstone">
+                                        <span>Gemstone</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-1-3">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=pearl">
+                                        <span>Pearl</span>
+                                    </a>
+                                </li>
+								<li class="level2 nav-4-1-3 last">
+								<a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=engravable">
+                                     <span>Gold</span>
+									 </a>
+                                </li>
+								<li class="level2 nav-4-1-3 last">
+								<a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=engravable">
+                                        <span>Engravable</span>
+                                 </a>
+                                     
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="level1 item nav-9-3 parent">
+                            <a href="javascript:void(0);">
+                                <span>Earrings</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-9-3-7 first">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=diamond">
+                                        <span>Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-3-8">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=gemstone">
+                                        <span>Gemstone</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-3-9 last">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=pearl">
+                                        <span>Pearl</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="level1 item nav-9-4 last parent">
+                            <a href="javascript:void(0);">
+                                <span>Bracelet</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-9-4-10 first">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=diamond">
+                                        <span>Diamond</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-4-11">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=gemstone">
+                                        <span>Gemstone</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-4-12 last">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=pearl">
+                                        <span>Pearl</span>
+                                    </a>
+                                </li>
+								<li class="level2 nav-4-1-3 last">
+								<a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=gold">
+                                                <span>Gold</span>
+												</a>
+                                </li>
+								<li class="level2 nav-4-1-3 last">
+									<a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=engravable">
+                                        <span>Engravable</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="level1 item nav-9-2 parent">
+                            <a href="javascript:void(0);">
+                                <span>Gift</span>
+                            </a>
+                            <ul class="level1">
+
+                                <li class="level2 nav-9-2-4 first">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/gift-under-$150" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=gift-under-$150">
+                                        <span>Gifts Under $150</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-2-4">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/top-10-gifts" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=top-10-gifts">
+                                        <span>Top 10 Classic Gifts</span>
+                                    </a>
+                                </li>
+                                <li class="level2 nav-9-2-5">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/anniversary" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=anniversary">
+                                        <span>Anniversary Gifts</span>
+                                    </a>
+                                </li>
+								<li class="level2 nav-9-2-6 last">
+                                    <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/luxury" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=luxury">
+                                        <span>Luxury</span>
+                                    </a>
+                                </li>
+								<li class="level2 nav-4-1-3">
+								 <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=gold">
+                                                <span>Gold</span>
+												</a>
+                                </li>
+								<li class="level2 nav-4-1-3 last">
+						            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=engravable">
+                                        <span>Engravable</span>
+                                            </a>
+                                </li>
+								<li class="level2 nav-9-2-6 last">
+                                    <a href="http://www.michaeltrio.com/jewellery-gifts.php?maincat=jewellery-gifts&amp;styletype=sale" jewellerygifts="jewellery-gifts/sale" class="color-red go-to-step-one-jewellery-gifts-sale">
+                                    <span>Sale</span>
+                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="level0 nav-10 level-top last parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>EDUCATION</span>
+                    </a>
+		    <ul class="level0">
+                        <li class="level1 item nav-6-1 first parent">
+                            <a href="javascript:void(0);">
+                                <span>Diamond Education</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-1 first">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>cut">
+                                                <span>Cut</span>
+                                            </a>
+                                </li>
+                                <li class="level2 nav-6-1-2">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>colour">
+                                                <span>Colour</span>
+                                            </a>
+                                </li>
+                                <li class="level2 nav-6-1-3">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>clarity">
+                                                <span>Clarity</span>
+                                            </a>
+                                </li>
+                                <li class="level2 nav-6-1-4">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>carat">
+                                                <span>Carat Weight</span>
+                                            </a>
+                                </li>
+                                <li class="level2 nav-6-1-5">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>diamond-certificate">
+                                                <span>Certification</span>
+                                            </a>
+                                </li>
+                                <li class="level2 nav-6-2-6 last">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>signature-ideal">
+                                                MT SIGNATURE DIFFERENCE
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="level1 item nav-6-3">                            
+					    <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings-guide">
+                                                <span>Engagement Ring Guide</span>
+                                            </a>                            
+                        </li>
+						<li class="level1 item nav-6-3">                            
+								<a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>wedding-rings-guide">
+                                                <span>Wedding Ring Guide</span>
+                                            </a>                            
+                        </li>
+						<li class="level1 item nav-6-3">                            
+								<a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>find-your-ring-size">
+                                                <span>Find Your Ring Size</span>
+                                            </a>                            
+                        </li>
+						<li class="level1 item nav-6-3">                            
+								<a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>metal-education">
+                                                <span>Metals Education</span>
+                                            </a>                            
+                        </li>
+						<li class="level1 item nav-6-3">                            
+								<a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>pearls">
+                                                <span>Pearls Education</span>
+                                            </a>                            
+                        </li>
+                    </ul>
+
+                </li>         
+                <li class="level0 level-top link-external parent">
+                    <a href="javascript:void(0);" class="level-top">
+                        <span>NEWS</span>
+                    </a>
+			<ul class="level0">
+                        <li class="level1 item nav-6-1 first parent">
+                            <a href="<?php echo Mage::getBaseUrl(); ?>awards">
+                                <span>Awards</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-2 image_1">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>awards">
+                                        <img class="nav_news_img first" src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/awards.png'; ?>" />
+                                    </a>
+                                </li>	
+                            </ul>
+                        </li>
+			<li class="level1 item nav-6-2 parent">
+			   <a href="<?php echo Mage::getBaseUrl(); ?>events">
+                                <span>Events</span>
+                            </a> 
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-2 image_1">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>events">
+                                        <img class="nav_news_img first" src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/events.png'; ?>" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+			<li class="level1 item nav-6-2 parent">
+                            <a href="<?php echo Mage::getBaseUrl(); ?>blog">
+                                <span>Blog</span>
+                            </a>
+                            <ul class="level1">
+                                <li class="level2 nav-6-1-2 image_1">
+                                    <a href="<?php echo Mage::getBaseUrl(); ?>blog">
+                                        <img class="nav_news_img first" src="<?php echo Mage::getUrl('media') . 'wysiwyg/icotheme/blog.jpg'; ?>" />
+                                    </a>                                           
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+
+<div class="navigation-wrapper hidden-tablet">
+    <div class="main-navigation">
+        <ul class="top-navigation">
+
+            <li class="level0 nav-1 level-top first parent parent">
+                <a href="javascript:void(0);" class="level-top">
+                    <span> Diamonds</span>
+                </a>
+
+                <div class="level0 menu-wrap-sub">
+
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+
+                        <ul class="level0">
+                            <li class="level1 groups item nav-1-1 first thumbs-fix">
+                                <a class="go-to-step-one" diamond="RD" href="<?php echo Mage::getBaseUrl(); ?>diamond.php">
+                                    <span class="title_group">Search For Diamonds</span>
+                                </a>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-one-diamond" diamond="RD" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=RD">
+                                                <span> <div class="thumb-holder"> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_1.png" alt=""></div> Round</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-2">
+                                            <a class="go-to-step-one-diamond" diamond="PS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=PS">
+                                                <span> <div class="thumb-holder"> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_2.png" alt=""></div> Princess</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-3">
+                                            <a class="go-to-step-one-diamond" diamond="EC" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=EC">
+                                                <span> <div class="thumb-holder"> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_3.png" alt=""></div> Emerald</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-4">
+                                            <a class="go-to-step-one-diamond" diamond="AS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=AS">
+                                                <span> <div class="thumb-holder"> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_9.png" alt=""></div> Asscher</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-5 last">
+                                            <a class="go-to-step-one-diamond" diamond="CU" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=CU">
+                                                <span> <div class="thumb-holder"> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_7.png" alt=""></div> Cushion</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </li>
+
+                            <li class="level1 groups item nav-1-2 thumbs-fix">
+                                <a href="<?php echo Mage::getBaseUrl(); ?>">
+                                    <span class="title_group">&nbsp; <span class="expand1200"></span> </span>
+                                </a>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-2-6 first">
+                                            <a class="go-to-step-one-diamond" diamond="RA" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=RA">
+                                                <span> <div class="thumb-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_6.png" alt=""></div> Radiant</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-2-7">
+                                            <a class="go-to-step-one-diamond" diamond="PR" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=PR">
+                                                <span> <div class="thumb-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_5.png" alt=""></div> Pear</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-2-8">
+                                            <a class="go-to-step-one-diamond" diamond="OV" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=OV">
+                                                <span> <div class="thumb-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_8.png" alt=""></div> Oval</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-2-9">
+                                            <a class="go-to-step-one-diamond" diamond="MQ" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=MQ">
+                                                <span> <div class="thumb-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_10.png" alt=""></div> Marquise</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-2-10 last">
+                                            <a class="go-to-step-one-diamond" diamond="HS" href="<?php echo Mage::getBaseUrl(); ?>diamond.php?shape=HS">
+                                                <span> <div class="thumb-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_4.png" alt=""></div> Heart</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-1-3">
+
+							<a class="go-to-step-one-fancy-diamond" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php">
+							<span class="title_group">Fancy Color Diamonds</span>
+							</a>
+								<div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-one-fancy-diamond" fancy_diamond="yellow" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php">
+                                                <span>  Yellow</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-2">
+                                            <a class="go-to-step-one-fancy-diamond" fancy_diamond="pink" href="<?php echo Mage::getBaseUrl(); ?>fancy-color-diamond.php">
+                                                <span>  Pink</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+								
+                            </li>
+
+                            <li class="level1 groups item nav-1-4 last">
+                                
+<a href="<?php echo Mage::getBaseUrl(); ?>">
+                                    <span class="title_group">&nbsp; <span class="expand1200"></span></span>
+                                </a>
+                                <div class="ulmenu-block ulmenu-block-level1-top std  fancy-color-contant">
+                                    <p><img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/270x197px_fancy_diamond.jpg" alt=""></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="level0 nav-2 level-top">
+                <a href="javascript:void(0);" class="level-top">
+                    <span> Engagement Rings</span>
+                </a>
+                <style>
+                    .nav-er .nav-1-4 .level2 a:before{
+                        display: none;
+                    }
+                    .diamond-grey-buttons a:before{
+                        display: none;   
+                    }
+                </style>
+                <div class="level0 menu-wrap-sub">
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-2col">
+                        <ul class="level0 nav-er">
+                            <li class="level1 groups item nav-1-1 first">
+                                
+                                    <span style="font-size: 18px;" class="title_group">Create Your Own Engagement Ring</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1 diamond-grey-buttons">
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-one" diamond="RD" href="<?php echo Mage::getBaseUrl() ?>diamond.php">
+                                                <span>Start with a Diamond</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-two" href="<?php echo Mage::getBaseUrl() ?>engagement.php?step=2">
+                                                <span>Start with a Setting</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1 first">
+                                            <?php echo Mage::getSingleton('core/layout')->createBlock('recentlypurchased/recentlypurchased')->setTemplate('recentlypurchased/recentlypurchased-menu.phtml')->toHtml(); ?>                                </li>
+                                    </ul>
+                                </div>
+
+                            </li>
+
+
+                            <li class="level1 groups item nav-1-4 last">
+
+                                
+                                    <span style="font-size: 18px;" class="title_group">CHOOSE SETTING</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li>
+                                            <h4>Engagement ring settings</h4>
+                                        </li>
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-two-setting" setting="Solitare" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Solitare">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/solitare.png" alt=""> Solitaire</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="go-to-step-two-setting" setting="Pave" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Pave">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/pave.png" alt=""> Pavé</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1">
+                                            <a class="go-to-step-two-setting" setting="Channel-set" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Channel-set">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/channel-set.png" alt=""> Channel set</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1">
+                                            <a class="go-to-step-two-setting" setting="Side-stone" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Side-Stone">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/side-stone.png" alt=""> Side stone</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1">
+                                            <a class="go-to-step-two-setting" setting="Vintage" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Vintage">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/vintage.png" alt=""> Vintage</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1">
+                                            <a class="go-to-step-two-setting" setting="Halo" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings.php?style=Halo">
+                                                <span><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/halo.png" alt=""> Halo</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="level0 nav-3 level-top parent parent">
+
+                <a href="javascript:void(0);" class="level-top">
+                    <span> Wedding</span>
+                </a>
+
+                <div class="level0 menu-wrap-sub">
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-3col">
+                        <ul class="level0">
+                            <li class="level1 groups item nav-3-1 first">
+                                
+                                    <span class="title_group">Women</span>
+                                
+
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-3-1-1 first">
+                                            <a class="go-to-step-three-wedding" wedding="women/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=classic">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Classic_men.png" alt="">Classic</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-3-1-2">
+                                            <a class="go-to-step-three-wedding" wedding="women/stackable" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=stackable">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Stackable.png" alt="">Stackable</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-3-1-3">
+                                            <a class="go-to-step-three-wedding" wedding="women/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=diamond">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Diamond.png" alt="">Diamond</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-3-1-4">
+                                            <a class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Eternity.png" alt="">Eternity</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-3-1-5 last">
+                                            <a class="go-to-step-three-wedding" wedding="women/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=alternative-metal-rings">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Alternative-Metal-Rings_men.png" alt="">Alternative Metal Rings</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-3-2">
+                                
+                                    <span class="title_group">Men</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-3-2-6 first">
+                                            <a class="go-to-step-three-wedding" wedding="men/classic" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=classic">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Classic_men_1.png" alt="">Classic</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-3-2-7">
+                                            <a class="go-to-step-three-wedding" wedding="men/diamond" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=diamond">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Diamond_men.png" alt="">Diamond</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-3-2-8 last">
+                                            <a class="go-to-step-three-wedding" wedding="men/alternative-metal-rings" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=men&weddingstyle=alternative-metal-rings">
+                                                <span> <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Alternative-Metal-Rings_men_1.png" alt="">Alternative Metal Rings</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="level1 groups item nav-3-3 last">
+                                
+                                    <span class="title_group">Couple</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1 thumbs-align">
+                                        <li class="level2 nav-3-3-9 first">
+                                            <a class="go-to-step-three-wedding" wedding="couple/cross-wave" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=cross-wave">
+                                                <span> <div class="img-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Wave.png" alt=""></div> Cross / Wave</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-3-3-10">
+                                            <a  class="go-to-step-three-wedding" wedding="couple/premium-celebrity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=premium-celebrity">
+                                                <span> <div class="img-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Premium-Celebrity.png" alt=""></div> Premium / Celebrity</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-3-3-11">
+                                            <a  class="go-to-step-three-wedding" wedding="couple/fancy" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=fancy">
+                                                <span> <div class="img-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Fancy.png" alt=""> </div> Fancy</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-3-3-12 last">
+                                            <a  class="go-to-step-three-wedding" wedding="couple/alternative" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=couple&weddingstyle=alternative">
+                                                <span> <div class="img-holder"><img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Alternative.png" alt=""></div> Alternative</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="level0 nav-4 level-top parent parent jewellerygifts">
+                <a href="javascript:void(0);" class="level-top">
+                    <span> Jewellery &amp; Gifts</span>
+                </a>
+                <div class="level0 menu-wrap-sub">
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+                        <ul class="level0">
+
+                            <li class="level1 groups item nav-4-1 first">
+                                
+                                    <span class="title_group">Ring</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-4-1-1 first">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=diamond">
+											<span>Diamond</span>
+											</a>
+                                        </li>
+
+                                        <li class="level2 nav-4-1-2">
+<a class="go-to-step-three-wedding" wedding="women/eternity" href="<?php echo Mage::getBaseUrl(); ?>wedding.php?maincat=women&weddingstyle=eternity">
+                                                <span> Eternity</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-1-3">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=gemstone">
+											<span><!--<img class="menu-thumb-small" src="" alt="" >--> Gemstone</span>
+											</a>
+                                        </li>
+										<li class="level2 nav-4-1-3">
+										   <a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=pearl">
+											<span>Pearl</span>
+											</a>
+                                        </li>
+										<li class="level2 nav-4-1-3">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="jewellery-rings/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-rings&style=gold">
+                                                <span> Gold</span>
+												</a>
+                                        </li>										
+                                    </ul>
+                                </div>
+								
+								<div class="ulmenu-block ulmenu-block-level1-top std jewel-neck">
+                                    <p><img alt="" src="http://www.michaeltrio.com/media/wysiwyg/icotheme/puro/menu/menu4.jpg"></p>
+                                </div>
+                                
+                            </li>
+							
+                            <li class="level1 groups item nav-4-1">
+                                
+                                    <span class="title_group">Necklace</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-4-1-1 first">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=diamond">
+                                                <span> Diamond</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-1-2">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=gemstone">
+                                                <span> Gemstone</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-1-3 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=pearl">
+                                                <span> Pearl</span>
+                                            </a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=gold">
+                                                <span> Gold</span>
+												</a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+ <a class="go-to-step-one-jewellery-gifts" jewellerygifts="necklace/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-necklaces.php?maincat=necklace&style=engravable">
+                                        <span> Engravable</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ulmenu-block ulmenu-block-level1-top std jewel-neck">
+                                    <p><img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/menu1.jpg" alt="" /></p>
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-4-3">
+                                
+                                    <span class="title_group">Earrings</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-4-3-7 first">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=diamond">
+                                                <span> Diamond</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-4-3-8">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=gemstone">
+                                                <span> Gemstone</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-4-3-9 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="earrings/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=earrings&style=pearl">
+                                                <span> Pearl</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ulmenu-block ulmenu-block-level1-top std jewel-earring">
+                                    <img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/menu2.jpg" alt="" />
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-4-4 ">
+                                
+                                    <span class="title_group">Bracelet</span>
+                                
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-4-4-10 first">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/diamond" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=diamond">
+                                                <span> Diamond</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-4-11">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/gemstone" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=gemstone">
+                                                <span> Gemstone</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-4-12 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/pearl" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=pearl">
+                                                <span> Pearl</span>
+                                            </a>
+                                        </li>
+										<li class="level2 nav-4-1-3">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=gold">
+                                                <span> Gold</span>
+												</a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="bracelet/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-bracelets.php?maincat=bracelet&style=engravable">
+                                        <span> Engravable</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="ulmenu-block ulmenu-block-level1-top std jewel-braclet">
+                                    <img src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/menu3.jpg" alt="" />
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-4-2 last">
+                                
+                                    <span class="title_group">Gift</span>
+                                
+
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+																	
+                                        <li class="level2 nav-4-2-4 first">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/gift-under-$150" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=gift-under-$150">
+                                                <span> Gifts Under $150</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-2-5">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/top-10-gifts" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=top-10-gifts">
+                                                <span> Top 10 Classic Gifts</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-4-2-6 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/anniversary" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=anniversary">
+                                                <span> Anniversary Gifts</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-4-2-6 last">
+                                            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/luxury" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=luxury">
+                                                <span> Luxury</span>
+                                            </a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+										<a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/gold" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=gold">
+                                                <span> Gold</span>
+										</a>
+                                        </li>
+										<li class="level2 nav-4-1-3 last">
+            <a class="go-to-step-one-jewellery-gifts" jewellerygifts="gift/engravable" href="<?php echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=gift&style=engravable">
+                                        <span> Engravable</span>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <a class="color-red go-to-step-one-jewellery-gifts-sale" jewellerygifts="jewellery-gifts/sale" href="<?php #echo Mage::getBaseUrl(); ?>jewellery-gifts.php?maincat=jewellery-gifts&styletype=sale" style="margin-top: 20px;">
+                                    <span class="title_group">Sale</span>
+                                </a>                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>               
+
+            <li class="level0 nav-5 level-top last">
+                <style>
+                    .no-chevron:before{
+                        display: none;
+                    }
+                </style>
+                <a href="javascript:void(0);" class="level-top">
+                    <span> Education</span>
+                </a>
+
+					<div class="level0 menu-wrap-sub">
+
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-2col">
+
+                        <ul class="level0 nav-ed">
+
+                            <li class="level1 groups item nav-1-1 first">                                
+                                    <span class="title_group">Diamond Education</span>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+
+                                        <li>
+                                            <h5>DIAMONDS</h5>
+                                        </li>
+                                        
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>cut">
+                                                <span>Cut</span>
+                                            </a>
+                                        </li>
+                                        <li class="level2 nav-1-1-1">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>colour">
+                                                <span>Colour</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>clarity">
+                                                <span>Clarity</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>carat">
+                                                <span>Carat Weight</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>diamond-certificate">
+                                                <span>Certification</span>
+                                            </a>
+                                        </li>
+
+
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>signature-ideal">
+                                                <h5>MT SIGNATURE DIFFERENCE</h5>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </li>
+
+
+                            <li class="level1 groups item nav-1-4 last">
+
+                                <a href="javascript:void(0);">
+                                    <span class="title_group">&nbsp;</span>
+                                </a>
+
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+
+                                        <li>
+                                            <h5>&nbsp;</h5>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>engagement-rings-guide">
+                                                <h5>Engagement Ring Guide</h5>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>wedding-rings-guide">
+                                                <h5>Wedding Ring Guide</h5>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>find-your-ring-size">
+                                                <h5>Find Your Ring Size</h5>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1 first">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>metal-education">
+                                                <h5>Metals Education</h5>
+                                            </a>
+                                        </li>
+
+                                        <li class="level2 nav-1-1-1">
+                                            <a class="no-chevron" href="<?php echo Mage::getBaseUrl(); ?>pearls">
+                                                <h5>Pearls Education</h5>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>                       
+
+            <li class="level0 level-top link-external">
+                <a href="javascript:void(0);" class="level-top">
+                    <span>News</span>
+                </a>
+
+                <div class="level0 menu-wrap-sub newsmain">
+                    <div class="ulmenu-block ulmenu-block-center menu-items grid12-12 itemgrid itemgrid-4col">
+
+                        <ul class="level0">
+                            <li class="level1 groups item nav-1-1 first">                                
+                                   <a href="<?php echo Mage::getBaseUrl(); ?>awards">
+								    <span class="title_group">Awards</span>
+                                   </a>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-1-1 first news_link">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>awards" >
+                                                <img class="nav_news_img first" src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/awards.png'; ?>" />
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-1-2 first">
+                                <a href="<?php echo Mage::getBaseUrl(); ?>events">
+                                    <span class="title_group">Events</span>
+                                </a>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-1-1 first news_link">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>events">
+                                                <img class="nav_news_img sec" src="<?php echo Mage::getUrl('media') . '/wysiwyg/icotheme/events.png'; ?>" />
+                                            </a>
+                                        </li>                                      
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="level1 groups item nav-1-3 last">
+                                <a href="<?php echo Mage::getBaseUrl(); ?>blog">
+                                    <span class="title_group">Blog</span>
+                                </a>
+                                <div class="menu-wrapper">
+                                    <ul class="level1">
+                                        <li class="level2 nav-1-1-1 first news_link">
+                                            <a href="<?php echo Mage::getBaseUrl(); ?>blog">
+                                                <img class="nav_news_img sec" src="<?php echo Mage::getUrl('media') . 'wysiwyg/icotheme/blog.jpg'; ?>" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- navigation EOF -->
+<script type="text/javascript">
+    var urlGoToStep = '<?php echo Mage::getBaseUrl() ?>diamonds/diamond/gotostep/';
+
+    jQuery(document).ready(function ($) {
+        jQuery('.go-to-step-one').click(function (e) {
+            e.preventDefault();
+            var diamondType = jQuery(this).attr('diamond');
+            goToStep(1, diamondType);
+        });
+
+        jQuery('.go-to-step-two').click(function (e) {
+            e.preventDefault();
+            goToStep(2);
+        });
+
+        jQuery('.go-to-step-one-diamond').click(function (e) {
+            e.preventDefault();
+            var diamondType = jQuery(this).attr('diamond');
+			var diamondCut = jQuery(this).attr('diamond_cut');
+            if (diamondType) {
+                goToStepDiamond(diamondType,diamondCut);
+            }
+        });
+		
+		jQuery('.go-to-step-one-fancy-diamond').click(function (e) {
+            e.preventDefault();
+            var fancydiamondstyle = jQuery(this).attr('fancy_diamond');
+            goToStepFancyDiamond(fancydiamondstyle);
+        });
+
+        jQuery('.go-to-step-two-setting').click(function (e) {
+            e.preventDefault();
+            var settingType = jQuery(this).attr('setting');
+
+            if (settingType) {
+                goToStepSetting(settingType);
+            }
+        });
+
+        jQuery('.go-to-step-three-wedding').click(function (e) {
+            e.preventDefault();
+            var weddingType = jQuery(this).attr('wedding');
+            var arr = weddingType.split('/');
+
+            if (weddingType) {
+                goToStepWedding(arr[0], arr[1]);
+            }
+        });
+        
+        jQuery('.go-to-step-one-jewellery-gifts').click(function (e) {
+            e.preventDefault();
+            var jewellerygiftType = jQuery(this).attr('jewellerygifts');
+            var arr = jewellerygiftType.split('/');
+
+            if (jewellerygiftType) {
+                goToStepJewellerygift(arr[0], arr[1]);
+            }
+        });
+		        
+        jQuery('.go-to-step-one-jewellery-gifts-sale').click(function (e) {
+			jQuery('.loader-sidebar').addClass('loader-show');
+            e.preventDefault();
+            var jewellerygiftType = jQuery(this).attr('jewellerygifts');
+            var arr = jewellerygiftType.split('/');
+
+            if (jewellerygiftType) {
+                goToStepJewellerygiftsale(arr[0], arr[1]);
+            }
+        });
+
+    });
+
+    function goToStep(step, diamond) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: step, shape: diamond}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+
+                if (step == 2) {
+                    var redirectUrl = '<?php echo Mage::getBaseUrl() ?>engagement-rings.php';
+                    redirectUrl += '?step=2';
+                    window.location.href = redirectUrl;
+                }
+                else
+                {
+                    var redirectUrl = '<?php echo Mage::getBaseUrl() ?>diamond.php';
+                    window.location.href = redirectUrl;
+                }
+            }
+        });
+    }
+
+    function goToStepSetting(setting) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: 2, style: setting}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+                var redirectUrl = '<?php echo Mage::getBaseUrl() ?>engagement-rings.php?style=' + setting;
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+
+    function goToStepWedding(maincat, wedding) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: 'wedding', maincat: maincat, weddingstyle: wedding}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+                var redirectUrl = '<?php echo Mage::getBaseUrl() ?>wedding.php?maincat=' + maincat + '&weddingstyle=' + wedding;
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+    
+    function goToStepJewellerygift(maincat, jewellerygift) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: 'jewellerygift', maincat: maincat, style: jewellerygift}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+				if(response.mainjewelleryurl != 'jewellery-gifts.php')
+				{
+				var redirectUrl = '<?php echo Mage::getBaseUrl() ?>'+response.mainjewelleryurl;
+				}
+				else
+				{
+				var redirectUrl = '<?php echo Mage::getBaseUrl() ?>'+response.mainjewelleryurl+'?maincat=' + maincat + '&style=' + jewellerygift;
+				}
+			    //
+                //var redirectUrl = '<?php echo Mage::getBaseUrl() ?>jewellery-gifts.php?maincat=' + maincat + '&style=' + jewellerygift;
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+	
+	function goToStepJewellerygiftsale(maincat, jewellerygift) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+		/*var redirectUrl = '<?php echo Mage::getBaseUrl() ?>jewellery-gifts/sale.php';
+		alert(redirectUrl);
+        window.location.href = redirectUrl;*/
+        jQuery.post(urlGoToStep, {step: 'jewellerygiftsale', maincat: maincat, styletype: jewellerygift}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+                var redirectUrl = '<?php echo Mage::getBaseUrl() ?>jewellery-gifts.php?styletype=' + jewellerygift;
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+
+    function goToStepDiamond(diamond,diamond_cut) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: 1, shape: diamond, cut: diamond_cut}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+                var redirectUrl = '<?php echo Mage::getBaseUrl() ?>diamond.php?shape=' + diamond;
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+	
+	function goToStepFancyDiamond(fancydiamondstyle) {
+        jQuery('.loader-sidebar').addClass('loader-show');
+        jQuery.post(urlGoToStep, {step: 'fancydiamondstyle', fancystyle: fancydiamondstyle}, function (response) {
+            response = JSON.parse(response);
+            if (response.status) {
+				if(fancydiamondstyle)
+				{
+                var redirectUrl = '<?php echo Mage::getBaseUrl() ?>fancy-color-diamond.php?style=' + fancydiamondstyle;
+				}
+				else
+				{
+				var redirectUrl = '<?php echo Mage::getBaseUrl() ?>fancy-color-diamond.php';
+				}
+                window.location.href = redirectUrl;
+            }
+        });
+    }
+
+</script>

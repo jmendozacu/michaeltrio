@@ -1,0 +1,697 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$_item = $this->getItem();
+$isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
+$canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+$tempProdId = Mage::registry('temp_prod_model_phtml');
+$_productName = ($_item->getProduct()->getId() == $tempProdId->getProductId() ? $_item->getCustomProductName() : $this->getProductName());
+$_productImage = ($_item->getProduct()->getId() == $tempProdId->getProductId() ? '/' . $_item->getCustomProductImage() : (string) $this->getProductThumbnail()->resize(75));
+$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+$curr_prefix = 'SGD ';
+
+$_resource = $this->getProduct()->getResource();
+$diamondshape = strtolower(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProduct()->getId(), 'diamond_shape', Mage::app()->getStore()));
+if ($diamondshape != '' && $diamondshape != NULL) {
+    $_productImage = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'wysiwyg/icotheme/diamonds_pics/' . $diamondshape . '_t.jpg';
+}
+
+$_product = Mage::getModel('catalog/product')->load($_item->getProduct()->getId());
+$ids = $_product->getCategoryIds();
+
+/* This will get custom option value of cart item */
+//$_customOptions = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
+
+/* Each custom option loop */
+//foreach ($_customOptions['options'] as $_option) {
+//    //print_r($_option);
+//    echo $_option['label'] . '=>' . $_option['option_id'] . '_' . $_option['value'] . '_' . $_option['option_type'] . '_' . $_option['option_value'] . '_' . $_option['custom_view'] . "<br/>";
+//    // Do your further logic here
+//
+$QuoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+//print_r($ids);
+?>
+
+<tr>
+    <td style="text-align: center;">
+
+        <?php
+        if (in_array('103', $ids)) {
+            $_images = $_product->getMediaGalleryImages();
+
+            if ($_images) {
+                $i = 0;
+                $_productImage = '';
+                foreach ($_images as $_image) {
+                    ?>
+                    <?php if ($this->hasProductUrl()): ?>
+                        <a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image" style="display:block;"><?php endif; ?>
+
+                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->resize(83, 83) ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
+                        <?php
+                        if ($i == 1) {
+                            break;
+                        }
+                        $i++;
+                        ?>                
+                        <?php if ($this->hasProductUrl()): ?>
+                        </a>
+                    <?php endif; ?>
+                    <?php
+                }
+            }
+        } else {
+            ?>
+            <?php if ($this->hasProductUrl()): ?>
+                <a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif; ?>
+                <?php
+                $_productImage = ($_item->getProduct()->getId() == $tempProdId->getProductId() ? "/" . $_item->getCustomProductImage() : (string) $this->getProductThumbnail()->resize(83, 83)->setWatermarkSize('30x10'));
+                ?>
+                <img src="<?php echo $_productImage; ?>" width="75" height="75" alt="<?php echo $_productName; ?>" data-pid="<?php echo $_item->getProduct()->getId(); ?>" data-shape="<?php echo $diamondshape; ?>"/>
+                <?php if ($this->hasProductUrl()): ?>
+                </a>
+            <?php endif; ?>
+            <?php
+        }
+        ?>                
+
+    </td>
+    <td class="td-product-name" style="text-align: left;">
+
+        <?php
+        if (in_array('103', $ids)) {
+            $jklm = '0';
+            $mainliarray = array();
+            
+            foreach ($_product->getOptions() as $o) {
+                $values = $o->getValues();
+
+                foreach ($values as $v) {
+                    if ($o->getTitle() == 'Product_B') {
+                        $engraving_idchk = $v->getTitle();
+                    }
+                    if ($o->getTitle() != 'Engraving' && $v->getTitle() != '' && $o->getTitle() != 'Product_A' && $o->getTitle() != 'Product_B') {
+                        $skutext = '';
+                        $engravingchkloop = '0';
+                        if ($o->getTitle() == 'EngravingText') {
+                            $titl = 'Engraving';
+                            $engravingchkloop++;
+                            $resource = Mage::getSingleton('core/resource');
+                            $readConnection = $resource->getConnection('core_write');
+                            $skutext = $readConnection->fetchCol('SELECT font FROM engraving WHERE `product_id` ="' . $engraving_idchk . '" AND `quote_id` ="' . $QuoteId . '" ORDER BY `engraving_id` DESC LIMIT 1');
+                        } else {
+                            $titl = $o->getTitle();
+                        }
+
+						switch ($v->getTitle()) {
+							case "Bronze":
+								$mainliarray[] = $titl . " : Rose Gold";
+								break;
+							case "Gold":
+								$mainliarray[] = $titl . " : Yellow Gold";
+								break;
+							case "Silver":
+								$mainliarray[] = $titl . " : White Gold";
+								break;
+							default:
+								$mainliarray[] = $titl . " : " . $v->getTitle();
+						}
+                        
+                        if (!empty($skutext)) {
+                            $mainliarray[] = "Font : " . $skutext[0];
+                        }
+                    } elseif ($o->getTitle() != 'Engraving' && $v->getTitle() != '' && ($o->getTitle() == 'Product_A' || $o->getTitle() == 'Product_B')) {
+                        $mainarray[$o->getTitle()] = array('title' => $o->getTitle(), 'id' => $v->getTitle(), 'price' => $v->getPrice());
+                    }
+                }
+            }
+            if (!empty($mainarray)) {
+                foreach ($mainarray as $mainarraydata) {
+                    $Diamondproduct = Mage::getModel('catalog/product');
+                    $Diamondproduct->load($mainarraydata['id']);
+                    ?>
+                    <div>
+                        <h2 class="product-name">
+                            <?php if ($this->hasProductUrl()) { ?>
+                                <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($Diamondproduct->getName()) ?></a>
+                                <?php
+                            } else {
+                                echo $this->htmlEscape($Diamondproduct->getName());
+                            }
+                            ?>
+                        </h2>
+                        <?php
+                        if ($mainarraydata['title'] == 'Product_A') {
+                            $_resource = Mage::getResourceSingleton('catalog/product');
+                            $pid = $mainarraydata['id'];
+                            ?>
+                            <ul>
+                                <li>Sku : <?php echo $this->htmlEscape($Diamondproduct->getSku()); ?></li>
+                                <li>Carat : <?php echo $_resource->getAttributeRawValue($pid, 'diamond_weight', Mage::app()->getStore()); ?></li>
+                                <li>Cut : <?php
+                                    $cutval = $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+                                    if ($cutval == 'H&A') {
+                                        echo "Signature Ideal";
+                                    } else {
+                                        echo $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+                                    }
+                                    ?></li>
+                                <li>Color : <?php echo $_resource->getAttributeRawValue($pid, 'diamond_color', Mage::app()->getStore()); ?></li>
+                                <li>Clarity : <?php echo $_resource->getAttributeRawValue($pid, 'diamond_clarity', Mage::app()->getStore()); ?></li> 
+                                <li>
+                                    <?php
+                                    $itemorigPrice = $mainarraydata['price'];
+                                    /*if ($_currentCurrencyCode == 'USD') {
+                                        $itemorigPrice = number_format(Mage::helper('directory')->currencyConvert($itemorigPrice, 'SGD', 'USD'), 2, '.', '');
+                                        $curr_prefix = 'USD ';
+                                    }*/
+
+                                    $itemconvertedPrice = $this->helper('checkout')->formatPrice($itemorigPrice);
+                                    echo $itemconvertedPrice;
+                                    ?>
+                                </li> 
+                            </ul>
+                            <?php
+                        } else {
+                            ?>
+                            <ul>
+							    <li>Sku : <?php echo $this->htmlEscape($Diamondproduct->getSku()); ?></li>
+                                <?php
+                                if (!empty($mainliarray)) {
+                                    foreach ($mainliarray as $mainliarraydata) {
+                                        echo '<li>' . $mainliarraydata . '</li>';
+                                    }
+                                }
+                                ?>
+                                <li>
+                                    <?php
+                                    $itemorigPrice = $mainarraydata['price'];
+                                    /*if ($_currentCurrencyCode == 'USD') {
+                                        $itemorigPrice = number_format(Mage::helper('directory')->currencyConvert($itemorigPrice, 'SGD', 'USD'), 2, '.', '');
+                                        $curr_prefix = 'USD ';
+                                    }*/
+
+                                    $itemconvertedPrice = $this->helper('checkout')->formatPrice($itemorigPrice);
+                                    echo $itemconvertedPrice;
+                                    ?>
+                                </li> 
+                            </ul>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+            }
+        } else {
+            ?>
+            <h2 class="product-name">
+                <?php if ($this->hasProductUrl()): ?>
+                    <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($_productName) ?></a>
+                <?php else:
+                    ?>
+                    <?php
+                    echo $this->htmlEscape($_productName);
+                    ?>
+                <?php endif; ?>
+            </h2>
+            <?php
+            if (in_array('3', $ids)) {
+                $_resource = Mage::getResourceSingleton('catalog/product');
+                $pid = $_item->getProduct()->getId();
+                ?>
+                <ul>
+                    <li>Sku : <?php echo $_item->getSku(); ?></li>
+                    <li>Carat : <?php echo $_resource->getAttributeRawValue($pid, 'diamond_weight', Mage::app()->getStore()); ?></li>
+                    <li>Cut : <?php
+                        $cutval = $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+                        if ($cutval == 'H&A') {
+                            echo "Signature Ideal";
+                        } else {
+                            echo $_resource->getAttributeRawValue($pid, 'diamond_cut', Mage::app()->getStore());
+                        }
+                        ?></li>
+                    <li>Color : 
+					<?php 
+					$maintitlename= $_resource->getAttributeRawValue($pid, 'diamond_color', Mage::app()->getStore());
+					switch ($maintitlename) {
+					case "Bronze":
+						echo "Rose Gold";
+						break;
+					case "Gold":
+						echo "Yellow Gold";
+						break;
+					case "Silver":
+						echo "White Gold";
+						break;
+					default:
+						echo $maintitlename;
+				    }
+					 ?>
+					</li>
+                    <li>Clarity : <?php echo $_resource->getAttributeRawValue($pid, 'diamond_clarity', Mage::app()->getStore()); ?></li> 
+                    <!--li>
+                        <?php
+                        $itemorigPrice = $_item->getProduct()->getFinalPrice();
+                        /*if ($_currentCurrencyCode == 'USD') {
+                            $itemorigPrice = number_format(Mage::helper('directory')->currencyConvert($itemorigPrice, 'SGD', 'USD'), 2, '.', '');
+                            $curr_prefix = 'USD ';
+                        }*/
+
+                        $itemconvertedPrice = $this->helper('checkout')->formatPrice($itemorigPrice);
+                        echo $itemconvertedPrice;
+                        ?>
+                    </li--> 
+                </ul>
+                <?php
+            } elseif ($_options = $this->getOptionList()) {
+			
+                ?>
+				
+                <ul>
+                    <li>
+                       Sku : <?php echo $_product->getSku(); ?>
+                    </li>
+                    <?php foreach ($_options as $_option) : ?>
+                        <?php
+						
+						 $_formatedOptionValue = $this->getFormatedOptionValue($_option);
+						 ?>
+                        <?php
+						//print_r($_option);
+						//echo $_option['option_id'];
+						
+						$optionId = $_option['option_id'];
+						$product = $_item->getProduct();
+						$option = $product->getOptionById($optionId);
+						$itemOption = $_item->getOptionByCode('option_' . $option->getId());
+						$price = false;
+						foreach ($option->getValues() as $values) {
+							if ($values->getId() == $itemOption['value']) {
+								$price = $values->price;
+							}
+						}
+						
+						if ($_option['label'] == 'Ring size') {
+						    if ($price !== false) {
+						    $main_new_option_val[$this->htmlEscape($_option['label'])]=Mage::helper('core')->currency($price);
+						    }
+						}
+						
+                        if ($_option['label'] == 'Engraving') {
+							
+						    $resource = Mage::getSingleton('core/resource');
+                            $readConnection = $resource->getConnection('core_write');
+                            $skutext = $readConnection->fetchAll('SELECT * FROM engraving WHERE `product_id` ="' . $_item->getProduct()->getId() . '" AND `quote_id` ="' . $QuoteId . '" ORDER BY `engraving_id` DESC LIMIT 1');
+							//print_r($option);
+							//print_r($_formatedOptionValue);
+							
+							//print_r($skutext);
+                            ?>
+                            <li><?php echo $this->htmlEscape($_option['label']) ?> : 
+                                <?php
+                                if (!empty($skutext) && $_formatedOptionValue['value'] == 'Yes') {
+                                    echo $skutext[0]['text'];
+									if ($price !== false) {
+									$main_new_option_val[$this->htmlEscape($_option['label'])]=Mage::helper('core')->currency($price);
+									}
+                                } else {
+									if ($_formatedOptionValue['value'] == 'Yes') {
+										echo $_formatedOptionValue['value'];
+										if ($price !== false) {
+										$main_new_option_val[$this->htmlEscape($_option['label'])]=Mage::helper('core')->currency($price);
+										}
+									}
+									else
+									{
+                                    echo $_formatedOptionValue['value'];
+									}
+                                }
+                                ?>
+                            </li>
+                            <?php
+                            if (!empty($skutext) && $_formatedOptionValue['value'] == 'Yes') {
+                                echo "<li>Font : " . $skutext[0]['font'] . '</li>';
+								if(in_array('111', $ids) || in_array('112', $ids) || in_array('113', $ids))
+								{
+								echo "<li>Alignment : " . $skutext[0]['alignment'] . '</li>';
+								}
+                            }
+                            ?>                            
+                            <?php
+                        } else {
+                            ?>
+                            <li><?php echo $this->htmlEscape($_option['label']) ?> : 
+                                <?php                                
+								switch ($_formatedOptionValue['value']) {
+									case "Bronze":
+										echo "Rose Gold";
+										break;
+									case "Gold":
+										echo "Yellow Gold";
+										break;
+									case "Silver":
+										echo "White Gold";
+										break;
+									default:
+										echo $_formatedOptionValue['value'];
+								}
+                                ?>
+                            </li>
+                            <?php
+                        }
+					
+                    endforeach;
+					
+					if(!empty($main_new_option_val))
+					{
+					foreach($main_new_option_val as $key=>$val)
+					{
+                       echo "<li>".$key." : " . $val . '</li>';
+					}
+					}
+                    ?>
+                    <!--li>
+                        <?php echo Mage::helper('core')->currency($_product->getPrice()); ?>
+                    </li-->
+                </ul>
+                <?php
+            }
+        }
+        ?>
+
+        <?php if ($_options = $this->getOptionList()): ?>
+            <dl class="item-options" style="display: none">
+                <?php foreach ($_options as $_option) : ?>
+                    <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+                    <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                    <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                        <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                            <div class="truncated_full_value">
+                                <dl class="item-options">
+                                    <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                                    <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                                </dl>
+                            </div>
+                        <?php endif; ?>
+                    </dd>
+                <?php endforeach; ?>
+            </dl>
+        <?php endif; ?>
+        <?php if ($messages = $this->getMessages()): ?>
+            <?php foreach ($messages as $message): if($message['text']!='Pre-Order')
+			{
+			 ?>
+                <p class="item-msg <?php echo $message['type'] ?>">* <?php echo $this->escapeHtml($message['text']) ?></p>
+            <?php
+			}
+			endforeach; ?>
+        <?php endif; ?>
+        <?php $addInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addInfoBlock): ?>
+            <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
+        <?php endif; ?>
+
+        <?php
+        $attributeSetName = Mage::getModel('eav/entity_attribute_set')->load($_item->getProduct()->getAttributeSetId())->getAttributeSetName();
+        ?>
+        <?php if ($attributeSetName == 'ring' && $_item->getImportxlsId()): ?>
+            <?php $importXlsModel = Mage::getModel('trd_importxls/importxls')->load($_item->getImportxlsId()); ?>
+            <div class="diamond-box">
+                <p>Diamond <?php echo $importXlsModel->getDiamondsName(); ?></p>
+            </div>
+        <?php endif; ?>
+    </td>
+    <td class="a-center" style="display: none; text-align: center;">
+        <?php if ($isVisibleProduct): ?>
+            <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
+        <?php endif ?>
+    </td>
+    <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+        <td class="a-center td-wishlist" style="text-align: center;">
+            <?php if ($isVisibleProduct): ?>
+                <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move'); ?></a>
+            <?php endif ?>
+        </td>
+    <?php endif ?>
+
+    <?php if ($canApplyMsrp): ?>
+        <td style="text-align: center;" class="a-right"<?php if ($this->helper('tax')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
+            <span class="cart-price">
+                <span class="cart-msrp-unit"><?php echo $this->__('See price before order confirmation.'); ?></span>
+                <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo $this->__("What's this?"); ?></a>
+                <script type="text/javascript">
+                    Catalog.Map.addHelpLink($('<?php echo $helpLinkId ?>'), "<?php echo $this->__('What\'s this?') ?>");
+                </script>
+            </span>
+        </td>
+    <?php else: ?>
+
+        <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <td class="a-right td-cart-price" style="width: 115px; padding: 0 0 0 10px; text-align: center;">
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                    <span class="cart-tax-total" onclick="taxToggle('eunit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                    <?php else: ?>
+                        <span class="cart-price">
+                        <?php endif; ?>
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php
+                            $origPrice = $_item->getCalculationPrice() + $_item->getWeeeTaxAppliedAmount() + $_item->getWeeeTaxDisposition();
+
+                            /*if ($_currentCurrencyCode == 'USD') {
+                                $origPrice = number_format(Mage::helper('directory')->currencyConvert($origPrice, 'SGD', 'USD'), 2, '.', '');
+                                $curr_prefix = 'USD ';
+                            }*/
+
+                            $convertedPrice = $this->helper('checkout')->formatPrice($origPrice);
+                            echo $convertedPrice;
+                            ?>
+                        <?php else: ?>
+                            <?php
+                            $origPrice = $_item->getCalculationPrice();
+
+/*                            if ($_currentCurrencyCode == 'USD') {
+                                $origPrice = number_format(Mage::helper('directory')->currencyConvert($origPrice, 'SGD', 'USD'), 2, '.', '');
+                                $curr_prefix = 'USD ';
+                            }*/
+
+                            $convertedPrice = $this->helper('checkout')->formatPrice($origPrice);
+                            echo $convertedPrice;
+                            ?>
+                        <?php endif; ?>
+
+                    </span>
+
+
+                    <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+
+                        <div class="cart-tax-info" id="eunit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                            <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <div class="cart-tax-total" onclick="taxToggle('eunit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                                <span class="weee"><?php echo Mage::helper('weee')->__('Total'); ?>: <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice() + $_item->getWeeeTaxAppliedAmount() + $_item->getWeeeTaxDisposition()); ?></span>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+            </td>
+        <?php endif; ?>
+		<td style="text-align: center;" class="increment_decrement_qty">
+                            <?php //echo $this->getQty() ?>
+            <a href="javascript:decreaseQty(<?php echo $_item->getId() ?>)" class="decrement_qty"><span class="fa fa-minus"></span></a>
+            <input id="quantity-item-<?php echo $_item->getId() ?>" name="cart[<?php echo $_item->getId() ?>][qty]"
+                   data-cart-item-id="<?php echo $this->jsQuoteEscape($_item->getSku()) ?>"
+                   value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty input_q" maxlength="12" readonly />
+            <a href="javascript:increaseQty(<?php echo $_item->getId() ?>)" class="increment_qty"><span class="fa fa-plus"></span></a>
+                </td>
+        <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <td style="text-align: center;">
+                <?php $_incl = $this->helper('checkout')->getPriceInclTax($_item); ?>
+                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                    <span class="cart-tax-total" onclick="taxToggle('unit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                    <?php else: ?>
+                        <span class="cart-price">
+                        <?php endif; ?>
+
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_incl + $_item->getWeeeTaxAppliedAmount()); ?>
+                        <?php else: ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_incl - $_item->getWeeeTaxDisposition()) ?>
+                        <?php endif; ?>
+
+                    </span>
+                    <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+
+                        <div class="cart-tax-info" id="unit-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                            <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                                <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                    <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'], true, true); ?></span>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <div class="cart-tax-total" onclick="taxToggle('unit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                                <span class="weee"><?php echo Mage::helper('weee')->__('Total incl. tax'); ?>: <?php echo $this->helper('checkout')->formatPrice($_incl + $_item->getWeeeTaxAppliedAmount()); ?></span>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+            </td>
+        <?php endif; ?>
+    <?php endif; ?>
+
+
+    <?php if (($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
+
+        <td class="a-right td-subtotal" style="text-align: center;">
+            <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                <span class="cart-tax-total" onclick="taxToggle('esubtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                <?php else: ?>
+                    <span class="cart-price subtotal">
+                    <?php endif; ?>
+
+                    <?php if ($canApplyMsrp): ?>
+                        <span class="cart-msrp-subtotal">--</span>
+                    <?php else: ?>
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal() + $_item->getWeeeTaxAppliedRowAmount() + $_item->getWeeeTaxRowDisposition()); ?>
+                        <?php else: ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                </span>
+                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+
+                    <div class="cart-tax-info" id="esubtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                        <div class="cart-tax-total" onclick="taxToggle('esubtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                            <span class="weee"><?php echo Mage::helper('weee')->__('Total'); ?>: <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal() + $_item->getWeeeTaxAppliedRowAmount() + $_item->getWeeeTaxRowDisposition()); ?></span>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+        </td>
+    <?php endif; ?>
+
+    <?php if (($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
+        <td style="text-align: center;">
+            <?php $_incl = $this->helper('checkout')->getSubtotalInclTax($_item); ?>
+            <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                <span class="cart-tax-total" onclick="taxToggle('subtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                <?php else: ?>
+                    <span class="cart-price">
+                    <?php endif; ?>
+
+                    <?php if ($canApplyMsrp): ?>
+                        <span class="cart-msrp-subtotal">--</span>
+                    <?php else: ?>
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_incl + $_item->getWeeeTaxAppliedRowAmount()); ?>
+                        <?php else: ?>
+                            <?php echo $this->helper('checkout')->formatPrice($_incl - $_item->getWeeeTaxRowDisposition()) ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                </span>
+
+
+                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+
+                    <div class="cart-tax-info" id="subtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display:none;">
+                        <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                            <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                                <span class="weee"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
+                        <div class="cart-tax-total" onclick="taxToggle('subtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
+                            <span class="weee"><?php echo Mage::helper('weee')->__('Total incl. tax'); ?>: <?php echo $this->helper('checkout')->formatPrice($_incl + $_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+        </td>
+    <?php endif; ?>
+    <td class="a-center product-qty remove-item" style="text-align: center;">
+        <!--button name="update_cart_action" value="update_qty" title="Update Shopping Cart" class="button btn-update tiny cart-upd"><span>
+                <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item') ?>" class="">Remove</a>
+            </span>
+        </button-->
+
+
+        <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" title="<?php echo $this->__('Remove item') ?>" class="btn-readmore button" style="border-radius: 3px; width: 67px; text-align: center; text-transform: uppercase; font-weight: bold;   padding: 2px 0;">Remove</a>
+    </td>
+    <!-- <td class="a-center">
+        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item') ?>" class="btn-remove btn-remove2"></a>
+    </td> -->
+</tr>

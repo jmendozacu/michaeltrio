@@ -1,0 +1,48 @@
+<?xml version ="1.0" ?>
+<config>
+	<global>
+		<modules>
+			<searchtechnow_selectstyle>
+				<version>0.1.0</version>				
+			</searchtechnow_selectstyle>		
+		</modules>
+		<block>
+			<selectstyle>
+				<rewrite>
+					<selectstyle>Searchtechnow_Selectstyle_Block_Selectstyle</selectstyle>
+				</rewrite>
+			</selectstyle>
+		</block>
+	</global>
+	    <frontend>
+        <routers>
+            <searchtechnow_selectstyle>
+                <use>standard</use>
+                <args>
+                    <module>Searchtechnow_Selectstyle</module>
+                    <frontName>selectstyle</frontName>
+                </args>
+            </searchtechnow_selectstyle>
+        </routers>  
+    </frontend>
+	
+	<!--<frontend>
+		
+			<layout>
+				<updates>
+					<selectstyle>
+						<file>selectstyle.xml</file>
+					</selectstyle>
+				</updates>
+			</layout>
+	</frontend>-->
+	<!--
+
+
+	<modules>
+		<Searchtechnow_Selectstyle>
+			<activate>true</activate>
+			<codePool>local</codePool>
+		</Searchtechnow_Selectstyle>		
+	</modules>-->
+</config>

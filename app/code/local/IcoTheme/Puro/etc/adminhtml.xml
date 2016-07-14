@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright    Copyright (C) 2015 IcoTheme.com. All Rights Reserved.
+ */
+-->
+<config>
+    <menu>
+        <icotheme translate="title" module="puro">
+            <title>IcoTheme</title>
+            <sort_order>71</sort_order>
+            <children>
+                <puro_activate translate="title" module="puro">
+                    <title>Activate Theme</title>
+                    <sort_order>10</sort_order>
+                    <action>puro/adminhtml_activate</action>
+                </puro_activate>
+                <puro_restore translate="title" module="puro">
+                    <title>Restore Defaults</title>
+                    <sort_order>20</sort_order>
+                    <action>puro/adminhtml_restore</action>
+                </puro_restore>
+                <puro translate="title" module="puro">
+                    <title>Puro Options (v1.0.6)</title>
+                    <sort_order>30</sort_order>
+                    <children>
+                        <puro translate="title" module="puro">
+                            <title>Theme Options</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/system_config/edit/section/puro</action>
+                        </puro>
+                        <puro_design translate="title" module="puro">
+                            <title>Color Customizer</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/system_config/edit/section/puro_design</action>
+                        </puro_design>
+                        <less translate="title" module="tless">
+                            <title>Less Manager</title>
+                            <sort_order>40</sort_order>
+                            <action>tless/adminhtml_file/index</action>
+                        </less>
+                    </children>
+                </puro>
+            </children>
+        </icotheme>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <puro translate="title" module="puro">
+                                        <title>Theme Options</title>
+                                        <sort_order>1</sort_order>
+                                    </puro>
+                                    <puro_design translate="title" module="puro">
+                                        <title>Color Customizer</title>
+                                        <sort_order>1</sort_order>
+                                    </puro_design>
+                                    <puro_install translate="title" module="puro">
+                                        <title>Theme Installation</title>
+                                        <sort_order>1</sort_order>
+                                    </puro_install>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

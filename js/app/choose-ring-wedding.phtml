@@ -1,0 +1,460 @@
+<?php
+Mage::getSingleton('core/session')->unsWeddingMaincat();
+Mage::getSingleton('core/session')->unsWeddingStyle();
+$selectedWeddingMaincat = Mage::getSingleton('core/session')->getWeddingMaincat();
+$selectedWeddingStyle = Mage::getSingleton('core/session')->getWeddingStyle();
+
+if ($_GET['maincat']!='') {
+    $maincat = $_GET['maincat'];
+} else {
+    $maincat = $selectedWeddingMaincat;
+}
+
+if ($_GET['weddingstep']!='') {
+    $weddingstyle = $_GET['weddingstep'];
+} else {
+    $weddingstyle = $selectedWeddingStyle;
+}
+//print_r($_GET);
+//echo $weddingstyle;
+//exit;
+switch ($maincat) {
+    case 'women':
+        $category = Mage::getModel('catalog/category')->load(88);
+        $subcategories = $category->getChildrenCategories();
+        if (count($subcategories) > 0) {
+            foreach ($subcategories as $subcategory) {
+                if ($weddingstyle == strtolower(str_replace(" ", "-", $subcategory->getName()))) {
+                    $maincat_id = $subcategory->getId();
+                }
+
+                $dataSettingValue['women'][$subcategory->getId()] = $subcategory->getName();
+            }
+        }
+        break;
+    case 'men':
+        $category = Mage::getModel('catalog/category')->load(94);
+        $subcategories = $category->getChildrenCategories();
+        if (count($subcategories) > 0) {
+            foreach ($subcategories as $subcategory) {
+                if ($weddingstyle == strtolower(str_replace(" ", "-", $subcategory->getName()))) {
+                    $maincat_id = $subcategory->getId();
+                }
+
+                $dataSettingValue['men'][$subcategory->getId()] = $subcategory->getName();
+            }
+        }
+        break;
+}
+if($maincat_id=='')
+{
+    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getBaseUrl())->sendResponse();
+    exit;
+}
+
+$dataSettingValues = $dataSettingValue;
+
+$attributeStyleArys = array('White Gold', 'Yellow Gold', 'Rose Gold');
+
+//Load product model collecttion filtered by attribute set id Mage::getModel('catalog/category')->load(3)
+if (isset($_GET['order'])) {
+    $orderby = $_GET['order'];
+} else {
+    $orderby = 'name';
+}
+$products = Mage::getModel('catalog/category')->load($maincat_id)
+        ->getProductCollection()
+        ->addAttributeToSelect('*')
+        ->setPageSize(12)
+        ->addAttributeToSort($orderby, 'asc');
+
+
+$collection = Mage::getModel('catalog/category')->load($maincat_id)
+        ->getProductCollection()
+        ->addAttributeToSelect('*')
+        ->addAttributeToSort($orderby, 'asc');
+
+    if($weddingstyle=='classic')
+    {
+    $products->groupByAttribute('remark_val');
+    $collection->groupByAttribute('remark_val');
+    }
+    
+                
+//echo $collection->count();
+$allowedProducts = array();
+
+foreach ($products as $product) {
+    if ($selectedDiamondType) {
+        array_push($allowedProducts, $product);
+    } else {
+        array_push($allowedProducts, $product);
+    }
+}
+
+// Getting product max and min prices
+$all_prices = array();
+
+foreach ($collection as $p) {
+    array_push($all_prices, $p->getPrice());
+}
+
+$min_price = min($all_prices);
+$max_price = max($all_prices);
+
+$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+if ($_currentCurrencyCode == 'USD') {
+    $min_price = Mage::helper('directory')->currencyConvert($min_price, 'SGD', 'USD');
+    $max_price = Mage::helper('directory')->currencyConvert($max_price, 'SGD', 'USD');
+}
+
+$min_price--;
+$max_price++;
+
+echo $this->getCurrentDirection();
+?>
+<script type="text/javascript">
+    window.ringFilterUrl = '<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/filterweddingring';
+            window.ringTotalPages = '<?php echo $collection->count(); ?>';</script>
+<style>
+    .nav-1 .color-menu-thumb {
+        max-height: 39px  !important;
+        max-width: 35px  !important;
+        margin-top: 0;
+    }
+    .filters-step-colours .filter li a.checked::after {
+        background: #b0cde9 none repeat scroll 0 0;
+        border-radius: 5px;
+        color: #fff !important;
+        content: " ";
+        display: block;
+        height: 29px;
+        left: 20px;
+        margin-top: 3px;
+        position: absolute;
+        top: 1px;
+        width: 65%;
+        z-index: -1;
+    }
+    .small-configurable > li {
+        float: left;        
+    }
+    .subspan {
+        float: left;
+        margin-top: -10px;
+        position: relative;
+        width: 100%;
+        z-index: 99999;
+    }
+    <?php
+    if ($weddingstyle == 'classic') {
+        ?>
+        .category-products .products-grid .item .product-content {
+            padding: 10px 0 !important;
+        }
+            <?php
+        }
+        ?>
+    .filters-step-2 .weddingstyle li a.checked::after {
+    background-image: radial-gradient(circle closest-side, #b0cde9, rgba(0, 0, 0, 0));
+    content: " ";
+    display: block;
+    height: 33px;
+    left: 29px;
+    position: absolute;
+    top: 1px;
+    width: 33px;
+    z-index: -1;
+}
+    
+</style>
+
+<div class="main-wrapper">
+    <div class="container">
+        <div class="main">
+            <div class="row show-grid">
+                <div class="col-lg-12">
+                    <div class="site-preface"></div>
+                </div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-3 sidebar">
+                    <div class="col-left">
+                        <!-- Category Navigation BOF -->
+                        <div class="block block-nav filters-step-2">
+                            <div class="block-title"> <strong><span>Categories</span></strong> </div>
+                            <div class="block-content">
+                                <ul class="nav-accordion nav-categories" id="categories_nav" style="">
+                                    <li class="level0 nav-1 level-top first parent"> <a class="level-top" href="javascript:;"><span>STYLES</span></a>
+                                        <ul class="level0 no-bullets weddingstyle " id="styles_up"  data-filter="style" style="display: block;">
+                                            <?php
+                                            $i = 0;
+                                            foreach ($dataSettingValues as $keyy => $dataSettingValuess) {
+                                                //echo $keyy;
+                                                foreach ($dataSettingValuess as $key => $value) {
+                                                    if ($weddingstyle != '') {
+
+                                                        if ($weddingstyle == strtolower(str_replace(" ", "-", $value))) {
+                                                            ?>
+                                                            <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> 
+                                                                <a id="style_list_<?php echo $key; ?>" class="checked go-to-step-three-wedding" wedding="women/<?php echo strtolower(str_replace(" ", "-", $value)); ?>" data-value='<?php echo str_replace(" ", "-", $value); ?>' href="<?php echo Mage::getBaseUrl(); ?>wedding.html?maincat=<?php echo $keyy; ?>&weddingstyle=<?php echo strtolower(str_replace(" ", "-", $value)); ?>">
+                                                                    <img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/<?php echo $keyy . '_' . strtolower(str_replace(" ", "-", $value)); ?>.png" alt="">
+                                                                    <span>
+                                                                        <?php echo $value; ?>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> 
+                                                                <a id="style_list_<?php echo $key; ?>" class="unchecked go-to-step-three-wedding" wedding="women/<?php echo strtolower(str_replace(" ", "-", $value)); ?>" href="<?php echo Mage::getBaseUrl(); ?>wedding.html?maincat=<?php echo $keyy; ?>&weddingstyle=<?php echo strtolower(str_replace(" ", "-", $value)); ?>" data-value="<?php echo str_replace(" ", "-", $value); ?>" >
+                                                                    <img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/<?php echo $keyy . '_' . strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> 
+                                                                    <span style=""><?php echo $value; ?></span>
+                                                                </a> 
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                            ?>
+                                                            <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>">
+                                                                <a id="style_list_<?php echo $key; ?>" class="unchecked go-to-step-three-wedding" wedding="women/<?php echo strtolower(str_replace(" ", "-", $value)); ?>" href="<?php echo Mage::getBaseUrl(); ?>wedding.html?maincat=<?php echo $keyy; ?>&weddingstyle=<?php echo strtolower(str_replace(" ", "-", $value)); ?>" data-value="false"  style="opacity:0.5; cursor:default"> 
+                                                                    <img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/<?php echo $keyy . '_' . strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> 
+                                                                    <span style=""><?php echo $value; ?></span></a> 
+                                                            </li>
+                                                            <?php
+                                                    }
+
+                                                    $i++;
+                                                }
+                                            }
+                                            ?>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="level0 nav-1 level-top parent filters-step-colours"> <a class="level-top" href="javascript:;"><span>COLOURS</span></a>
+                                        <ul class="level0 no-bullets filter colours" id="colours_list" data-filter="colours" style="display:<?php echo $selectedDiamondType == '' ? 'block' : 'none'; ?>">
+                                            <?php
+                                            foreach ($attributeStyleArys as $key => $value) {
+                                                ?>
+                                                <li class="level1 item nav-1-1 <?php if ($key == 0) { ?> first <?php } ?>"> 
+                                                    <a  id="colours_list_<?php echo $key; ?>" class="" href="javascript:;"  data-value='<?php echo strtolower(str_replace(" ", "-", $value)); ?>' >
+                                                        <img class="menu-thumb-small color-menu-thumb" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/<?php echo strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> 
+                                                        <span><?php echo ucwords($value); ?></span>
+                                                    </a> 
+                                                </li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <li class="level0 nav-1 level-top parent last"> <a class="level-top" href="javascript:;"><span>PRICES</span></a>
+                                        <table class="prices-data" width="100%" style="margin-bottom: 17px;">
+                                            <tr>
+                                                <?php $currSymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol(); ?>
+                                                <td style="padding-left: 18px;"><span class="value-from"><?php echo $currSymbol . number_format($min_price); ?></span></td>
+                                                <td align="right"><span class="value-to"><?php echo $currSymbol . number_format($max_price); ?></span></td>
+                                            </tr>
+                                        </table>
+                                        <div class="rangeslider-s2 sidebar-price-slider" data-filter="price" data-min-value="" data-max-value="" data-min="" data-max=""></div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Category Navigation EOF -->
+                        <div class="block block-list block-compare">
+                            <div class="block-title"> <strong><span>Compare</span></strong> </div>
+                            <div class="block-content">
+                                <p class="empty">You have no items to compare.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="col-main category-products">
+
+
+                        <?php if (count($allowedProducts) == 0): ?>
+                            <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+                        <?php else: ?>
+                            <div class="loader-opacity-div loader-diamonds-results"><img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/loader.gif" /></div>
+                            <div class="content content-ring-diamonds" style="height: <?php echo $products->count() == 12 ? '1510px' : 'auto'; ?>; overflow: hidden;">
+                                <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-<?php echo $_columnCount; ?>col show-grid">
+                                    <?php
+                                   $parentli='1';
+                                    foreach ($allowedProducts as $product) { ?>
+                                        <?php
+                                        $simpleProductId = $product->getId();    
+                                        $remark_val= $product->getResource()->getAttribute('remark_val')->getFrontend()->getValue($product);
+                                        $band_width= $product->getResource()->getAttribute('band_width')->getFrontend()->getValue($product);
+                                       echo $maincat_id;
+                                        $_subproductids = Mage::getModel('catalog/category')->load($maincat_id)
+                                                ->getProductCollection()
+                                                ->addAttributeToSelect('*')                                                
+                                                ->addAttributeToSort($orderby, 'asc');
+                                        $_subproductids->addAttributeToFilter('entity_id', array('neq' => $simpleProductId));
+                                        $_subproductids->addAttributeToFilter('remark_val', array('eq' => $remark_val));
+
+                                        $product_name = $product->getName();
+                                        $product_url = $product->getProductUrl();
+                                        $product_image = (string) Mage::helper('catalog/image')->init($product, 'thumbnail');
+
+                                        ?>
+                                        <li class="item  hover-effect first img-product-img-<?php echo $simpleProductId; ?>" style="height: 311px; padding-bottom: 220px;">
+                                            <div class="product-action">
+                                               
+                                                <a href="<?php echo $product_url; ?>" title="<?php echo $product_name; ?>" class="product-image"> 
+                                                    <img id="product-collection-image-<?php echo $product->getId(); ?>" data-srcx2="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail'); ?>" src="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail')->keepAspectRatio(true)->resize('270', '270'); ?>?sidebar=true" class="img-responsive lazy" alt="<?php echo $product_name; ?>" style="display: block;">
+                                                </a>
+                                                
+                                                <div class="actions">
+                                                    <div class="action-list quickview hidden-xs">
+                                                        <div class="quickview-wrapper" onclick="quickview(this);" data-url="<?php echo Mage::getBaseUrl(); ?>ajaxproducts/index/quickview/product_id/<?php echo $product->getId(); ?>/"> <i class="fa fa-search-plus"></i> </div>
+                                                    </div>
+                                                    <div class="action-list">
+                                                        <ul class="add-to-links">
+                                                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                                                <li class="wishlist"><a href="<?php echo $this->helper('wishlist')->getAddUrl($product) ?>" class="link-wishlist bootstrap-tooltip" data-toggle="tooltip" data-placement="left" title="<?php echo $this->__('Wishlist'); ?>" data-original-title="Wishlist"><i class="fa fa-heart"></i></a></li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-content">
+                                                <?php echo '<h3 class="product-name"><a href="' . $product_url . '" title="' . $product_name . '">' . $product_name . '</a></h3>'; ?>
+                                                <div class="price-box">
+                                                    <?php
+                                                    $_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+
+                                                    $price = $product->getPrice();
+                                                    if ($_currentCurrencyCode == 'USD') {
+                                                        $price = Mage::helper('directory')->currencyConvert($price, 'SGD', 'USD');
+                                                    }
+                                                    ?>
+                                                    <span class="regular-price" > 
+                                                        <span data-price-val="<?php echo number_format($price, 2); ?>" class="price">
+                                                        <?php echo Mage::helper('core')->currency($product->getPrice()); ?>
+                                                        </span> 
+                                                    </span> 
+                                                </div>
+                                            </div>
+                                            <?php
+                                            if($weddingstyle=='classic')
+                                            {
+                                            ?>
+                                                <div class="main-configurable">
+                                                    <ul class="small-configurable">
+                                                        <li class="product-img-<?php echo $simpleProductId; ?>" onmouseover="changedata(this);">
+                                                            <span class="sub-regular-price" style="display:none;"><?php echo Mage::helper('core')->currency($product->getPrice()); ?></span>
+                                                            <span class="sub-regular-name" style="display:none;"><?php echo $product_name; ?></span>
+                                                            <a href="<?php echo $product_url; ?>" title="<?php echo $product_name; ?>" class="product-sub-image"> 
+                                                                <img id="product-sub-collection-image-<?php echo $product->getId(); ?>" data-srcx2="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail')->keepAspectRatio(true)->resize('270', '270'); ?>" src="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail')->resize('44', '36'); ?>" class="img-responsive lazy" alt="<?php echo $product_name; ?>" style="display: block;">
+                                                                <span class="subspan">
+                                                                    <?php
+                                                                    echo $band_width;
+                                                                    ?>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <?php
+                                                       if (!empty($_subproductids)) {
+                                                            $small = '3';
+                                                            foreach ($_subproductids as $_subproductid) {
+                                                                $_subproduct = Mage::getModel('catalog/product')->load($_subproductid->getId());
+                                                                $product_name = $_subproduct->getName();
+                                                                $product_url = $_subproduct->getProductUrl();
+                                                                $product_image = (string) Mage::helper('catalog/image')->init($_subproduct, 'image');
+                                                                $band_width= $_subproduct->getResource()->getAttribute('band_width')->getFrontend()->getValue($_subproduct);
+
+                                                                ?>
+                                                                <li class="product-img-<?php echo $simpleProductId; ?>" onmouseover="changedata(this);">
+                                                                    <span class="sub-regular-price" style="display:none;"><?php echo Mage::helper('core')->currency($_subproduct->getPrice()); ?></span>
+                                                                    <span class="sub-regular-name" style="display:none;"><?php echo $product_name; ?></span>
+                                                                    <a href="<?php echo $product_url; ?>" title="<?php echo $product_name; ?>" class="product-sub-image"> 
+                                                                        <img id="product-sub-collection-image-<?php echo $_subproduct->getId(); ?>" data-srcx2="<?php echo Mage::helper('catalog/image')->init($_subproduct, 'thumbnail')->keepAspectRatio(true)->resize('270', '270'); ?>" src="<?php echo Mage::helper('catalog/image')->init($_subproduct, 'thumbnail')->resize('44', '36'); ?>" class="img-responsive lazy" alt="<?php echo $product_name; ?>" style="display: block;">
+                                                                        <span class="subspan">
+                                                                            <?php
+                                                                            echo $band_width;
+                                                                            ?>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                                <?php
+                                                                $small++;
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                </div>
+                                    <?php } ?>
+                                            
+                                        </li>
+                                    <?php
+                                    $parentli++;
+                                    } 
+                                    ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12">
+                    <div class="site-postscript"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+            min_price = <?php echo number_format($min_price, 0, '', ''); ?>;
+            max_price = <?php echo number_format($max_price, 0, '', ''); ?>;
+            jQuery(document).on('product-media-loaded', function () {
+    ConfigurableMediaImages.init('small_image');
+            jQuery(document).trigger('configurable-media-images-init', ConfigurableMediaImages);
+    });</script>
+<script type="text/javascript">
+
+            sourceArray = {
+            sortby: 'Name',
+                    diraction: 'asc',
+                    limiter: '12',
+                    min_price: '0',
+                    max_price: '0',
+                    price_from: '0',
+                    price_to: '0',
+                    style: '<?php echo $maincat_id; ?>',
+                    weddingstyle:'<?php echo $weddingstyle; ?>',
+                    colours:''
+
+            };
+            sourceArray.pages = '<?php echo $products->getLastPageNumber(); ?>';
+            sourceArray.page = '1';
+            sourceArray.currSymbol = '<?php echo $currSymbol; ?>';
+            var filterRingUrl = '<?php echo Mage::getBaseUrl() ?>diamonds/ajax/filterweddingring';
+
+            function changedata(abcgd)
+            {
+                var imgUrl = jQuery(abcgd).find("img").attr('data-srcx2');
+                var linkUrl = jQuery(abcgd).find("a").attr('href');
+                var className = jQuery(abcgd).attr('class');
+                var proName = jQuery(abcgd).find('.sub-regular-name').html();
+                var proPrice = jQuery(abcgd).find('.sub-regular-price').html();
+
+                jQuery(".img-"+className+" .product-image img").attr("src", imgUrl);
+                jQuery(".img-"+className+" .product-image").attr("href", linkUrl);
+                jQuery(".img-"+className+" h3 .product-name").html('<a title="'+proName+'" href="'+linkUrl+'">'+proName+'</a>');
+                jQuery(".img-"+className+" .price-box .regular-price .price").html(proPrice);
+            }
+
+</script>
+<script src="<?php echo Mage::getBaseUrl(); ?>js/app/wedding.js"></script>

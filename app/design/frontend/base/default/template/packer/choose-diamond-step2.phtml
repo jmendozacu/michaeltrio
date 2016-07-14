@@ -1,0 +1,544 @@
+<?php
+Mage::getSingleton('core/session')->setDiamondStep('2');
+$selectedDiamondType = Mage::getSingleton('core/session')->getDiamondType();
+$selectedSettingStyle = Mage::getSingleton('core/session')->getSettingStyle();
+
+//    $attrSetName = 'ring';
+/* $attributeSetId = Mage::getModel('eav/entity_attribute_set')->load($attrSetName, 'attribute_set_name')->getAttributeSetId(); */
+
+$typeYes = array('asscher' => 97, 'cushion' => 99, 'emerald' => 101, 'heart' => 103, 'marquise' => 105, 'oval' => 107, 'pear' => 109, 'princess' => 111, 'radiant' => 113, 'round' => 115);
+
+
+//	$attributeId = array(195=>'asscher', 196=>'cushion',197 =>'emerald', 198=>'heart',  199=>'marquise',200=>'oval',201=>'pear',202=>'princess',203=>'radiant',204=>'round');
+
+$attributeId = array('asscher' => 195, 'cushion' => 196, 'emerald' => 197, 'heart' => 198, 'marquise' => 199, 'oval' => 200, 'pear' => 201, 'princess' => 202, 'radiant' => 203, 'round' => 204);
+
+$attdataSettingValues = array('Solitare' => 117, 'Pave' => 118, 'Channel-set' => 119, 'Side-stone' => 120, 'Vintage' => 121, 'Halo' => 122);
+
+$attributeStyleArys = array('round', 'princess', 'emerald', 'heart', 'pear', 'cushion', 'radiant', 'oval', 'asscher', 'marquise');
+
+//Load product model collecttion filtered by attribute set id Mage::getModel('catalog/category')->load(3)
+if (isset($_GET['order'])) {
+    $orderby = $_GET['order'];
+} else {
+    $orderby = 'name';
+}
+$products = Mage::getModel('catalog/category')->load(4)
+        ->getProductCollection()
+        ->addAttributeToSelect('*')
+		//->addAttributeToFilter('status', 1) // enabled
+        ->addAttributeToFilter('visibility', 4) //visibility in catalog,search
+        ->setPageSize(12)
+        ->addAttributeToSort($orderby, 'asc');
+
+$collection = Mage::getModel('catalog/category')->load(4)
+        ->getProductCollection()
+        ->addAttributeToSelect('*')
+		//->addAttributeToFilter('status', 1) // enabled
+        ->addAttributeToFilter('visibility', 4) //visibility in catalog,search
+        ->addAttributeToSort($orderby, 'asc');
+
+if ($selectedSettingStyle != '') {
+    $tempStyleArray[] = array('finset' => $attdataSettingValues[$selectedSettingStyle]);
+    $products->addAttributeToFilter('style', $tempStyleArray);
+    $collection->addAttributeToFilter('style', $tempStyleArray);
+}
+
+if ($selectedDiamondType == '') {
+    
+    foreach ($attributeStyleArys as $shapeVal) {
+        if ($shapeVal != '') {
+            $filter[] = array(
+                'attribute' => $shapeVal,
+                'eq' => $typeYes[$shapeVal]
+            );
+        }
+    }
+    if (!empty($filter)) {        
+        $products->addAttributeToFilter($filter);
+        $collection->addAttributeToFilter($filter);
+    }
+} else {
+    $products->addAttributeToFilter($selectedDiamondType, $typeYes[$selectedDiamondType]);
+    $collection->addAttributeToFilter($selectedDiamondType, $typeYes[$selectedDiamondType]);
+}
+/*echo $collection->count() . '<br>';
+echo $products->count() . '<br>';
+echo $products->getLastPageNumber();*/
+
+$allowedProducts = array();
+
+foreach ($products as $product) {
+    if ($selectedDiamondType) {
+
+        // $isCanAdd = $product->getAttributeText($selectedDiamondType);
+//            if ($isCanAdd == 'Yes' && $product->isSaleable()) {
+        array_push($allowedProducts, $product);
+        //          }
+    } else {
+        array_push($allowedProducts, $product);
+    }
+}
+// Getting product max and min prices
+$all_prices = array();
+//foreach ($allowedProducts as $key => $value) {
+//    array_push($all_prices, $value->_data['price']);
+//}
+
+foreach ($collection as $p) {
+    array_push($all_prices, $p->getPrice());
+}
+
+$min_price = min($all_prices);
+$max_price = max($all_prices);
+
+$_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+if ($_currentCurrencyCode == 'USD') {
+    $min_price = Mage::helper('directory')->currencyConvert($min_price, 'SGD', 'USD');
+    $max_price = Mage::helper('directory')->currencyConvert($max_price, 'SGD', 'USD');
+}
+
+//$min_price--;
+$min_price = '0';
+$max_price++;
+
+//	205 = style 
+//	194-204
+$attrId = $attributeId[$selectedDiamondType];
+$typeVal = $typeYes[$selectedDiamondType];
+//select * from catalog_product_entity_varchar where attribute_id='$attrId' and value= '$typeVal'
+
+$resource = Mage::getSingleton('core/resource');
+$readConnection = $resource->getConnection('core_read');
+
+$query = "SELECT `attribute_id`,`value`,`entity_id` FROM `catalog_product_entity_varchar` as cpev inner join `catalog_category_product_index` as ccpi on ccpi.product_id = cpev.entity_id WHERE ccpi.category_id='4' and attribute_id='205' and entity_id in ( select `entity_id` from `catalog_product_entity_varchar` WHERE attribute_id='204' and `value`='115' ) group by `value` ";
+
+$results = $readConnection->fetchAll($query);
+$arraySort = array();
+
+foreach ($results as $values) {
+    if (strpos($values['value'], ",")) {
+        $val = explode(",", $values['value']);
+        for ($i = 0; $i < count($val); $i++) {
+            $arraySort[] = trim($val[$i]);
+        }
+    } else {
+        $arraySort[] = $values['value'];
+    }
+}
+
+$arraySort = array_unique($arraySort);
+
+$dataSettingValues = array(117 => 'Solitare', 118 => 'Pave', 119 => 'Channel set', 120 => 'Side stone', 121 => 'Vintage', 122 => 'Halo');
+
+$_category = Mage::getModel('catalog/category')->load(4);
+$_imgHtml = '';
+
+?>
+<script type="text/javascript">
+    window.ringFilterUrl = '<?php echo Mage::getBaseUrl(); ?>diamonds/ajax/filterring';
+    window.ringTotalPages = '<?php echo $collection->count(); ?>';                    
+</script>
+<div class="myshoppage">
+    <div class="container shop-steps-three">
+        <div class="row">
+            <div class="col-md-4 step-top">
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont select-diamond-step" step="1">
+					<img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/choose a diamond.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>1</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Choose a
+                            <h2>diamond</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 step-top step-active">
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont"> 
+					<img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/choose a setting.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>2</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Choose a
+                            <h2>Setting</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 step-top">
+                <div class="clearfix bDiv">
+                    <div class="col-md-10 p0 bDivCont"> 
+				<img src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/complete shopping cart.png" />
+                        <div class="col-md-3 p0 text-center step-number">
+                            <h1>3</h1>
+                        </div>
+                        <div class="col-md-9 p0 step-text"> Complete
+                            <h2>Shopping Cart</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-wrapper">
+    <div class="container">
+        <div class="main">
+            <div class="row show-grid">
+                <div class="col-lg-12">
+                    <div class="site-preface"></div>
+                </div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-3 sidebar">
+                    <div class="col-left">
+                        <!-- Category Navigation BOF -->
+                        <div class="block block-nav filters-step-2">
+                            <div class="block-title"> <strong><span>Categories</span></strong> </div>
+                            <div class="block-content">
+                                <ul class="nav-accordion nav-categories" id="categories_nav" style="">
+                                    <li class="level0 nav-1 level-top first parent"> <a class="level-top" href="javascript:;"><span>STYLES</span></a>
+                                        <ul class="level0 no-bullets filter style " id="styles_up"  data-filter="style" style="display: block;">
+                                            <?php
+                                            $i = 0;
+
+                                            foreach ($dataSettingValues as $key => $value) {
+                                                if ($selectedSettingStyle != '') {
+                                                    if ($selectedSettingStyle == str_replace(" ", "-", $value)) {
+                                                        ?>
+                                                        <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> 
+                                                            <a id="style_list_<?php echo $key; ?>" class="checked" data-value='<?php echo str_replace(" ", "-", $value); ?>' href="javascript:;"><img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/<?php echo strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> <span><?php echo $value; ?></span></a>
+                                                        </li>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> 
+                                                            <a id="style_list_<?php echo $key; ?>" class="unchecked" href="javascript:void(0)" data-value="<?php echo str_replace(" ", "-", $value); ?>" > <img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/<?php echo strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> <span style=""><?php echo $value; ?></span></a> 
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                } else {
+                                                    $cmopare = false;
+//                                                    foreach ($arraySort as $compareVal) {
+//                                                        if ($key == $compareVal) {
+//                                                            $cmopare = true;
+//                                                        }
+//                                                    }
+                                                    if (in_array($key, $arraySort)) {
+                                                            $cmopare = true;
+                                                        }
+                                                    if ($cmopare == true) {
+                                                        ?>
+                                                        <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> <a id="style_list_<?php echo $key; ?>" class="checked" data-value='<?php echo str_replace(" ", "-", $value); ?>' href="javascript:;"><img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/<?php echo strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> <span><?php echo $value; ?></span></a> </li>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <li class="level1 item nav-1-1 <?php echo ($i == 0) ? 'first' : ''; ?>"> <a id="style_list_<?php echo $key; ?>" class="unchecked" href="javascript:void(0)" data-value="false"  style="opacity:0.5; cursor:default"> <img class="sidebar-thumb-style" src="<?php echo Mage::getBaseUrl(); ?>media/wysiwyg/icotheme/puro/menu/icons_egr/<?php echo strtolower(str_replace(" ", "-", $value)); ?>.png" alt=""> <span style=""><?php echo $value; ?></span></a> </li>
+                                                        <?php
+                                                    }
+                                                }
+
+                                                $i++;
+                                            }
+                                            ?>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="level0 nav-1 level-top parent"> <a class="level-top" href="javascript:;"><span>CAN BE SET WITH</span></a> 
+                                        <ul class="level0 no-bullets filter shape" id="shape_list" data-filter="shape" style="display:<?php echo $selectedDiamondType == '' ? 'block' : 'none'; ?>">
+                                            <?php
+                                            if ($selectedDiamondType != '') {
+                                                foreach ($attributeStyleArys as $key => $value) {
+                                                    ?>
+                                                    <li class="level1 item nav-1-1 <?php if ($key == 0) { ?> first <?php } ?>"> 
+                                                        <a id="shape_list_<?php echo $key; ?>" <?php if (strtolower($value) == strtolower($selectedDiamondType)) { ?> class="checked" href="javascript:void(0);"  data-value='<?php echo strtolower($value); ?>' <?php
+                                                        } else {
+                                                            echo ' class="unchecked" href="javascript:void(0)" data-value="false"  style="opacity:0.5; cursor:default"';
+                                                        }
+                                                        ?>>
+                                                            <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_<?php echo $key + 1; ?>.png" alt=""> 
+                                                            <span><?php echo ucwords($value); ?></span>
+                                                        </a> 
+                                                    </li>
+                                                    <?php
+                                                }
+                                            } else {
+                                                foreach ($attributeStyleArys as $key => $value) {
+                                                    ?>
+                                                    <li class="level1 item nav-1-1 <?php if ($key == 0) { ?> first <?php } ?>"> 
+                                                        <a  id="shape_list_<?php echo $key; ?>" class="checked" href="javascript:;"  data-value='<?php echo strtolower($value); ?>' >
+                                                            <img class="menu-thumb-small" src="<?php echo Mage::getBaseUrl(); ?>media/catalog/category/Shape_<?php echo $key + 1; ?>.png" alt=""> 
+                                                            <span><?php echo ucwords($value); ?></span>
+                                                        </a> 
+                                                    </li>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <li class="level0 nav-1 level-top parent last"> <a class="level-top" href="javascript:;"><span>PRICES</span></a>
+                                        <table class="prices-data" width="100%" style="margin-bottom: 17px;">
+                                            <tr>
+                                                <?php $currSymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol(); ?>
+                                                <td style="padding-left: 18px;"><span class="value-from"><?php echo $currSymbol . number_format($min_price); ?></span></td>
+                                                <td align="right"><span class="value-to"><?php echo $currSymbol . number_format($max_price); ?></span></td>
+                                            </tr>
+                                        </table>
+                                        <div class="rangeslider-s2 sidebar-price-slider" data-filter="price" data-min-value="" data-max-value="" data-min="" data-max=""></div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Category Navigation EOF -->
+                        <div class="block block-list block-compare">
+                            <div class="block-title"> <strong><span>Compare</span></strong> </div>
+                            <div class="block-content">
+                                <p class="empty">You have no items to compare.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="col-main category-products">
+<?php
+                        if ($_imgUrl = $_category->getImageUrl()) {
+                            $_imgHtml = '<p class="category-image"><img class="img-responsive" src="' . $_imgUrl . '" alt="' . $this->escapeHtml($_category->getName()) . '" title="' . $this->escapeHtml($_category->getName()) . '" /></p>';
+                            
+                        }
+                        ?>
+                        <?php if ($_imgUrl): ?>
+                            <?php echo $_imgHtml ?>
+                        <?php endif; ?>
+						
+                        <div class="toolbar">
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <div class="sorter_wrap">
+                                                <div class="sort-by">
+                                                    <div class="select-new">
+                                                        <div class="select-inner"> <span>Sort by: </span>
+                                                            <div aria-expanded="false" href="#sort_by" data-toggle="collapse" id="sort_by_main" role="button" class="overwrite-sortby">Name</div>
+                                                            <ul class="sort_by in" id="sort_by" style="height: auto;">
+                                                                <li> <a href="&order=name" data-value="Name">Name</a> </li>
+                                                                <li> <a href="&order=style" data-value="Style">Style</a> </li>
+                                                                <li> <a href="&order=price" data-value="Price">Price</a> </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="direction-list"> 
+                                                        <a title="Set Descending Direction" id="desc_by_dir" style="display: block;" data-dire="desc" href="&dir=desc" class="direction direction-up" style="line-height:1.8;">
+                                                            <i class="fa fa-arrow-up"></i>
+                                                        </a> 
+                                                        <a title="Set Ascending Direction" id="asc_by_dir" style="display: none;"  data-dire="asc" href="&dir=asc" class="direction direction-down" style="line-height:1.8;">
+                                                            <i class="fa fa-arrow-down"></i>
+                                                        </a> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="limiter_wrap">
+                                                <div class="limiter">
+                                                    <div class="select-new">
+                                                        <div class="select-inner">
+                                                            <div aria-expanded="false" href="#limiter" data-toggle="collapse" id="limiter_by_main"  class="overwrite-limiter">12 items/page</div>
+                                                            <ul class="limiter collapse" id="limiter">
+                                                                <li> <a class="" href="javascript:void(0);"  data-value="12">12</a> </li>
+                                                                <li> <a class="" href="javascript:void(0);" data-value="24">24</a> </li>
+                                                                <li> <a class="" href="javascript:void(0);" data-value="36">36</a> </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="pager"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if (count($allowedProducts) == 0): ?>
+                            <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+                        <?php else: ?>
+
+<div class="content content-ring-diamonds" style="height: auto<?php //echo $products->count() == 12 ? '1510px' : 'auto'; ?>; overflow: hidden; position: relative; z-index: 0;">
+							
+<div class="loader-opacity-div loader-diamonds-results" style="position: absolute;">
+<img style="left: 50%; top: 20%; position: absolute;" src="<?PHP echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/packer/images/michael.gif" />
+</div>
+							
+                                <ul class="products-grid itemgrid itemgrid-adaptive products-itemgrid-<?php echo $_columnCount; ?>col show-grid">
+                                    <?php
+									$parentliii = '1';
+									foreach ($allowedProducts as $product): 
+									switch ($parentliii) {
+                                            case 1:
+                                                $mainclassli='first';
+                                                $parentliii++;
+                                                break;
+                                            case 2:
+                                                $mainclassli='';
+                                                $parentliii++;
+                                                break;
+                                            case 3:
+                                                $mainclassli='last';
+                                                $parentliii = 1;
+                                                break;
+                                        }
+									?>
+                                        <?php
+                                        // print_r( $product );
+                                        $product_name = $product->getName();
+                                        $product_url = $product->getProductUrl();
+                                        $product_image = (string) Mage::helper('catalog/image')->init($product, 'thumbnail');
+                                        ?>
+                                        <li class="item  hover-effect <?php echo $mainclassli; ?>" style="">
+                                            <div class="product-action">
+                                                <!-- // Product Label -->
+                                                <!-- // Product Image -->
+                                                <a href="<?php echo $product_url; ?>?step=setting" title="<?php echo $product_name; ?>" class="product-image"> 
+                                                    <img id="product-collection-image-<?php echo $product->getId(); ?>" data-srcx2="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail'); ?>" src="<?php echo Mage::helper('catalog/image')->init($product, 'thumbnail'); ?>?sidebar=true" class="img-responsive lazy" alt="<?php echo $product_name; ?>" style="display: block;">
+                                                </a>
+                                                <!-- // End Product Image -->
+                                                <div class="actions">
+                                                    <div class="action-list quickview hidden-xs">
+                                                        <div class="quickview-wrapper" onclick="quickview(this);" data-url="<?php echo Mage::getBaseUrl(); ?>ajaxproducts/index/quickview/product_id/<?php echo $product->getId(); ?>/"> <i class="fa fa-search-plus"></i> </div>
+                                                    </div>
+                                                    <!-- // Product Button Add To Cart -->
+
+                                                    <!-- // End Product Button Add To Cart -->
+                                                    <!-- // Product Button Add To Link -->
+                                                    <!--div class="action-list">
+                                                        <ul class="add-to-links">
+                                                    <?php if ($_compareUrl = $this->getAddToCompareUrl($product)): ?>
+                                                                                                                                            <li class="first compare"><a href="<?php echo $_compareUrl ?>" class="link-compare bootstrap-tooltip" data-toggle="tooltip" data-placement="left" title="" data-original-title="Compare"><i class="fa fa-pie-chart"></i></a></li>
+                                                    <?php endif; ?>
+                                                        </ul>
+                                                    </div-->
+                                                    <div class="action-list">
+                                                        <ul class="add-to-links">
+                                                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                                                <li class="wishlist"><a href="<?php echo $this->helper('wishlist')->getAddUrl($product) ?>" class="link-wishlist bootstrap-tooltip" data-toggle="tooltip" data-placement="left" title="<?php echo $this->__('Wishlist'); ?>" data-original-title="Wishlist"><i class="fa fa-heart"></i></a></li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-content">
+
+                                                <h3 class="product-name">
+												<a title="<?php echo $product_name; ?>" href="<?php echo $product_url; ?>">
+												<?php echo Mage::helper('core/string')->truncate($product_name, 65); ?>
+												</a>
+												</h3>
+                                                <div class="price-box">
+                                                    <?php
+                                                    $_currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+
+                                                    $price = $product->getPrice();
+                                                    if ($_currentCurrencyCode == 'USD') {
+                                                        $price = Mage::helper('directory')->currencyConvert($price, 'SGD', 'USD');
+                                                    }
+                                                    ?>
+                                                    <!--span class="regular-price" id="product-price-2617"> 
+													<span data-price-val="<?php echo number_format($price, 2); ?>" class="price">
+													<?php echo Mage::helper('core')->currency($product->getPrice()); ?> 
+													</span> 
+													</span-->
+													<?php echo $this->getPriceHtml($product, true) ?>
+													 </div>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12"></div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-lg-12">
+                    <div class="site-postscript"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+            min_price = <?php echo number_format($min_price, 0, '', ''); ?>;
+            max_price = <?php echo number_format($max_price, 0, '', ''); ?>;
+            jQuery(document).on('product-media-loaded', function () {
+            ConfigurableMediaImages.init('small_image');
+            jQuery(document).trigger('configurable-media-images-init', ConfigurableMediaImages);
+    });
+</script>
+<script type="text/javascript">
+
+			window.onload = function () { 
+				if(jQuery('#styles_up').css('display') == 'block')
+				{
+				  jQuery(".nav-1 span.collapse").addClass('expand');
+				  jQuery(".nav-1 span.collapse").removeClass('collapse');
+				}
+			}
+	
+            sourceArray = {
+            sortby: 'Name',
+                    diraction: 'asc',
+                    limiter: '12',
+                    min_price: '0'<?php //echo number_format($min_price, 0, '', '');         ?>,
+                    max_price: '0'<?php //echo number_format($max_price, 0, '', '');         ?>,
+                    price_from: '0'<?php //echo number_format($min_price, 0, '', '');         ?>,
+                    price_to: '0'<?php //echo number_format($max_price, 0, '', '');         ?>,
+                    shape: [<?php
+                        $DiamondTypeAry = array();
+                        if ($selectedDiamondType != '') {
+                            $DiamondTypeAry[] = "'$selectedDiamondType'";
+                        } else {
+                            foreach ($attributeStyleArys as $shapeVal) {
+                                if ($shapeVal != '') {
+                                    $DiamondTypeAry[] = "'$shapeVal'";
+                                }
+                            }
+                        }
+                        echo implode(",", $DiamondTypeAry);
+                        ?>],
+                    style: [<?php
+                        $styleAry = array();
+                        if ($selectedSettingStyle != '') {
+                            $value = str_replace(" ", "-", $selectedSettingStyle);
+                            $styleAry[] = "'$value'";
+                        } else {
+                            foreach ($dataSettingValues as $key => $value) {
+                                $cmopare = false;
+                                foreach ($arraySort as $compareVal) {
+                                    if ($key == $compareVal) {
+                                        $value = str_replace(" ", "-", $value);
+                                        $styleAry[] = "'$value'";
+                                    }
+                                }
+                            }
+                        }
+                        echo implode(",", $styleAry);
+                        ?>]
+
+            };
+            sourceArray.pages = '<?php echo $products->getLastPageNumber(); ?>';
+            sourceArray.page = '1';
+            sourceArray.currSymbol = '<?php echo $currSymbol; ?>';
+            var filterRingUrl = '<?php echo Mage::getBaseUrl() ?>diamonds/ajax/filterring';</script>
+<script src="<?php echo Mage::getBaseUrl(); ?>js/app/step2.js"></script>
